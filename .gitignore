@@ -1,28 +1,41 @@
-.venv
-# Python
-*.pyc
-__pycache__/
-*.log
-*.pot
-*.egg-info/
-.Python
-build/
-dist/
-
-# Django-specific
-db.sqlite3
-media/
-static_collected/ # Or whatever your COLLECTSTATIC_DIR is
-local_settings.py # Or any other file containing sensitive local settings
-
-# Virtual Environment
-.env/
+# --- Environment & Secrets ---
+# Ignore the virtual environment directory.
+.venv/
 venv/
 env/
 
-# IDE-specific (e.g., PyCharm)
-.idea/
+# Ignore environment variables file, which contains secrets.
+.env
 
-# Operating System files
+# --- Python & Dependencies ---
+# Ignore compiled Python files and caches.
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+dist/
+build/
+
+# --- Django ---
+# Ignore the local development database.
+*.sqlite3
+db.sqlite3
+
+# Ignore user-uploaded media files.
+media/
+
+# Ignore the directory where collectstatic gathers all static files for WhiteNoise.
+staticfiles/
+static
+input.css
+# Ignore log files.
+*.log
+# --- IDE & OS Files ---
+# Ignore common OS and editor-specific files.
 .DS_Store
 Thumbs.db
+.idea/
+.vscode/
+
+node_modules
