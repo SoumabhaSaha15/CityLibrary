@@ -13,5 +13,7 @@ uvx shadcn_django add accordion && uvx shadcn_django add alert && uvx shadcn_dja
 npx @tailwindcss/cli -i input.css -o static/css/output.css --watch
 ```
 > ## youtube
-[![preview](./images/schadcn-django.jpg)](https://youtu.be/p8abKXay9T4)
-[![preview](./images/django-cotton.jpg)](https://youtu.be/O0_ZyUsG7wo)
+
+[![schadcn-django](./images/schadcn-django.jpg)](https://youtu.be/p8abKXay9T4)
+[![django-cotton](./images/django-cotton.jpg)](https://youtu.be/O0_ZyUsG7wo)
+[![djang0-unfold](./images/djang-unfold.jpg)](https://youtu.be/kkxAVubUOj8)
