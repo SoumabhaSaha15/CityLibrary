@@ -1,2 +1,28 @@
 .venv
+# Python
+*.pyc
+__pycache__/
+*.log
+*.pot
+*.egg-info/
+.Python
+build/
+dist/
+
+# Django-specific
 db.sqlite3
+media/
+static_collected/ # Or whatever your COLLECTSTATIC_DIR is
+local_settings.py # Or any other file containing sensitive local settings
+
+# Virtual Environment
+.env/
+venv/
+env/
+
+# IDE-specific (e.g., PyCharm)
+.idea/
+
+# Operating System files
+.DS_Store
+Thumbs.db
