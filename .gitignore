@@ -1,41 +1,6 @@
-# --- Environment & Secrets ---
-# Ignore the virtual environment directory.
-.venv/
-venv/
-env/
-
-# Ignore environment variables file, which contains secrets.
-.env
-
-# --- Python & Dependencies ---
-# Ignore compiled Python files and caches.
+DjangoAdmin/.venv
+DjangoAdmin/db.sqlite3
+DjangoAdmin/staticfiles
 __pycache__/
-*.pyc
-*.pyo
-*.pyd
-*.egg-info/
-dist/
-build/
-
-# --- Django ---
-# Ignore the local development database.
-*.sqlite3
-db.sqlite3
-
-# Ignore user-uploaded media files.
-media/
-
-# Ignore the directory where collectstatic gathers all static files for WhiteNoise.
-staticfiles/
-static
-input.css
-# Ignore log files.
-*.log
-# --- IDE & OS Files ---
-# Ignore common OS and editor-specific files.
-.DS_Store
-Thumbs.db
-.idea/
-.vscode/
-
-node_modules
+pip-log.txt
+pip-delete-this-directory.txt
