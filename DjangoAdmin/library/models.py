@@ -1,11 +1,13 @@
 from django.db import models
-from django.core.validators import URLValidator
 from django.core.exceptions import ValidationError
 from django.utils import timezone
+from cloudinary.models import CloudinaryField
 
-
-# Create your models here.
 class Author(models.Model):
+    """
+    Stores information about a book author.
+    This version uses the original field names converted to snake_case.
+    """
     GENDER_CHOICES = [
         ("m", "Male"),
         ("f", "Female"),
@@ -13,50 +15,40 @@ class Author(models.Model):
         ("unknown", "Unknown"),
     ]
 
-    authorId = models.AutoField(primary_key=True,name='author_id')
-    authorImage = models.URLField(validators=[URLValidator(schemes=["https"])],db_column='author_image')
-    authorDescription = models.CharField(max_length=256,db_column='author_description')
-    authorName = models.CharField(max_length=64,db_column='author_name')
-    bornOn = models.DateField(db_column='born_on')
+    # Reinstated original field names with snake_case convention
+    author_id = models.AutoField(primary_key=True)
+    author_image = CloudinaryField("author_image", folder="city-library/author")
+    author_description = models.CharField(max_length=256)
+    author_name = models.CharField(max_length=64)
+    born_on = models.DateField()
     nationality = models.CharField(max_length=16, default="unknown")
     gender = models.CharField(max_length=10, choices=GENDER_CHOICES, default="unknown")
 
     class Meta:
         db_table = "library_authors"
-        constraints = [
-            models.CheckConstraint(
-                check=models.Q(gender__in=["m", "f", "t", "unknown"]),
-                name="gender_check",
-            ),
-            models.CheckConstraint(
-                check=models.Q(author_image__startswith="https://"),
-                name="image_url_check",
-            ),
-            models.CheckConstraint(
-                check=models.Q(born_on__lt=timezone.now().date()),
-                name="dob_check",
-                violation_error_message="Birth date must be in the past",
-            ),
-        ]
+        # The flawed and redundant database constraints have been removed.
+        constraints = []
 
     def clean(self):
-        """Additional validation at the model level"""
+        """
+        Model-level validation. This is the correct place to check dynamic
+        values like the current date.
+        """
         super().clean()
-
-        # Validate HTTPS URL
-        if not self.author_image_url.startswith("https://"):
-            raise ValidationError(
-                {"author_image_url": "Image URL must start with https://"}
-            )
-
-        # Validate birth date is in the past
-        if self.born_on >= timezone.now().date():
-            raise ValidationError({"born_on": "Birth date must be in the past"})
+        if self.born_on and self.born_on >= timezone.now().date():
+            raise ValidationError({"born_on": "Birth date must be in the past."})
 
     def save(self, *args, **kwargs):
-        """Call clean() before saving"""
-        self.clean()
+        """
+        Override save to ensure all model validators run before hitting the database.
+        """
+        self.full_clean()
         super().save(*args, **kwargs)
 
     def __str__(self):
+        """
+        Returns a human-readable representation of the author.
+        """
         return self.author_name
+
+# class Books(models.Model):

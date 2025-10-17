@@ -7,6 +7,10 @@
   uv run manage.py createsuperuser
   uv run manage.py makemigrations
   uv run manage.py migrate
-  uv run python manage.py collectstatic --noinput
+  uv run manage.py collectstatic --noinput
+  uv run manage.py runserver
   uv run uvicorn Admin.asgi:application --host 127.0.0.1 --port 8000
 ```
+
+
+

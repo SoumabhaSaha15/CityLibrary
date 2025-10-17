@@ -1,0 +1,7 @@
+# This is the top-most .editorconfig file
+root = true
+
+# Settings for Python files
+[*.py]
+indent_style = space
+indent_size = 2
