@@ -1,11 +1,5 @@
-import { Button } from "@/components/ui/button"
+import {Button} from "@heroui/react";
 
-function App() {
-  return (
-    <div className="flex min-h-svh flex-col items-center justify-center">
-      <Button onClick={e=>alert('hello')}>Click me</Button>
-    </div>
-  )
+export default function App() {
+  return <Button color="primary">Button</Button>;
 }
-
-export default App
