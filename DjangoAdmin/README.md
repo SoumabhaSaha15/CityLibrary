@@ -11,6 +11,3 @@
   uv run manage.py runserver
   uv run uvicorn Admin.asgi:application --host 127.0.0.1 --port 8000
 ```
-
-
-
