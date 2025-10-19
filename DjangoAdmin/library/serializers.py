@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from . models import Author
-import cloudinary
+from cloudinary import utils
+from cloudinary.models import CloudinaryField
 
 
 class AuthorSerializer(serializers.ModelSerializer):
@@ -11,8 +12,8 @@ class AuthorSerializer(serializers.ModelSerializer):
         fields = "__all__"
         # exclude = ['author_image']
 
-    def get_author_image(self, object):
-        image_url, options = cloudinary.utils.cloudinary_url(
+    def get_author_image(self, object: Author) -> str:
+        image_url, options = utils.cloudinary_url(
             object.author_image.public_id,
             width=150,
             height=150,

@@ -18,7 +18,7 @@ class Author(models.Model):
 
     # Reinstated original field names with snake_case convention
     author_id = models.AutoField(primary_key=True)
-    author_image = CloudinaryField(
+    author_image:CloudinaryField = CloudinaryField(
         "author_image", folder="city-library/author")
     author_description = models.CharField(max_length=256)
     author_name = models.CharField(max_length=64)
