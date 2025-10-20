@@ -111,3 +111,4 @@ STORAGES = {
     },
 }  # WhiteNoise configuration
 
+CORS_ALLOW_CREDENTIALS = True

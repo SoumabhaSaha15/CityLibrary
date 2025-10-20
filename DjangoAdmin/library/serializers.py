@@ -1,7 +1,30 @@
 from rest_framework import serializers
 from . models import Author
 from cloudinary import utils
-from cloudinary.models import CloudinaryField
+from django.contrib.auth.models import User
+
+
+class UserCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        # Specify fields to be used for user creation
+        fields = ('username', 'password', 'email')
+        extra_kwargs = {
+            # Ensures password is not sent back in response
+            'password': {'write_only': True}
+        }
+
+    def create(self, validated_data):
+        """
+        Create and return a new user with a hashed password.
+        """
+        user = User.objects.create_user(
+            username=validated_data['username'],
+            # .get() makes email optional
+            email=validated_data.get('email', ''),
+            password=validated_data['password']
+        )
+        return user
 
 
 class AuthorSerializer(serializers.ModelSerializer):
