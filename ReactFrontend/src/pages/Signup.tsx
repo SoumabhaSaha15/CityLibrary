@@ -6,6 +6,7 @@ import { useTheme } from "@heroui/use-theme";
 import { useForm, Controller, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FaEye, FaEyeSlash, FaSun, FaMoon } from "react-icons/fa";
+import base from "../utils/base";
 import {
   Navbar,
   NavbarBrand,
@@ -17,7 +18,8 @@ import {
   Input,
   Divider,
   Avatar,
-  Form
+  Form,
+  addToast
 } from "@heroui/react";
 
 type SignupFormData = z.infer<typeof signupSchema>;
@@ -35,8 +37,28 @@ const Signup: React.FC = () => {
   } = useForm<SignupFormData>({ resolver: zodResolver(signupSchema) });
 
   const onSubmit: SubmitHandler<SignupFormData> = async (data) => {
-    console.log("Form Data Submitted:", data);
-    reset({password:"",profile:undefined,username:"",email:""});
+    // console.log("Form Data Submitted:", data);
+    const formData = new FormData();
+    formData.append("username", data.username);
+    formData.append("email", data.email);
+    formData.append("password", data.password);
+    formData.append("profile", data.profile![0]);
+    try {
+      const response = await base.post(
+        "/user/signup",
+        formData,
+        { headers: { 'Content-Type': 'multipart/form-data' } }
+      );
+      addToast({
+        title: response.status+response.statusText,
+        description: JSON.stringify(response.data),
+        color: 'success',
+      }) 
+    } catch (error) {
+      console.error("Error during signup:", error);
+    }
+
+    reset({ password: "", profile: undefined, username: "", email: "" });
     setProfilePreview(import.meta.env.VITE_DEFAULT_USER_IMAGE);
   };
 

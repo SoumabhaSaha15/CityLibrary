@@ -7,7 +7,7 @@ export const signupSchema = z.strictObject({
   username: z.string()
     .min(4, "Username must be at least 3 characters long")
     .max(30, "Username must be at most 20 characters long")
-    .regex(/^[a-zA-Z0-9]+(?: [a-zA-Z0-9]+)*$/, "Username can only contain letters, numbers, and underscores"),
+    .regex(/^[a-zA-Z]+$/, "Username can only contain letters, numbers, and underscores"),
   email: z.email("Invalid email address"),
   password: z.string().length(8, "Password must be exactly 8 characters long"),
 });

@@ -17,11 +17,12 @@ class UserSignupView(APIView):
     """
     permission_classes = [permissions.AllowAny]
 
-    def post(self, request:Request):
+    def post(self, request: Request):
         serializer = UserCreateSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
         login(request, user)
+        print(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 

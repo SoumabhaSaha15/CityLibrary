@@ -2,31 +2,44 @@ from rest_framework import serializers
 from . models import Author
 from cloudinary import utils
 from django.contrib.auth.models import User
-
+from rest_framework.serializers import ImageField
+from .models import UserProfile  # <-- 1. Import your UserProfile model
 
 class UserCreateSerializer(serializers.ModelSerializer):
+    profile = ImageField(write_only=True)
+
     class Meta:
         model = User
-        # Specify fields to be used for user creation
-        fields = ('username', 'password', 'email')
+        fields = ('username', 'password', 'email', 'profile')
         extra_kwargs = {
-            # Ensures password is not sent back in response
             'password': {'write_only': True}
         }
 
     def create(self, validated_data):
         """
-        Create and return a new user with a hashed password.
+        Create a new user AND their profile.
         """
+        profile_image_data = validated_data.pop('profile')
+        
+        # 2. Create the User
         user = User.objects.create_user(
             username=validated_data['username'],
-            # .get() makes email optional
             email=validated_data.get('email', ''),
             password=validated_data['password']
         )
+
+        # 3. Manually create the UserProfile, passing in the user and image
+        try:
+            UserProfile.objects.create(
+                user=user, 
+                user_image=profile_image_data
+            )
+        except Exception as e:
+            # If profile creation fails, delete the user to avoid orphaned accounts
+            user.delete()
+            raise e
+            
         return user
-
-
 class AuthorSerializer(serializers.ModelSerializer):
     author_image = serializers.SerializerMethodField()
 

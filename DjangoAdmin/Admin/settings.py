@@ -22,15 +22,16 @@ SECRET_KEY = env("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env("DEBUG")
 ALLOWED_HOSTS = []
-cloudinary.config( 
-  cloud_name = env("CLOUDINARY_NAME"), 
-  api_key = env("CLOUDINARY_KEY"), 
-  api_secret = env("CLOUDINARY_SECRET")
+cloudinary.config(
+    cloud_name=env("CLOUDINARY_NAME"),
+    api_key=env("CLOUDINARY_KEY"),
+    api_secret=env("CLOUDINARY_SECRET")
 )
 
 INSTALLED_APPS = [
     "unfold",
     "cloudinary",
+    "corsheaders",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -46,6 +47,7 @@ MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -111,4 +113,7 @@ STORAGES = {
     },
 }  # WhiteNoise configuration
 
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+]
 CORS_ALLOW_CREDENTIALS = True
