@@ -25,9 +25,9 @@ ALLOWED_HOSTS = []
 cloudinary.config(
     cloud_name=env("CLOUDINARY_NAME"),
     api_key=env("CLOUDINARY_KEY"),
-    api_secret=env("CLOUDINARY_SECRET")
+    api_secret=env("CLOUDINARY_SECRET"),
 )
-
+DEFAULT_IMAGE_URL = env("DEFAULT_IMAGE_URL")
 INSTALLED_APPS = [
     "unfold",
     "cloudinary",

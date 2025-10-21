@@ -1,9 +1,33 @@
-from rest_framework import serializers
-from . models import Author
 from cloudinary import utils
+from rest_framework import serializers
+from django.conf import settings
+from .models import Author, UserProfile
 from django.contrib.auth.models import User
 from rest_framework.serializers import ImageField
-from .models import UserProfile  # <-- 1. Import your UserProfile model
+
+
+class UserAuthenticateSerializer(serializers.Serializer):
+    username = serializers.CharField()
+    password = serializers.CharField()
+
+
+class UserSerializer(serializers.ModelSerializer):
+    profile = serializers.SerializerMethodField()
+
+    class Meta:
+        model = User
+        fields = ('username', 'email', 'profile')
+
+    def get_profile(self, obj):
+        default_image_url = settings.DEFAULT_IMAGE_URL
+        try:
+            if hasattr(obj, 'profile') and obj.profile.user_image and obj.profile.user_image.public_id:
+                return utils.cloudinary_url(obj.profile.user_image.public_id, secure=True)[0]
+            else:
+                return default_image_url
+        except Exception:
+            return default_image_url
+
 
 class UserCreateSerializer(serializers.ModelSerializer):
     profile = ImageField(write_only=True)
@@ -20,33 +44,28 @@ class UserCreateSerializer(serializers.ModelSerializer):
         Create a new user AND their profile.
         """
         profile_image_data = validated_data.pop('profile')
-        
-        # 2. Create the User
         user = User.objects.create_user(
             username=validated_data['username'],
             email=validated_data.get('email', ''),
             password=validated_data['password']
         )
-
-        # 3. Manually create the UserProfile, passing in the user and image
         try:
             UserProfile.objects.create(
-                user=user, 
+                user=user,
                 user_image=profile_image_data
             )
         except Exception as e:
-            # If profile creation fails, delete the user to avoid orphaned accounts
             user.delete()
             raise e
-            
         return user
+
+
 class AuthorSerializer(serializers.ModelSerializer):
     author_image = serializers.SerializerMethodField()
 
     class Meta:
         model = Author
         fields = "__all__"
-        # exclude = ['author_image']
 
     def get_author_image(self, object: Author) -> str:
         image_url, options = utils.cloudinary_url(
