@@ -1,4 +1,4 @@
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.models import User
 from rest_framework import status, permissions
 from rest_framework.views import APIView
@@ -8,12 +8,30 @@ from .serializers import AuthorSerializer, UserCreateSerializer,UserAuthenticate
 from .models import Author
 # from .serializers import UserSerializer
 
+class UserLogoutView(APIView):
+    """
+    Handles user logout and session termination.
+    """
+    def get(self, request: Request):
+        logout(request)
+        return Response(status=status.HTTP_204_NO_CONTENT)
+    
 class UserLoginView(APIView):
     """
     Handles user login and session creation.
     """
     # Allow any user (even unauthenticated ones) to access this view.
     permission_classes = [permissions.AllowAny]
+
+    def get(self, request: Request):
+        if request.user.is_authenticated:
+            serializer = UserSerializer(request.user)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(
+                {'error': 'User is not authenticated'},
+                status=status.HTTP_401_UNAUTHORIZED
+            )
 
     def post(self, request: Request):
         serializer = UserAuthenticateSerializer(data=request.data)
@@ -54,7 +72,7 @@ class UserSignupView(APIView):
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
         login(request, user)
-        print(serializer.data)
+        # print(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 

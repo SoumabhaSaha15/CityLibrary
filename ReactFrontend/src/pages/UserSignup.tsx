@@ -1,16 +1,12 @@
 import { z } from "zod";
 import { signupSchema } from "../validator/user-auth";
 import React from "react";
-import { BiBook, BiUser } from "react-icons/bi";
-import { useTheme } from "@heroui/use-theme";
+import { BiUser } from "react-icons/bi";
 import { useForm, Controller, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { FaEye, FaEyeSlash, FaSun, FaMoon } from "react-icons/fa";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import base from "../utils/base";
 import {
-  Navbar,
-  NavbarBrand,
-  NavbarContent,
   Card,
   CardBody,
   CardHeader,
@@ -25,7 +21,6 @@ import {
 type SignupFormData = z.infer<typeof signupSchema>;
 
 const Signup: React.FC = () => {
-  const { theme, setTheme } = useTheme();
   const [isPasswordVisible, setIsPasswordVisible] = React.useState(false);
   const [profilePreview, setProfilePreview] = React.useState<string>(import.meta.env.VITE_DEFAULT_USER_IMAGE);
 
@@ -37,25 +32,26 @@ const Signup: React.FC = () => {
   } = useForm<SignupFormData>({ resolver: zodResolver(signupSchema) });
 
   const onSubmit: SubmitHandler<SignupFormData> = async (data) => {
-    // console.log("Form Data Submitted:", data);
+
     const formData = new FormData();
     formData.append("username", data.username);
     formData.append("email", data.email);
     formData.append("password", data.password);
     formData.append("profile", data.profile![0]);
+
     try {
-      const response = await base.post(
-        "/user/signup",
-        formData,
-        { headers: { 'Content-Type': 'multipart/form-data' } }
-      );
-      addToast({
-        title: response.status+response.statusText,
-        description: JSON.stringify(response.data),
-        color: 'success',
-      }) 
+
+      const response = await base.post("/user/signup", formData);
+
+      if (response.status === 201) addToast({ title: response.status, description: response.statusText, color: 'success' });
+
+      else throw new Error(`Signup failed: ${response.statusText}`);
+
     } catch (error) {
+
       console.error("Error during signup:", error);
+
+      addToast({ title: 'Error', description: (error as Error).message, color: 'danger' });
     }
 
     reset({ password: "", profile: undefined, username: "", email: "" });
@@ -64,27 +60,7 @@ const Signup: React.FC = () => {
 
   return (
     <>
-      <Navbar isBordered>
-        <NavbarContent>
-          <NavbarBrand>
-            <BiBook size={24} />
-            <p className="font-bold text-inherit ml-2">CityLibrary</p>
-          </NavbarBrand>
-        </NavbarContent>
-        <NavbarContent justify="end">
-          <Button
-            variant="light"
-            radius="full"
-            size="sm"
-            isIconOnly={true}
-            onPress={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-          >
-            {theme === 'dark' ? <FaSun size={20} /> : <FaMoon size={20} />}
-          </Button>
-        </NavbarContent>
-      </Navbar>
-
-      <div className="min-h-screen flex items-center justify-center p-4 dark:bg-background-700">
+      <div className="min-h-[calc(100dvh-65px)] flex items-center justify-center p-4 bg-background">
         <Card className="w-full max-w-md shadow-xl">
           <CardHeader className="flex flex-col gap-3 px-8 pt-8 pb-4">
             <div className="text-center">
@@ -211,7 +187,7 @@ const Signup: React.FC = () => {
             <div className="text-center text-sm">
               <span className="text-default-500">Already have an account? </span>
               <a href="#" className="text-primary font-semibold hover:underline">
-                Sign In
+                Log In
               </a>
             </div>
           </CardBody>

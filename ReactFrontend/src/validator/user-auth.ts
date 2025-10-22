@@ -7,15 +7,20 @@ export const signupSchema = z.strictObject({
   username: z.string()
     .min(4, "Username must be at least 3 characters long")
     .max(30, "Username must be at most 20 characters long")
-    .regex(/^[a-zA-Z]+$/, "Username can only contain letters, numbers, and underscores"),
+    .regex(/^[a-zA-Z].+$/, "Username can only contain letters, numbers, and underscores"),
   email: z.email("Invalid email address"),
   password: z.string().length(8, "Password must be exactly 8 characters long"),
 });
 export const loginSchema = signupSchema.pick({
-  email: true,
+  username: true,
   password: true,
-}).extend({
-  profile: z.url({ error: "Profile image url is required" }),
 });
+export const responseSchema = signupSchema.pick({
+  username: true,
+  email: true,
+}).extend({
+  profile:z.url().startsWith("http", "Profile must be a valid URL"),
+});
+export type ResponseSchema = z.infer<typeof responseSchema>;
 export type SignupSchema = z.infer<typeof signupSchema>;
 export type LoginSchema = z.infer<typeof loginSchema>;

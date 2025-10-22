@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useTheme } from '@heroui/use-theme';
 import { Spinner, Progress, Card, CardBody } from "@heroui/react";
 import { HiSparkles, HiLightningBolt } from "react-icons/hi";
 import { BiLoaderAlt } from "react-icons/bi";
@@ -6,6 +7,8 @@ import { BiLoaderAlt } from "react-icons/bi";
 export default function LoadingPage() {
   const [progress, setProgress] = useState(0);
   const [loadingText, setLoadingText] = useState("Initializing...");
+  //@ts-ignore
+  const _theme = useTheme();
 
   const loadingStages = [
     { text: "Initializing...", progress: 20 },
@@ -35,7 +38,7 @@ export default function LoadingPage() {
   }, []);
 
   return (
-    <div className="min-h-screen w-full bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 flex items-center justify-center p-4">
+    <div className="min-h-screen w-full dark:bg-background flex items-center justify-center p-4">
       <Card className="w-full max-w-md shadow-2xl">
         <CardBody className="gap-6 p-8">
           {/* Logo/Icon Section */}
