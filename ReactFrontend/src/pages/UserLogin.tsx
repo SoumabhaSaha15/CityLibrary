@@ -1,5 +1,6 @@
 import React from "react";
 import base from "../utils/base";
+import { useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema, type LoginSchema } from "../validator/user-auth";
@@ -17,7 +18,7 @@ import {
 
 const Signup: React.FC = () => {
   const [isPasswordVisible, setIsPasswordVisible] = React.useState(false);
-
+  const navigate = useNavigate();
   const {
     control,
     handleSubmit,
@@ -31,7 +32,10 @@ const Signup: React.FC = () => {
     formData.append("password", data.password);
     try {
       const response = await base.post("/user/login", formData);
-      if (response.status === 200) addToast({ title: response.status, description: response.statusText, color: 'success' });
+      if (response.status === 200) {
+        addToast({ title: response.status, description: response.statusText, color: 'success' });
+        navigate('/user');
+      }
       else throw new Error(`Signup failed: ${response.statusText}`);
     } catch (error) {
       console.error("Error during signup:", error);

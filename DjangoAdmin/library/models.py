@@ -1,10 +1,9 @@
+import os
 from django.db import models
-from django.core.exceptions import ValidationError
 from django.utils import timezone
 from django.contrib.auth.models import User
-# from django.contrib.auth.hashers import make_password, check_password
 from cloudinary.models import CloudinaryField
-import os
+from django.core.exceptions import ValidationError
 
 
 class UserProfile(models.Model):

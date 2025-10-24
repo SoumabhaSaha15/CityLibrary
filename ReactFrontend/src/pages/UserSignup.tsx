@@ -1,11 +1,12 @@
 import { z } from "zod";
-import { signupSchema } from "../validator/user-auth";
 import React from "react";
-import { BiUser } from "react-icons/bi";
-import { useForm, Controller, type SubmitHandler } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
 import base from "../utils/base";
+import { BiUser } from "react-icons/bi";
+import {useNavigate} from "react-router-dom";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { signupSchema } from "../validator/user-auth";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm, Controller, type SubmitHandler } from "react-hook-form";
 import {
   Card,
   CardBody,
@@ -23,7 +24,7 @@ type SignupFormData = z.infer<typeof signupSchema>;
 const Signup: React.FC = () => {
   const [isPasswordVisible, setIsPasswordVisible] = React.useState(false);
   const [profilePreview, setProfilePreview] = React.useState<string>(import.meta.env.VITE_DEFAULT_USER_IMAGE);
-
+  const navigate=useNavigate();
   const {
     control,
     handleSubmit,
@@ -43,8 +44,10 @@ const Signup: React.FC = () => {
 
       const response = await base.post("/user/signup", formData);
 
-      if (response.status === 201) addToast({ title: response.status, description: response.statusText, color: 'success' });
-
+      if (response.status === 201) {
+        addToast({ title: response.status, description: response.statusText, color: 'success' });
+        navigate('/user');
+      }
       else throw new Error(`Signup failed: ${response.statusText}`);
 
     } catch (error) {

@@ -1,7 +1,7 @@
 import React from "react";
-import { Outlet } from "react-router-dom";
-import { IoMenu } from "react-icons/io5";
-import { FaSun, FaMoon } from "react-icons/fa";
+import { Outlet, useNavigate } from "react-router-dom";
+import { IoMenu, IoSunny, IoMoon, IoLogOutOutline } from "react-icons/io5";
+import { useUserAuth } from "../context/Auth/UserAuthContext";
 import { useTheme } from "@heroui/use-theme";
 import {
   Navbar,
@@ -14,17 +14,24 @@ import {
   Avatar,
   Popover,
   PopoverTrigger,
-  PopoverContent
+  PopoverContent,
+  User,
+  Link
 } from "@heroui/react";
 import LoadingPage from "../pages/Loading";
 
 const UserLayout: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = React.useState(false);
   const { theme, setTheme } = useTheme();
-  return (
+  const auth = useUserAuth();
+  const navigate = useNavigate();
+  React.useEffect(() => {
+    if (auth.userDetails === null) auth.login(() => { }, () => { navigate('/forms/user-login') })
+  }, []);
+  if (auth.userDetails === null) return <LoadingPage />;
+  else return (
     <>
       <Navbar>
-
         <NavbarContent justify="start">
           <Button
             isIconOnly={true}
@@ -37,30 +44,53 @@ const UserLayout: React.FC = () => {
         </NavbarContent>
 
         <NavbarContent justify="end">
-          <Popover color="secondary" placement={"bottom-end"}>
-          <PopoverTrigger>
-            <Avatar name="junior"/>
-          </PopoverTrigger>
-          <PopoverContent children="hello"/>
-        </Popover>
+          <Popover placement={"bottom-end"}>
+            <PopoverTrigger>
+              <Avatar name={auth.userDetails.username} src={auth.userDetails.profile} />
+            </PopoverTrigger>
+            <PopoverContent
+              children={
+                <User
+                  name={auth.userDetails.username}
+                  avatarProps={{ src: auth.userDetails.profile, }}
+                  description={
+                    <Link
+                      isExternal
+                      href={`mailto://${auth.userDetails.email}`}
+                      size="sm"
+                      children={auth.userDetails.email}
+                    />
+                  }
+                />
+              }
+            />
+          </Popover>
         </NavbarContent>
 
       </Navbar>
 
       <React.Suspense fallback={<LoadingPage />} children={<Outlet />} />
 
-      <Drawer isOpen={isDrawerOpen} placement="left" onOpenChange={setIsDrawerOpen}>
+      <Drawer isOpen={isDrawerOpen} placement="left" onOpenChange={setIsDrawerOpen} backdrop="blur">
         <DrawerContent>
-          <DrawerHeader>Drawer Title</DrawerHeader>
+          <DrawerHeader>City Library</DrawerHeader>
           <DrawerBody>
             <Button
-              radius="full"
-              size="sm"
+              size="md"
               className="text-xl"
-              fullWidth={false}
-              endContent={theme === 'dark' ? <FaSun size={20} /> : <FaMoon size={20} />}
+              radius="sm"
+              endContent={theme === 'dark' ? <IoSunny size={20} /> : <IoMoon size={20} />}
               onPress={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-              children={theme+" mode"}
+              children={theme}
+            />
+            <Button
+              size="md"
+              className="text-xl"
+              onPress={() => auth.logout(() => { navigate('/forms/user-login'); })}
+              radius="sm"
+              children="logout"
+              color="danger"
+              endContent={<IoLogOutOutline size={20} />}
             />
           </DrawerBody>
         </DrawerContent>
