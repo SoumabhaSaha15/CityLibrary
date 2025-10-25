@@ -7,7 +7,8 @@ import { BiLoaderAlt } from "react-icons/bi";
 export default function LoadingPage() {
   const [progress, setProgress] = useState(0);
   const [loadingText, setLoadingText] = useState("Initializing...");
-  //@ts-ignore
+
+  /* eslint-disable @typescript-eslint/no-unused-vars */
   const _theme = useTheme();
 
   const loadingStages = [

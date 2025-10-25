@@ -1,10 +1,11 @@
 import React from "react";
-import { BiBook, BiSearch, BiTime, BiStats } from "react-icons/bi";
-import { IoMenu, IoClose } from "react-icons/io5";
-import { FaSun, FaMoon, FaBookOpen, FaUserFriends, FaChartLine } from "react-icons/fa";
-import { HiSparkles, HiLightningBolt } from "react-icons/hi";
-import { MdLibraryBooks, MdEventAvailable, MdSecurity } from "react-icons/md";
 import { useTheme } from "@heroui/use-theme";
+import { useNavigate } from "react-router-dom";
+import { HiSparkles, HiLightningBolt } from "react-icons/hi";
+import { BiBook, BiSearch, BiTime, BiStats } from "react-icons/bi";
+import { IoMenu, IoClose, IoSunny, IoMoon } from "react-icons/io5";
+import { FaBookOpen, FaUserFriends, FaChartLine } from "react-icons/fa";
+import { MdLibraryBooks, MdEventAvailable, MdSecurity } from "react-icons/md";
 import {
   Navbar,
   NavbarBrand,
@@ -27,7 +28,7 @@ import {
 export default function App() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const { theme, setTheme } = useTheme();
-
+  const navigate = useNavigate();
   const menuItems = ['Features', 'Customers', 'Integrations', 'Login'];
 
   const features = [
@@ -109,7 +110,7 @@ export default function App() {
         <NavbarContent className="hidden sm:flex gap-4" justify="center">
           {menuItems.slice(0, 3).map((item, index) => (
             <NavbarItem key={index}>
-              <Link href="#" color="foreground">
+              <Link href={`#${item}`} color="foreground">
                 {item}
               </Link>
             </NavbarItem>
@@ -118,10 +119,12 @@ export default function App() {
 
         <NavbarContent justify="end">
           <NavbarItem className="hidden sm:flex">
-            <Link href="#">Login</Link>
+            <Link href="/forms/user-login">Login</Link>
           </NavbarItem>
           <NavbarItem>
-            <Button color="primary" variant="flat" size="sm">
+            <Button color="primary" variant="flat" size="sm" onPress={() => {
+              navigate('/forms/user-signup');
+            }}>
               Sign Up
             </Button>
           </NavbarItem>
@@ -132,7 +135,7 @@ export default function App() {
             isIconOnly={true}
             onPress={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
           >
-            {theme === 'dark' ? <FaSun size={20} /> : <FaMoon size={20} />}
+            {theme === 'dark' ? <IoSunny size={20} /> : <IoMoon size={20} />}
           </Button>
         </NavbarContent>
 
@@ -144,7 +147,7 @@ export default function App() {
                 color={
                   index === 2 ? "primary" : index === menuItems.length - 1 ? "danger" : "foreground"
                 }
-                href="#"
+                href={`#${item}`}
                 size="lg"
               >
                 {item}
@@ -243,7 +246,7 @@ export default function App() {
       </section>
 
       {/* Features Section */}
-      <section className="py-20 px-6">
+      <section className="py-20 px-6" id="Features">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <Chip color="primary" variant="flat" className="mb-4">
@@ -275,7 +278,7 @@ export default function App() {
       </section>
 
       {/* Testimonials Section */}
-      <section className="py-20 px-6 bg-default-50">
+      <section className="py-20 px-6 bg-default-50" id="Customers">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <Chip color="secondary" variant="flat" className="mb-4">
@@ -306,7 +309,7 @@ export default function App() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 px-6">
+      <section className="py-20 px-6" id="Integrations">
         <div className="max-w-4xl mx-auto">
           <Card className="bg-gradient-to-r from-blue-500 to-purple-600">
             <CardBody className="text-center py-16 px-6">

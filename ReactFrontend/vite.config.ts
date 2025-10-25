@@ -24,24 +24,3 @@ export default defineConfig(({ mode }) => {
     }
   })
 })
-
-
-/**
- * 
- * export default defineConfig(({ mode }) => {
-  const env = loadEnv(mode, process.cwd(), 'VITE_');
-  const targetUrl = env.VITE_CORS_URL;
-  return {
-    plugins: [react(), tailwindcss(), flowbiteReact()],
-    server: {
-      proxy: {
-        '/api': {
-          target: targetUrl,
-          changeOrigin: true,
-          rewrite: path => path.replace(/^\/api/, '')
-        }
-      },
-    },
-  };
-});
- */

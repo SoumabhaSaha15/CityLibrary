@@ -1,9 +1,9 @@
-from cloudinary import utils
+from cloudinary.utils import cloudinary_url
+from django.contrib.auth.models import User
 from rest_framework import serializers
+from rest_framework.serializers import ImageField
 from django.conf import settings
 from .models import Author, UserProfile
-from django.contrib.auth.models import User
-from rest_framework.serializers import ImageField
 
 
 class UserAuthenticateSerializer(serializers.Serializer):
@@ -22,7 +22,7 @@ class UserSerializer(serializers.ModelSerializer):
         default_image_url = settings.DEFAULT_IMAGE_URL
         try:
             if hasattr(obj, 'profile') and obj.profile.user_image and obj.profile.user_image.public_id:
-                return utils.cloudinary_url(obj.profile.user_image.public_id, secure=True)[0]
+                return cloudinary_url(obj.profile.user_image.public_id, secure=True)[0]
             else:
                 return default_image_url
         except Exception:
@@ -68,7 +68,7 @@ class AuthorSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
     def get_author_image(self, object: Author) -> str:
-        image_url, options = utils.cloudinary_url(
+        image_url, options = cloudinary_url(
             object.author_image.public_id,
             width=150,
             height=150,
