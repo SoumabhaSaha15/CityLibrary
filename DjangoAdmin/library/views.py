@@ -2,8 +2,11 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.models import User
 from rest_framework import status, permissions
 from rest_framework.views import APIView
+from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 from rest_framework.request import Request
+from django.http import HttpRequest
+from django.contrib.auth.models import AbstractUser
 from .serializers import AuthorSerializer, UserCreateSerializer,UserAuthenticateSerializer,UserSerializer
 from .models import Author
 # from .serializers import UserSerializer
@@ -13,7 +16,7 @@ class UserLogoutView(APIView):
     Handles user logout and session termination.
     """
     def get(self, request: Request):
-        logout(request)
+        logout(request._request)
         return Response(status=status.HTTP_204_NO_CONTENT)
     
 class UserLoginView(APIView):
@@ -36,8 +39,8 @@ class UserLoginView(APIView):
     def post(self, request: Request):
         serializer = UserAuthenticateSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        username = serializer.validated_data.get('username')
-        password = serializer.validated_data.get('password')
+        username = serializer.validated_data.get('username') # type: ignore
+        password = serializer.validated_data.get('password') # type: ignore
         if not username or not password:
             return Response(
                 {'error': 'Please provide both username and password'},
@@ -46,7 +49,7 @@ class UserLoginView(APIView):
         user = authenticate(username=username, password=password)
         if user is not None:
             # 2. Credentials are valid, so create a session (log the user in)
-            login(request, user)
+            login(request, user) # type: ignore
 
             # 3. Send back the user's data
             serializer = UserSerializer(user)
@@ -70,22 +73,15 @@ class UserSignupView(APIView):
     def post(self, request: Request):
         serializer = UserCreateSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        user = serializer.save()
-        login(request, user)
-        # print(serializer.data)
+        user:AbstractUser = serializer.save()  # type: ignore
+        login(request._request, user)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
-class AuthorView(APIView):
-    def get(self, _request: Request):
-        authors = Author.objects.all()
-        try:
-            serialized = AuthorSerializer(authors, many=True)
-            return Response(serialized.data)
-        except Exception as err:
-            print(err.__traceback__)
-            return Response({'error': err.__class__.__name__}, status=500)
-
+class AuthorPaginator(ListAPIView):
+    serializer_class = AuthorSerializer
+    queryset = Author.objects.all()
+class AuthorDetailView(APIView):
     def get(self, _request: Request, pk: int):
         authors = Author.objects.get(pk=pk)
         try:
