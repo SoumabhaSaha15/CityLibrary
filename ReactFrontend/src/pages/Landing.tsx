@@ -29,45 +29,51 @@ export default function App() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const { theme, setTheme } = useTheme();
   const navigate = useNavigate();
-  const menuItems = ['Features', 'Customers', 'Integrations', 'Login'];
+  const menuItems = ["Features", "Customers", "Integrations", "Login"];
 
   const features = [
     {
       icon: <MdLibraryBooks className="text-4xl" />,
       title: "Digital Catalog",
-      description: "Browse thousands of books with our comprehensive digital catalog system"
+      description:
+        "Browse thousands of books with our comprehensive digital catalog system",
     },
     {
       icon: <BiSearch className="text-4xl" />,
       title: "Smart Search",
-      description: "Find any book instantly with our advanced search and filtering options"
+      description:
+        "Find any book instantly with our advanced search and filtering options",
     },
     {
       icon: <MdEventAvailable className="text-4xl" />,
       title: "Easy Reservations",
-      description: "Reserve books online and get notified when they're ready for pickup"
+      description:
+        "Reserve books online and get notified when they're ready for pickup",
     },
     {
       icon: <BiTime className="text-4xl" />,
       title: "Auto Renewals",
-      description: "Never worry about late fees with automatic renewal notifications"
+      description:
+        "Never worry about late fees with automatic renewal notifications",
     },
     {
       icon: <BiStats className="text-4xl" />,
       title: "Reading Analytics",
-      description: "Track your reading progress and get personalized recommendations"
+      description:
+        "Track your reading progress and get personalized recommendations",
     },
     {
       icon: <MdSecurity className="text-4xl" />,
       title: "Secure & Private",
-      description: "Your data is protected with enterprise-grade security measures"
-    }
+      description:
+        "Your data is protected with enterprise-grade security measures",
+    },
   ];
 
   const stats = [
     { value: "50K+", label: "Books Available", icon: <FaBookOpen /> },
     { value: "10K+", label: "Active Members", icon: <FaUserFriends /> },
-    { value: "95%", label: "Satisfaction Rate", icon: <FaChartLine /> }
+    { value: "95%", label: "Satisfaction Rate", icon: <FaChartLine /> },
   ];
 
   const testimonials = [
@@ -75,20 +81,23 @@ export default function App() {
       name: "Sarah Johnson",
       role: "Regular Member",
       avatar: "SJ",
-      comment: "CityLibrary has transformed how I discover and enjoy books. The reservation system is incredibly convenient!"
+      comment:
+        "CityLibrary has transformed how I discover and enjoy books. The reservation system is incredibly convenient!",
     },
     {
       name: "Michael Chen",
       role: "Student",
       avatar: "MC",
-      comment: "As a student, having access to such a vast digital catalog has been invaluable for my research."
+      comment:
+        "As a student, having access to such a vast digital catalog has been invaluable for my research.",
     },
     {
       name: "Emily Rodriguez",
       role: "Book Club Organizer",
       avatar: "ER",
-      comment: "The analytics feature helps me find perfect recommendations for our monthly book club meetings."
-    }
+      comment:
+        "The analytics feature helps me find perfect recommendations for our monthly book club meetings.",
+    },
   ];
 
   return (
@@ -119,12 +128,17 @@ export default function App() {
 
         <NavbarContent justify="end">
           <NavbarItem className="hidden sm:flex">
-            <Link href="/forms/user-login">Login</Link>
+            <Link href="/user">Login</Link>
           </NavbarItem>
           <NavbarItem>
-            <Button color="primary" variant="flat" size="sm" onPress={() => {
-              navigate('/forms/user-signup');
-            }}>
+            <Button
+              color="primary"
+              variant="flat"
+              size="sm"
+              onPress={() => {
+                navigate("/forms/user-signup");
+              }}
+            >
               Sign Up
             </Button>
           </NavbarItem>
@@ -133,9 +147,9 @@ export default function App() {
             radius="full"
             size="sm"
             isIconOnly={true}
-            onPress={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+            onPress={() => setTheme(theme === "dark" ? "light" : "dark")}
           >
-            {theme === 'dark' ? <IoSunny size={20} /> : <IoMoon size={20} />}
+            {theme === "dark" ? <IoSunny size={20} /> : <IoMoon size={20} />}
           </Button>
         </NavbarContent>
 
@@ -145,7 +159,11 @@ export default function App() {
               <Link
                 className="w-full"
                 color={
-                  index === 2 ? "primary" : index === menuItems.length - 1 ? "danger" : "foreground"
+                  index === 2
+                    ? "primary"
+                    : index === menuItems.length - 1
+                    ? "danger"
+                    : "foreground"
                 }
                 href={`#${item}`}
                 size="lg"
@@ -176,7 +194,9 @@ export default function App() {
                 </span>
               </h1>
               <p className="text-lg text-default-600">
-                Discover, reserve, and manage your reading journey with our modern library management system. Access thousands of books, track your progress, and join a thriving community of readers.
+                Discover, reserve, and manage your reading journey with our
+                modern library management system. Access thousands of books,
+                track your progress, and join a thriving community of readers.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Button
@@ -186,11 +206,7 @@ export default function App() {
                 >
                   Get Started Free
                 </Button>
-                <Button
-                  variant="bordered"
-                  size="lg"
-                  startContent={<BiBook />}
-                >
+                <Button variant="bordered" size="lg" startContent={<BiBook />}>
                   Browse Catalog
                 </Button>
               </div>
@@ -205,18 +221,30 @@ export default function App() {
                 <CardBody>
                   <Input
                     placeholder="Search for books, authors, or topics..."
-                    startContent={<BiSearch className="text-2xl text-default-400" />}
+                    startContent={
+                      <BiSearch className="text-2xl text-default-400" />
+                    }
                     size="lg"
                     variant="bordered"
                   />
                   <div className="mt-6 space-y-3">
                     <p className="text-sm font-semibold">Popular Searches</p>
                     <div className="flex flex-wrap gap-2">
-                      <Chip size="sm" variant="flat">Fiction</Chip>
-                      <Chip size="sm" variant="flat">Science</Chip>
-                      <Chip size="sm" variant="flat">History</Chip>
-                      <Chip size="sm" variant="flat">Technology</Chip>
-                      <Chip size="sm" variant="flat">Biography</Chip>
+                      <Chip size="sm" variant="flat">
+                        Fiction
+                      </Chip>
+                      <Chip size="sm" variant="flat">
+                        Science
+                      </Chip>
+                      <Chip size="sm" variant="flat">
+                        History
+                      </Chip>
+                      <Chip size="sm" variant="flat">
+                        Technology
+                      </Chip>
+                      <Chip size="sm" variant="flat">
+                        Biography
+                      </Chip>
                     </div>
                   </div>
                 </CardBody>
@@ -256,7 +284,8 @@ export default function App() {
               Everything You Need to Manage Your Library
             </h2>
             <p className="text-lg text-default-600 max-w-2xl mx-auto">
-              Our comprehensive platform offers all the tools you need for a seamless library experience
+              Our comprehensive platform offers all the tools you need for a
+              seamless library experience
             </p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -292,13 +321,17 @@ export default function App() {
             {testimonials.map((testimonial, index) => (
               <Card key={index}>
                 <CardBody className="space-y-4">
-                  <p className="text-default-600 italic">"{testimonial.comment}"</p>
+                  <p className="text-default-600 italic">
+                    "{testimonial.comment}"
+                  </p>
                   <Divider />
                   <div className="flex items-center gap-3">
                     <Avatar name={testimonial.avatar} color="primary" />
                     <div>
                       <p className="font-semibold">{testimonial.name}</p>
-                      <p className="text-sm text-default-500">{testimonial.role}</p>
+                      <p className="text-sm text-default-500">
+                        {testimonial.role}
+                      </p>
                     </div>
                   </div>
                 </CardBody>
@@ -317,7 +350,8 @@ export default function App() {
                 Ready to Start Your Reading Journey?
               </h2>
               <p className="text-lg text-white/90 mb-8 max-w-2xl mx-auto">
-                Join thousands of readers who have transformed their library experience with CityLibrary
+                Join thousands of readers who have transformed their library
+                experience with CityLibrary
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button
@@ -355,25 +389,43 @@ export default function App() {
             <div>
               <h3 className="font-semibold mb-4">Product</h3>
               <div className="space-y-2 text-sm">
-                <Link href="#" color="foreground">Features</Link>
-                <Link href="#" color="foreground">Pricing</Link>
-                <Link href="#" color="foreground">API</Link>
+                <Link href="#" color="foreground">
+                  Features
+                </Link>
+                <Link href="#" color="foreground">
+                  Pricing
+                </Link>
+                <Link href="#" color="foreground">
+                  API
+                </Link>
               </div>
             </div>
             <div>
               <h3 className="font-semibold mb-4">Company</h3>
               <div className="space-y-2 text-sm">
-                <Link href="#" color="foreground">About</Link>
-                <Link href="#" color="foreground">Blog</Link>
-                <Link href="#" color="foreground">Careers</Link>
+                <Link href="#" color="foreground">
+                  About
+                </Link>
+                <Link href="#" color="foreground">
+                  Blog
+                </Link>
+                <Link href="#" color="foreground">
+                  Careers
+                </Link>
               </div>
             </div>
             <div>
               <h3 className="font-semibold mb-4">Support</h3>
               <div className="space-y-2 text-sm">
-                <Link href="#" color="foreground">Help Center</Link>
-                <Link href="#" color="foreground">Contact</Link>
-                <Link href="#" color="foreground">Status</Link>
+                <Link href="#" color="foreground">
+                  Help Center
+                </Link>
+                <Link href="#" color="foreground">
+                  Contact
+                </Link>
+                <Link href="#" color="foreground">
+                  Status
+                </Link>
               </div>
             </div>
           </div>
@@ -381,9 +433,15 @@ export default function App() {
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-default-500">
             <p>© 2025 CityLibrary. All rights reserved.</p>
             <div className="flex gap-6">
-              <Link href="#" color="foreground" size="sm">Privacy</Link>
-              <Link href="#" color="foreground" size="sm">Terms</Link>
-              <Link href="#" color="foreground" size="sm">Cookies</Link>
+              <Link href="#" color="foreground" size="sm">
+                Privacy
+              </Link>
+              <Link href="#" color="foreground" size="sm">
+                Terms
+              </Link>
+              <Link href="#" color="foreground" size="sm">
+                Cookies
+              </Link>
             </div>
           </div>
         </div>

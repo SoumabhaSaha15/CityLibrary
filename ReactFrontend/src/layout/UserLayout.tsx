@@ -3,6 +3,7 @@ import { Outlet, useNavigate } from "react-router-dom";
 import { IoMenu, IoSunny, IoMoon, IoLogOutOutline } from "react-icons/io5";
 import { useUserAuth } from "../context/Auth/UserAuthContext";
 import { useTheme } from "@heroui/use-theme";
+import { type ResponseSchema } from "../validator/user-auth";
 import {
   Navbar,
   NavbarContent,
@@ -22,15 +23,11 @@ import {
   addToast,
 } from "@heroui/react";
 import LoadingPage from "../pages/Loading";
-const UserCard: React.FC<{
-  username: string;
-  email: string;
-  profile: string;
-}> = (props) => {
+const UserCard: React.FC<ResponseSchema> = (props) => {
   return (
     <Card
       isFooterBlurred
-      className="w-full h-[300px] col-span-12 sm:col-span-5"
+      className="w-full h-[240px] col-span-12 sm:col-span-5"
     >
       <CardHeader className="absolute z-10 top-1 flex-col items-start bg-background/30">
         <h4 className="text-content1-foreground font-medium text-2xl">
@@ -81,7 +78,7 @@ const UserLayout: React.FC = () => {
           navigate("/forms/user-login");
         }
       );
-  }, []);
+  }, [navigate]);
   if (auth.userDetails === null) return <LoadingPage />;
   else
     return (
@@ -94,10 +91,15 @@ const UserLayout: React.FC = () => {
               radius="full"
               onPress={() => setIsDrawerOpen(true)}
               aria-label="Open drawer"
+              variant="bordered"
+              className="border-1.5"
               children={<IoMenu size={24} />}
             />
           </NavbarContent>
 
+          <NavbarContent className="hidden sm:flex gap-4" justify="center">
+            <h1 className="text-lg font-bold">City Library</h1>
+          </NavbarContent>
           <NavbarContent justify="end">
             <Popover placement={"bottom-end"}>
               <PopoverTrigger>
