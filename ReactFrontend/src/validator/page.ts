@@ -4,3 +4,8 @@ export const pageSchema = z.strictObject({
   next: z.url().nullable(),
   previous: z.url().nullable(),
 });
+
+export const pageQuerySchema = z.strictObject({
+  page: z.coerce.number().optional(),
+});
+export type PageQuery = z.infer<typeof pageQuerySchema>;

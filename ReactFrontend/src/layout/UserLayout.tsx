@@ -22,7 +22,7 @@ import {
   Image,
   addToast,
 } from "@heroui/react";
-import LoadingPage from "../pages/Loading";
+import LoadingPage from "../pages/global/Loading";
 const UserCard: React.FC<ResponseSchema> = (props) => {
   return (
     <Card

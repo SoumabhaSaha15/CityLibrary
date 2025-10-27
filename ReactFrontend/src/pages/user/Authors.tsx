@@ -8,13 +8,16 @@ import {
   Image,
   Pagination,
   Spinner,
-} from "@heroui/react"; // Attempting to fix import path
-import { prettifyError } from "zod";
+  addToast,
+} from "@heroui/react";
+import { prettifyError, ZodError } from "zod";
 import { IoSearch, IoWarningOutline } from "react-icons/io5";
+import { useSearchParams } from "react-router-dom";
 import {
   type Author,
   type AuthorPaginated,
   AuthorPaginatedSchema,
+  AuthorQueryBuilder,
 } from "./../../validator/author";
 import base from "../../utils/base";
 
@@ -51,26 +54,22 @@ const AuthorCard: FC<{ author: Author }> = ({ author }) => {
     </Card>
   );
 };
+
 const AuthorViewer: React.FC = () => {
   const [data, setData] = useState<AuthorPaginated | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
-  const [page, setPage] = useState(1);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchInput, setSearchInput] = useState<string>("");
+  const [searchQuery, setSearchQuery] = useSearchParams();
 
   useEffect(() => {
     const fetchAuthors = async () => {
       setIsLoading(true);
       setError(null);
       try {
-        const params = new URLSearchParams();
-        params.append("page", page.toString());
-        const API_ENDPOINT = "/authors";
-        const response = await base.get(`${API_ENDPOINT}?${params.toString()}`);
-        if (response.status != 200) {
+        const response = await base.get(`/authors?${searchQuery.toString()}`);
+        if (response.status != 200)
           throw new Error(`HTTP error! Status: ${response.status}`);
-        }
         const result = AuthorPaginatedSchema.safeParse(response.data);
         if (!result.success) setError(prettifyError(result.error));
         else setData(result.data);
@@ -82,7 +81,7 @@ const AuthorViewer: React.FC = () => {
     };
 
     fetchAuthors();
-  }, [page]);
+  }, [searchQuery]);
 
   const renderContent: () => JSX.Element = () => {
     if (isLoading) {
@@ -130,7 +129,6 @@ const AuthorViewer: React.FC = () => {
 
   return (
     <div className="container mx-auto p-4 md:p-8 flex flex-col gap-6">
-      {/* --- 1. Header & Search Field --- */}
       <div className="flex flex-col md:flex-row justify-between items-center gap-4">
         <h1 className="text-3xl font-bold">Authors</h1>
         <Input
@@ -138,18 +136,27 @@ const AuthorViewer: React.FC = () => {
           radius="lg"
           placeholder="Search by name..."
           startContent={<IoSearch className="text-default-400" />}
-          value={searchQuery}
-          onValueChange={(value) => {
-            setSearchQuery(value);
+          value={searchInput}
+          onValueChange={(e) => setSearchInput(e)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              try {
+                AuthorQueryBuilder.parse(searchInput);
+                setSearchQuery(searchInput);
+              } catch (error) {
+                addToast({
+                  title: "incorrect search",
+                  description: prettifyError(error as ZodError),
+                  color: "danger",
+                });
+              }
+            }
           }}
           className="w-full md:max-w-xs"
-          onClear={() => {
-            setSearchQuery("");
-          }}
+          onClear={() => setSearchInput("")}
         />
       </div>
 
-      {/* --- 2. Content Area (Loading/Error/Empty/Grid) --- */}
       <div className="max-h-[calc(100dvh-280px)] md:max-h-[calc(100dvh-256px)] overflow-y-auto">
         {renderContent()}
       </div>
@@ -160,9 +167,9 @@ const AuthorViewer: React.FC = () => {
             isCompact
             showControls
             total={totalPages}
-            page={page}
+            page={Number(searchQuery.get("page") || "1")}
             onChange={(newPage) => {
-              setPage(newPage);
+              setSearchQuery((prev) => ({ ...prev, page: newPage }));
               window.scrollTo({ top: 0, behavior: "smooth" });
             }}
           />
