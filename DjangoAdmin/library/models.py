@@ -1,3 +1,4 @@
+from .models import Author  # Make sure Author model is imported
 import os
 from django.db import models
 from django.utils import timezone
@@ -7,7 +8,8 @@ from django.core.exceptions import ValidationError
 
 
 class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile")
+    user = models.OneToOneField(
+        User, on_delete=models.CASCADE, related_name="profile")
     user_image = CloudinaryField("user_image", folder="city-library/user")
 
     def __str__(self):
@@ -52,7 +54,8 @@ class Author(models.Model):
     author_name = models.CharField(max_length=64)
     born_on = models.DateField()
     nationality = models.CharField(max_length=16, default="unknown")
-    gender = models.CharField(max_length=10, choices=GENDER_CHOICES, default="unknown")
+    gender = models.CharField(
+        max_length=10, choices=GENDER_CHOICES, default="unknown")
 
     class Meta:  # The flawed and redundant database constraints have been removed.
         db_table = "library_authors"
@@ -76,7 +79,8 @@ class Author(models.Model):
                     }
                 )
         if self.born_on and self.born_on >= timezone.now().date():
-            raise ValidationError({"born_on": "Birth date must be in the past."})
+            raise ValidationError(
+                {"born_on": "Birth date must be in the past."})
 
     # Override save to ensure all model validators run before hitting the database.
     def save(self, *args, **kwargs):
@@ -88,4 +92,47 @@ class Author(models.Model):
         return self.author_name
 
 
-# class Books(models.Model):
+class Book(models.Model):
+    book_id = models.AutoField(primary_key=True)
+    book_name = models.CharField(max_length=256)
+    book_cover = CloudinaryField(
+        "book_cover", folder="city-library/books", null=True, blank=True)
+    genre = models.CharField(max_length=32)
+    description = models.TextField(blank=True)
+    language = models.CharField(max_length=32)
+    published_on = models.DateField()
+    # --- THIS IS THE CHANGE ---
+    # Use ManyToManyField to link multiple authors
+    authors = models.ManyToManyField(
+        Author,
+        related_name="books"
+    )
+    # ---
+
+    class Meta:
+        db_table = "library_books"
+        ordering = ["book_id"]
+
+    def clean(self):
+        super().clean()
+
+        if self.book_cover and hasattr(self.book_cover, 'name'):
+            filename = self.book_cover.name
+            ext = os.path.splitext(filename)[1].lower()
+            valid_extensions = [".jpg", ".jpeg", ".png"]
+            if ext not in valid_extensions:
+                raise ValidationError(
+                    {"book_cover": "Unsupported file type. Please upload a JPG or PNG image."}
+                )
+
+        if self.published_on and self.published_on >= timezone.now().date():
+            raise ValidationError(
+                {"published_on": "Publication date must be in the past."}
+            )
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.book_name

@@ -1,9 +1,9 @@
 import React from "react";
-import base from "../utils/base";
+import base from "../../utils/base";
 import { useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { loginSchema, type LoginSchema } from "../validator/user-auth";
+import { loginSchema, type LoginSchema } from "./../../validator/user-auth";
 import { useForm, Controller, type SubmitHandler } from "react-hook-form";
 import {
   Card,
@@ -13,7 +13,7 @@ import {
   Input,
   Divider,
   Form,
-  addToast
+  addToast,
 } from "@heroui/react";
 
 const Signup: React.FC = () => {
@@ -23,7 +23,7 @@ const Signup: React.FC = () => {
     control,
     handleSubmit,
     formState: { errors, isSubmitting },
-    reset
+    reset,
   } = useForm<LoginSchema>({ resolver: zodResolver(loginSchema) });
 
   const onSubmit: SubmitHandler<LoginSchema> = async (data) => {
@@ -33,13 +33,20 @@ const Signup: React.FC = () => {
     try {
       const response = await base.post("/user/login", formData);
       if (response.status === 200) {
-        addToast({ title: response.status, description: response.statusText, color: 'success' });
-        navigate('/user');
-      }
-      else throw new Error(`Signup failed: ${response.statusText}`);
+        addToast({
+          title: response.status,
+          description: response.statusText,
+          color: "success",
+        });
+        navigate("/user");
+      } else throw new Error(`Signup failed: ${response.statusText}`);
     } catch (error) {
       console.error("Error during signup:", error);
-      addToast({ title: 'Error', description: (error as Error).message, color: 'danger' });
+      addToast({
+        title: "Error",
+        description: (error as Error).message,
+        color: "danger",
+      });
     }
     reset({ password: "", username: "" });
   };
@@ -56,8 +63,11 @@ const Signup: React.FC = () => {
           <Divider />
 
           <CardBody className="px-8 py-6">
-            <Form onSubmit={handleSubmit(onSubmit)} onReset={() => reset()} className="flex flex-col gap-4">
-
+            <Form
+              onSubmit={handleSubmit(onSubmit)}
+              onReset={() => reset()}
+              className="flex flex-col gap-4"
+            >
               <Controller
                 name="username"
                 control={control}
@@ -88,7 +98,7 @@ const Signup: React.FC = () => {
                       <button
                         className="focus:outline-none"
                         type="button"
-                        onClick={() => setIsPasswordVisible(prev => !prev)}
+                        onClick={() => setIsPasswordVisible((prev) => !prev)}
                         aria-label="toggle password visibility"
                       >
                         {isPasswordVisible ? (
@@ -113,7 +123,7 @@ const Signup: React.FC = () => {
                 className="mt-2 w-full"
                 isLoading={isSubmitting}
               >
-                {isSubmitting ? 'Logging in...' : 'Login'}
+                {isSubmitting ? "Logging in..." : "Login"}
               </Button>
             </Form>
 
@@ -121,7 +131,10 @@ const Signup: React.FC = () => {
 
             <div className="text-center text-sm">
               <span className="text-default-500">Don't have an account? </span>
-              <a href="#" className="text-primary font-semibold hover:underline">
+              <a
+                href="#"
+                className="text-primary font-semibold hover:underline"
+              >
                 Sign Up
               </a>
             </div>

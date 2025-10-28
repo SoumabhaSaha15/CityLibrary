@@ -141,8 +141,13 @@ const AuthorViewer: React.FC = () => {
           onKeyDown={(e) => {
             if (e.key === "Enter") {
               try {
-                AuthorQueryBuilder.parse(searchInput);
-                setSearchQuery(searchInput);
+                const params = new URLSearchParams(
+                  AuthorQueryBuilder.parse(searchInput) as Record<
+                    string,
+                    string
+                  >
+                );
+                setSearchQuery(params.toString());
               } catch (error) {
                 addToast({
                   title: "incorrect search",
