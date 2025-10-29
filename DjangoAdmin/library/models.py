@@ -92,14 +92,25 @@ class Author(models.Model):
         return self.author_name
 
 
+class Genre(models.Model):
+    genre_name = models.CharField(max_length=50, unique=True)
+    genre_description = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return self.genre_name
+
+    class Meta:
+        db_table = "library_books_genre"
+
+
 class Book(models.Model):
     book_id = models.AutoField(primary_key=True)
     book_name = models.CharField(max_length=256)
     book_cover = CloudinaryField(
         "book_cover", folder="city-library/books", null=True, blank=True)
-    genre = models.CharField(max_length=32)
-    description = models.TextField(blank=True)
-    language = models.CharField(max_length=32)
+    book_genre = models.ManyToManyField(Genre, related_name='books')
+    book_description = models.TextField(blank=True)
+    book_language = models.CharField(max_length=32)
     published_on = models.DateField()
     # --- THIS IS THE CHANGE ---
     # Use ManyToManyField to link multiple authors
