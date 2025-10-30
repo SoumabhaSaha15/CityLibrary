@@ -65,9 +65,9 @@ class GenreAdmin(ModelAdmin):
 
 @register(Book)
 class BookAdmin(ModelAdmin):
-    list_display = ('book_name', 'book_cover_preview',
-                    'published_on', 'book_language')
-    search_fields = ('book_name',)
+    list_display = ('book_id', 'book_name', 'book_cover_preview',
+                    'published_on', 'book_language', 'book_isbn')
+    search_fields = ('book_name', 'book_isbn')
     list_filter = ('published_on', 'book_language', 'book_genre', 'authors')
 
     # This provides a search box for your ManyToManyFields.
@@ -79,7 +79,7 @@ class BookAdmin(ModelAdmin):
     # Organizes the edit page into clean sections
     fieldsets = (
         ("Book Details", {
-            "fields": ('book_name', 'book_description', 'book_language', 'published_on')
+            "fields": ('book_name', 'book_isbn', 'book_description', 'book_language', 'published_on')
         }),
         ("Cover Image", {
             "fields": ('book_cover', 'book_cover_preview')
