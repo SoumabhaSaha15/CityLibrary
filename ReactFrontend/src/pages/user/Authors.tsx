@@ -4,14 +4,26 @@ import {
   Card,
   CardHeader,
   CardBody,
-  CardFooter,
+  // CardFooter,
   Image,
   Pagination,
   Spinner,
   addToast,
+  Chip,
+  // Divider,
+  Button,
 } from "@heroui/react";
 import { prettifyError, ZodError } from "zod";
-import { IoSearch, IoWarningOutline } from "react-icons/io5";
+import {
+  IoSearch,
+  IoWarningOutline,
+  IoCalendarOutline,
+  IoLocationSharp,
+  // IoPerson,
+} from "react-icons/io5";
+import { FaArrowRight } from "react-icons/fa";
+// import { HiLocationMarker } from "react-icons/hi";
+// import { BiCalendar } from "react-icons/bi";
 import { useSearchParams } from "react-router-dom";
 import {
   type Author,
@@ -20,41 +32,68 @@ import {
   AuthorQueryBuilder,
 } from "./../../validator/author";
 import base from "../../utils/base";
-
 const AuthorCard: FC<{ author: Author }> = ({ author }) => {
   return (
-    <Card className="p-4 h-full scale-95 hover:scale-100 transition-transform duration-200">
-      <CardHeader className="flex gap-4">
-        <Image
-          alt={`${author.author_name} profile`}
-          height={80}
-          radius="md"
-          src={author.author_image}
-          width={80}
-          className="object-cover h-[80px] w-[80px]"
-        />
-        <div className="flex flex-col justify-center">
-          <p className="text-xl font-bold">{author.author_name}</p>
-          <p className="text-sm text-default-500 capitalize">
-            {author.nationality} ({author.gender})
-          </p>
+    <Card className="h-full hover:shadow-lg transition-shadow duration-200 scale-[98%]">
+      <CardBody className="p-0">
+        <div className="flex flex-col sm:flex-row gap-4 p-4">
+          {/* Left side - Image */}
+          <div className="flex-shrink-0">
+            <Image
+              alt={`${author.author_name} profile`}
+              src={author.author_image}
+              className="object-cover w-full sm:w-40 sm:h-40 rounded-lg"
+            />
+          </div>
+
+          {/* Right side - Content */}
+          <div className="flex flex-col justify-between flex-1 gap-3">
+            <div>
+              <h3 className="text-xl font-semibold mb-2">
+                {author.author_name}
+              </h3>
+
+              <div className="flex flex-wrap gap-2 mb-3">
+                <Chip
+                  startContent={<IoLocationSharp className="text-sm" />}
+                  size="sm"
+                  variant="flat"
+                >
+                  {author.nationality}
+                </Chip>
+                <Chip size="sm" variant="flat" className="capitalize">
+                  {author.gender}
+                </Chip>
+              </div>
+
+              <p className="text-sm text-default-600 line-clamp-2 mb-3">
+                {author.author_description}
+              </p>
+            </div>
+
+            <div className="flex items-center justify-between gap-2">
+              <div className="flex items-center gap-2 text-default-500">
+                <IoCalendarOutline className="text-base" />
+                <p className="text-xs">
+                  {new Date(author.born_on).toLocaleDateString()}
+                </p>
+              </div>
+
+              <Button
+                size="sm"
+                color="primary"
+                variant="flat"
+                endContent={<FaArrowRight />}
+              >
+                View
+              </Button>
+            </div>
+          </div>
         </div>
-      </CardHeader>
-      <CardBody className="pt-0">
-        {/* line-clamp-3 truncates the description to 3 lines */}
-        <p className="text-sm text-default-700 line-clamp-3">
-          {author.author_description}
-        </p>
       </CardBody>
-      <CardFooter>
-        <p className="text-xs text-default-400">
-          Born: {new Date(author.born_on).toLocaleDateString()}
-        </p>
-      </CardFooter>
     </Card>
   );
 };
-
 const AuthorViewer: React.FC = () => {
   const [data, setData] = useState<AuthorPaginated | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -133,7 +172,7 @@ const AuthorViewer: React.FC = () => {
         <h1 className="text-3xl font-bold">Authors</h1>
         <Input
           isClearable
-          radius="lg"
+          // radius="lg"
           placeholder="Search by name..."
           startContent={<IoSearch className="text-default-400" />}
           value={searchInput}

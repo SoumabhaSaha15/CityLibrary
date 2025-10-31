@@ -1,26 +1,27 @@
-import { defineConfig, loadEnv } from 'vite';
+import { defineConfig, loadEnv } from "vite";
 import tailwindcss from "@tailwindcss/vite";
-import react from '@vitejs/plugin-react';
-
+import react from "@vitejs/plugin-react";
+// import { heroui } from "@heroui/react";
 export default defineConfig(({ mode }) => {
-  const env = loadEnv(mode, process.cwd(), 'VITE_');
+  const env = loadEnv(mode, process.cwd(), "VITE_");
   const targetUrl = env.VITE_CORS_URL;
-  return ({
+  return {
     plugins: [
       react({
         babel: {
-          plugins: [['babel-plugin-react-compiler']],
+          plugins: [["babel-plugin-react-compiler"]],
         },
-      }), tailwindcss()
+      }),
+      tailwindcss(),
     ],
     server: {
       proxy: {
-        '/api': {
+        "/api": {
           target: targetUrl,
           changeOrigin: true,
-          rewrite: path => path.replace(/^\/api/, '')
-        }
+          rewrite: (path) => path.replace(/^\/api/, ""),
+        },
       },
-    }
-  })
-})
+    },
+  };
+});
