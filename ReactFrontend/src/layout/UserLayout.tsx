@@ -45,8 +45,8 @@ const UserLayout: React.FC = () => {
               radius="full"
               onPress={() => setIsDrawerOpen(true)}
               aria-label="Open drawer"
-              variant="bordered"
-              className="border-1.5"
+              variant="ghost"
+              className="border-0"
               children={<IoMenu size={24} />}
             />
           </NavbarContent>
@@ -56,8 +56,9 @@ const UserLayout: React.FC = () => {
           <NavbarContent justify="end">
             <Button
               size="md"
-              className="text-xl"
+              className="text-xl border-0"
               radius="full"
+              variant="ghost"
               isIconOnly
               endContent={
                 theme === "dark" ? <IoSunny size={20} /> : <IoMoon size={20} />
@@ -90,7 +91,7 @@ const UserLayout: React.FC = () => {
                 size="md"
                 className="text-xl"
                 onPress={() => auth.logout(() => navigate("/forms/user-login"))}
-                radius="sm"
+                radius="full"
                 children="logout"
                 color="danger"
                 endContent={<IoLogOutOutline size={20} />}

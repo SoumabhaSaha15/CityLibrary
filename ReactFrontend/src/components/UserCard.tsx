@@ -8,7 +8,7 @@ const UserCard: React.FC<ResponseSchema> = (props) => {
         <Avatar
           src={props.profile}
           size="lg"
-          radius="sm"
+          radius="md"
           className="flex-shrink-0"
         />
         <div className="flex flex-col gap-1 flex-1 min-w-0">
@@ -19,6 +19,7 @@ const UserCard: React.FC<ResponseSchema> = (props) => {
               size="sm"
               color="primary"
               variant="flat"
+              radius="full"
               startContent={<IoCopy className="text-base" />}
               onPress={() => {
                 addToast({
