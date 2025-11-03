@@ -134,6 +134,7 @@ export default function App() {
             <Button
               color="primary"
               variant="flat"
+              radius="full"
               size="sm"
               onPress={() => {
                 navigate("/forms/user-signup");
@@ -202,13 +203,17 @@ export default function App() {
                 <Button
                   color="primary"
                   size="lg"
+                  radius="full"
                   endContent={<HiLightningBolt />}
-                >
-                  Get Started Free
-                </Button>
-                <Button variant="bordered" size="lg" startContent={<BiBook />}>
-                  Browse Catalog
-                </Button>
+                  children={"Get Started Free"}
+                />
+                <Button
+                  variant="bordered"
+                  size="lg"
+                  radius="full"
+                  startContent={<BiBook />}
+                  children={"Browse Catalog"}
+                />
               </div>
               <div className="flex items-center gap-2 text-sm text-default-500">
                 <span>✓ No credit card required</span>
@@ -225,6 +230,7 @@ export default function App() {
                       <BiSearch className="text-2xl text-default-400" />
                     }
                     size="lg"
+                    radius="full"
                     variant="bordered"
                   />
                   <div className="mt-6 space-y-3">
@@ -356,17 +362,19 @@ export default function App() {
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button
                   size="lg"
+                  radius="full"
                   className="bg-white text-primary font-semibold"
-                >
-                  Get Started Now
-                </Button>
+                  children={"Get Started Now"}
+                />
                 <Button
                   size="lg"
                   variant="bordered"
+                  radius="full"
                   className="border-white text-white"
-                >
-                  Schedule Demo
-                </Button>
+                  children={"Schedule Demo"}
+                />
+
+                {/* </Button> */}
               </div>
             </CardBody>
           </Card>

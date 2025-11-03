@@ -9,7 +9,13 @@ import {
   Divider,
 } from "@heroui/react";
 import { type Author } from "../validator/author";
-import { FaGlobe, FaCalendar, FaArrowRight } from "react-icons/fa";
+import {
+  FaGlobe,
+  FaCalendar,
+  FaArrowRight,
+  FaGenderless,
+} from "react-icons/fa";
+import { BsGenderMale, BsGenderFemale, BsGenderTrans } from "react-icons/bs";
 const AuthorCard: React.FC<{ author: Author }> = ({ author }) => {
   return (
     <Card
@@ -57,10 +63,18 @@ const AuthorCard: React.FC<{ author: Author }> = ({ author }) => {
                   radius="full"
                   className="capitalize h-6 md:h-7"
                   classNames={{
-                    content: "text-xs md:text-sm",
+                    content: "text-default-900 font-black text-xs md:text-sm",
                   }}
                 >
-                  {author.gender}
+                  {author.gender == "m" ? (
+                    <BsGenderMale />
+                  ) : author.gender == "f" ? (
+                    <BsGenderFemale />
+                  ) : author.gender == "t" ? (
+                    <BsGenderTrans />
+                  ) : (
+                    <FaGenderless />
+                  )}
                 </Chip>
               </div>
               {/* Description */}

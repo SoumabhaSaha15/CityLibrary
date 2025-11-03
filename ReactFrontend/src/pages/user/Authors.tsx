@@ -15,6 +15,7 @@ import {
   Divider,
   Radio,
   RadioGroup,
+  Chip,
 } from "@heroui/react";
 import {
   type Author,
@@ -23,9 +24,8 @@ import {
   AuthorQueryBuilder,
 } from "./../../validator/author";
 import { prettifyError, ZodError } from "zod";
-import { IoSearch } from "react-icons/io5";
-// import { FaUser } from "react-icons/fa";
-import { GoKebabHorizontal } from "react-icons/go";
+import { IoSearch, IoFilter, IoClose } from "react-icons/io5";
+import { FaUser, FaGlobe } from "react-icons/fa";
 import base from "../../utils/base";
 const RESULTS_PER_PAGE = 10;
 
@@ -117,9 +117,9 @@ const AuthorViewer: FC = () => {
           <div className="flex items-center gap-2">
             <Input
               radius="full"
-              placeholder="Search authors"
-              startContent={<IoSearch className="text-default-400" />}
+              label="Search authors"
               value={searchInput}
+              variant="faded"
               onValueChange={setSearchInput}
               onKeyDown={handleSearchKeyDown}
               onClear={() => setSearchInput("")}
@@ -127,10 +127,10 @@ const AuthorViewer: FC = () => {
             <Button
               radius="full"
               isIconOnly
-              variant="bordered"
-              className="scale-80"
+              variant="ghost"
               onPress={onOpen}
-              children={<GoKebabHorizontal />}
+              size="lg"
+              children={<IoFilter className="text-default-900" size={24} />}
             />
           </div>
         </div>
@@ -154,13 +154,26 @@ const AuthorViewer: FC = () => {
         )}
       </div>
 
-      <Modal placement="top-center" isOpen={isOpen} onOpenChange={onOpenChange}>
+      <Modal
+        placement="center"
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+        closeButton={<IoClose className="font-black" size={40} />}
+      >
         <ModalContent>
           {(onClose) => (
             <>
               <ModalHeader
                 className="flex flex-col gap-1"
-                children={"Search Filter"}
+                children={
+                  <Chip
+                    size="lg"
+                    startContent={<IoSearch size={18} />}
+                    variant="dot"
+                  >
+                    Search Filter
+                  </Chip>
+                }
               />
               <Divider />
               <ModalBody>
@@ -170,6 +183,7 @@ const AuthorViewer: FC = () => {
                   radius="full"
                   variant="underlined"
                   label="author_name"
+                  endContent={<FaUser />}
                 />
                 <Input
                   type="text"
@@ -177,8 +191,9 @@ const AuthorViewer: FC = () => {
                   radius="full"
                   variant="underlined"
                   label="nationality"
+                  endContent={<FaGlobe />}
                 />
-                <RadioGroup label="Gender">
+                <RadioGroup label="gender" orientation="horizontal">
                   <Radio value="m">Male</Radio>
                   <Radio value="f">Female</Radio>
                   <Radio value="t">Trans</Radio>
@@ -188,17 +203,12 @@ const AuthorViewer: FC = () => {
 
               <ModalFooter>
                 <Button
-                  color="danger"
-                  variant="flat"
-                  radius="full"
-                  onPress={onClose}
-                  children={"Close"}
-                />
-                <Button
                   color="primary"
                   onPress={onClose}
                   radius="full"
+                  className="w-full"
                   children={"Apply"}
+                  endContent={<IoFilter />}
                 />
               </ModalFooter>
             </>
