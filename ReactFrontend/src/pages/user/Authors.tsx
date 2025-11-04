@@ -19,9 +19,11 @@ import {
 } from "@heroui/react";
 import {
   type Author,
+  type AuthorQuery,
   type AuthorPaginated,
   AuthorPaginatedSchema,
-  AuthorQueryBuilder,
+  // AuthorQueryBuilder,
+  AuthorQuerySchema,
 } from "./../../validator/author";
 import { prettifyError, ZodError } from "zod";
 import { IoSearch, IoFilter, IoClose } from "react-icons/io5";
@@ -48,6 +50,7 @@ const AuthorViewer: FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [searchInput, setSearchInput] = useState<string>("");
+  const [searchFilter, setSearchFilter] = useState<AuthorQuery>({});
   const [searchQuery, setSearchQuery] = useSearchParams();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
@@ -72,18 +75,8 @@ const AuthorViewer: FC = () => {
   }, [searchQuery]);
 
   const handleSearch = () => {
-    try {
-      const params = new URLSearchParams(
-        AuthorQueryBuilder.parse(searchInput) as Record<string, string>
-      );
-      setSearchQuery(params.toString());
-    } catch (error) {
-      addToast({
-        title: "Incorrect search",
-        description: prettifyError(error as ZodError),
-        color: "danger",
-      });
-    }
+    const params = new URLSearchParams({ author_name: searchInput });
+    setSearchQuery(params.toString());
   };
 
   const handleSearchKeyDown = ({
@@ -117,7 +110,8 @@ const AuthorViewer: FC = () => {
           <div className="flex items-center gap-2">
             <Input
               radius="full"
-              label="Search authors"
+              placeholder="Search authors"
+              startContent={<IoSearch />}
               value={searchInput}
               variant="faded"
               onValueChange={setSearchInput}
@@ -129,8 +123,8 @@ const AuthorViewer: FC = () => {
               isIconOnly
               variant="ghost"
               onPress={onOpen}
-              size="lg"
-              children={<IoFilter className="text-default-900" size={24} />}
+              size="sm"
+              children={<IoFilter className="text-default-900" size={18} />}
             />
           </div>
         </div>
@@ -183,6 +177,13 @@ const AuthorViewer: FC = () => {
                   radius="full"
                   variant="underlined"
                   label="author_name"
+                  value={searchFilter?.author_name || ""}
+                  onInput={({ currentTarget }) =>
+                    setSearchFilter((prev) => ({
+                      ...prev,
+                      author_name: currentTarget.value,
+                    }))
+                  }
                   endContent={<FaUser />}
                 />
                 <Input
@@ -191,9 +192,25 @@ const AuthorViewer: FC = () => {
                   radius="full"
                   variant="underlined"
                   label="nationality"
+                  value={searchFilter?.nationality || ""}
+                  onInput={({ currentTarget }) =>
+                    setSearchFilter((prev) => ({
+                      ...prev,
+                      nationality: currentTarget.value,
+                    }))
+                  }
                   endContent={<FaGlobe />}
                 />
-                <RadioGroup label="gender" orientation="horizontal">
+                <RadioGroup
+                  label="gender"
+                  orientation="horizontal"
+                  onValueChange={(gender) =>
+                    setSearchFilter((prev) => ({
+                      ...prev,
+                      gender: gender as AuthorQuery["gender"],
+                    }))
+                  }
+                >
                   <Radio value="m">Male</Radio>
                   <Radio value="f">Female</Radio>
                   <Radio value="t">Trans</Radio>
@@ -204,7 +221,32 @@ const AuthorViewer: FC = () => {
               <ModalFooter>
                 <Button
                   color="primary"
-                  onPress={onClose}
+                  onPress={() => {
+                    try {
+                      const filter = AuthorQuerySchema.parse(searchFilter);
+                      const params = new URLSearchParams(
+                        filter as Record<string, string>
+                      );
+                      setSearchQuery(params.toString());
+                    } catch (error) {
+                      if (error instanceof ZodError)
+                        addToast({
+                          color: "danger",
+                          title: "error occured",
+                          description: prettifyError(error),
+                        });
+                      else
+                        addToast({
+                          color: "danger",
+                          title: "error occured",
+                          description:
+                            error instanceof Error
+                              ? error.message
+                              : "search filter error.",
+                        });
+                    }
+                    onClose();
+                  }}
                   radius="full"
                   className="w-full"
                   children={"Apply"}

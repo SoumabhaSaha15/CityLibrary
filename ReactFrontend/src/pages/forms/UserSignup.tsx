@@ -1,10 +1,10 @@
 import { z } from "zod";
 import React from "react";
-import base from "../utils/base";
+import base from "../../utils/base";
 import { BiUser } from "react-icons/bi";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { signupSchema } from "../validator/user-auth";
+import { signupSchema } from "../../validator/user-auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, Controller, type SubmitHandler } from "react-hook-form";
 import {
@@ -16,24 +16,25 @@ import {
   Divider,
   Avatar,
   Form,
-  addToast
+  addToast,
 } from "@heroui/react";
 
 type SignupFormData = z.infer<typeof signupSchema>;
 
 const Signup: React.FC = () => {
   const [isPasswordVisible, setIsPasswordVisible] = React.useState(false);
-  const [profilePreview, setProfilePreview] = React.useState<string>(import.meta.env.VITE_DEFAULT_USER_IMAGE);
-  const navigate=useNavigate();
+  const [profilePreview, setProfilePreview] = React.useState<string>(
+    import.meta.env.VITE_DEFAULT_USER_IMAGE
+  );
+  const navigate = useNavigate();
   const {
     control,
     handleSubmit,
     formState: { errors, isSubmitting },
-    reset
+    reset,
   } = useForm<SignupFormData>({ resolver: zodResolver(signupSchema) });
 
   const onSubmit: SubmitHandler<SignupFormData> = async (data) => {
-
     const formData = new FormData();
     formData.append("username", data.username);
     formData.append("email", data.email);
@@ -41,20 +42,24 @@ const Signup: React.FC = () => {
     formData.append("profile", data.profile![0]);
 
     try {
-
       const response = await base.post("/user/signup", formData);
 
       if (response.status === 201) {
-        addToast({ title: response.status, description: response.statusText, color: 'success' });
-        navigate('/user');
-      }
-      else throw new Error(`Signup failed: ${response.statusText}`);
-
+        addToast({
+          title: response.status,
+          description: response.statusText,
+          color: "success",
+        });
+        navigate("/user");
+      } else throw new Error(`Signup failed: ${response.statusText}`);
     } catch (error) {
-
       console.error("Error during signup:", error);
 
-      addToast({ title: 'Error', description: (error as Error).message, color: 'danger' });
+      addToast({
+        title: "Error",
+        description: (error as Error).message,
+        color: "danger",
+      });
     }
 
     reset({ password: "", profile: undefined, username: "", email: "" });
@@ -74,11 +79,18 @@ const Signup: React.FC = () => {
           <Divider />
 
           <CardBody className="px-8 py-6">
-            <Form onSubmit={handleSubmit(onSubmit)} onReset={() => reset()} className="flex flex-col gap-4">
+            <Form
+              onSubmit={handleSubmit(onSubmit)}
+              onReset={() => reset()}
+              className="flex flex-col gap-4"
+            >
               <Controller
                 name="profile"
                 control={control}
-                render={({ field: { onChange, onBlur, ref }, fieldState: { error } }) => (
+                render={({
+                  field: { onChange, onBlur, ref },
+                  fieldState: { error },
+                }) => (
                   <div className="flex flex-col items-center gap-3 w-full">
                     <label htmlFor="profile-upload" className="cursor-pointer">
                       <Avatar
@@ -101,11 +113,15 @@ const Signup: React.FC = () => {
                         if (file) {
                           setProfilePreview(URL.createObjectURL(file));
                         } else {
-                          setProfilePreview(import.meta.env.VITE_DEFAULT_USER_IMAGE);
+                          setProfilePreview(
+                            import.meta.env.VITE_DEFAULT_USER_IMAGE
+                          );
                         }
                       }}
                     />
-                    {error && <p className="text-sm text-danger">{error.message}</p>}
+                    {error && (
+                      <p className="text-sm text-danger">{error.message}</p>
+                    )}
                   </div>
                 )}
               />
@@ -156,7 +172,7 @@ const Signup: React.FC = () => {
                       <button
                         className="focus:outline-none"
                         type="button"
-                        onClick={() => setIsPasswordVisible(prev => !prev)}
+                        onClick={() => setIsPasswordVisible((prev) => !prev)}
                         aria-label="toggle password visibility"
                       >
                         {isPasswordVisible ? (
@@ -178,18 +194,24 @@ const Signup: React.FC = () => {
                 type="submit"
                 color="primary"
                 size="lg"
+                radius="full"
                 className="mt-2 w-full"
                 isLoading={isSubmitting}
               >
-                {isSubmitting ? 'Creating Account...' : 'Sign Up'}
+                {isSubmitting ? "Creating Account..." : "Sign Up"}
               </Button>
             </Form>
 
             <Divider className="my-6" />
 
             <div className="text-center text-sm">
-              <span className="text-default-500">Already have an account? </span>
-              <a href="#" className="text-primary font-semibold hover:underline">
+              <span className="text-default-500">
+                Already have an account?{" "}
+              </span>
+              <a
+                href="#"
+                className="text-primary font-semibold hover:underline"
+              >
                 Log In
               </a>
             </div>

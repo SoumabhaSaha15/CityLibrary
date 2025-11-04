@@ -120,6 +120,7 @@ const Signup: React.FC = () => {
                 type="submit"
                 color="primary"
                 size="lg"
+                radius="full"
                 className="mt-2 w-full"
                 isLoading={isSubmitting}
               >
