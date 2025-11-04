@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from rest_framework import serializers
 from rest_framework.serializers import ImageField
 from django.conf import settings
-from .models import Author, UserProfile
+from .models import Author, UserProfile, Book
 
 
 class UserAuthenticateSerializer(serializers.Serializer):
@@ -70,6 +70,24 @@ class AuthorSerializer(serializers.ModelSerializer):
     def get_author_image(self, object: Author) -> str:
         image_url, options = cloudinary_url(
             object.author_image.public_id,
+            width=150,
+            height=150,
+            crop="fill",
+            secure=True
+        )
+        return image_url
+
+
+class BookSerializer(serializers.ModelSerializer):
+    book_cover = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Book
+        fields = "__all__"
+
+    def get_book_cover(self, object: Book) -> str:
+        image_url, _ = cloudinary_url(
+            object.book_cover.public_id,
             width=150,
             height=150,
             crop="fill",

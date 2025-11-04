@@ -12,10 +12,11 @@ from .serializers import (
     UserCreateSerializer,
     UserAuthenticateSerializer,
     UserSerializer,
+    BookSerializer
 )
 from django_filters.rest_framework import DjangoFilterBackend
 from .filters import AuthorFilter
-from .models import Author
+from .models import Author, Book
 
 # from .serializers import UserSerializer
 
@@ -106,3 +107,10 @@ class AuthorDetailView(APIView):
         except Exception as err:
             print(err.__traceback__)
             return Response({"error": err.__class__.__name__}, status=500)
+
+
+class BookPaginator(ListAPIView):
+    serializer_class = BookSerializer
+    queryset = Book.objects.all()
+    # filter_backends = [DjangoFilterBackend]
+    # filterset_class = AuthorFilter
