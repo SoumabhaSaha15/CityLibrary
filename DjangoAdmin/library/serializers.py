@@ -78,8 +78,16 @@ class AuthorSerializer(serializers.ModelSerializer):
         return image_url
 
 
+class MinimalAuthorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Author
+        fields = ('author_name', 'author_id')
+
+
 class BookSerializer(serializers.ModelSerializer):
     book_cover = serializers.SerializerMethodField()
+    authors = MinimalAuthorSerializer(many=True, read_only=True)
+    book_genre = serializers.StringRelatedField(many=True, read_only=True)
 
     class Meta:
         model = Book
