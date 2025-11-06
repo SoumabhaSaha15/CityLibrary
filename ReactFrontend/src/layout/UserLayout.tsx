@@ -1,6 +1,13 @@
 import React from "react";
 import { Outlet, useNavigate } from "react-router-dom";
-import { IoMenu, IoSunny, IoMoon, IoLogOutOutline } from "react-icons/io5";
+import {
+  IoMenu,
+  IoSunny,
+  IoMoon,
+  // IoLogOutOutline,
+  IoBook,
+} from "react-icons/io5";
+import { RiQuillPenFill } from "react-icons/ri";
 import { useUserAuth } from "../context/Auth/UserAuthContext";
 import { useTheme } from "@heroui/use-theme";
 import UserCard from "../components/UserCard";
@@ -72,7 +79,16 @@ const UserLayout: React.FC = () => {
                   src={auth.userDetails.profile}
                 />
               </PopoverTrigger>
-              <PopoverContent children={<UserCard {...auth.userDetails} />} />
+              <PopoverContent
+                children={
+                  <UserCard
+                    {...auth.userDetails}
+                    logout={() =>
+                      auth.logout(() => navigate("/forms/user-login"))
+                    }
+                  />
+                }
+              />
             </Popover>
           </NavbarContent>
         </Navbar>
@@ -87,14 +103,32 @@ const UserLayout: React.FC = () => {
           <DrawerContent>
             <DrawerHeader>City Library</DrawerHeader>
             <DrawerBody>
-              <Button
+              {/* <Button
                 size="md"
                 className="text-xl"
                 onPress={() => auth.logout(() => navigate("/forms/user-login"))}
                 radius="full"
                 children="logout"
                 color="danger"
-                endContent={<IoLogOutOutline size={20} />}
+                endContent={
+                  <IoLogOutOutline className="font-black" size={20} />
+                }
+              /> */}
+              <Button
+                size="md"
+                className="text-xl"
+                onPress={() => navigate("/user/books")}
+                radius="full"
+                children="Books"
+                endContent={<IoBook className="font-black" size={20} />}
+              />
+              <Button
+                size="md"
+                className="text-xl"
+                onPress={() => navigate("/user/authors")}
+                radius="full"
+                children="Authors"
+                endContent={<RiQuillPenFill className="font-black" size={20} />}
               />
             </DrawerBody>
           </DrawerContent>

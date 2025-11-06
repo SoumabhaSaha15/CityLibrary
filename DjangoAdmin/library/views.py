@@ -15,8 +15,8 @@ from .serializers import (
     BookSerializer
 )
 from django_filters.rest_framework import DjangoFilterBackend
-from .filters import AuthorFilter
-from .models import Author, Book
+from .filters import (AuthorFilter, BookFilter)
+from .models import (Author, Book)
 
 # from .serializers import UserSerializer
 
@@ -100,9 +100,20 @@ class AuthorPaginator(ListAPIView):
 
 class AuthorDetailView(APIView):
     def get(self, _request: Request, pk: int):
-        authors = Author.objects.get(pk=pk)
+        author = Author.objects.get(pk=pk)
         try:
-            serialized = AuthorSerializer(authors)
+            serialized = AuthorSerializer(author)
+            return Response(serialized.data)
+        except Exception as err:
+            print(err.__traceback__)
+            return Response({"error": err.__class__.__name__}, status=500)
+
+
+class BookDetailView(APIView):
+    def get(self, _request: Request, pk: int):
+        book = Book.objects.get(pk=pk)
+        try:
+            serialized = BookSerializer(book)
             return Response(serialized.data)
         except Exception as err:
             print(err.__traceback__)
@@ -112,5 +123,5 @@ class AuthorDetailView(APIView):
 class BookPaginator(ListAPIView):
     serializer_class = BookSerializer
     queryset = Book.objects.all()
-    # filter_backends = [DjangoFilterBackend]
-    # filterset_class = AuthorFilter
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = BookFilter

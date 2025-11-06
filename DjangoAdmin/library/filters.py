@@ -1,6 +1,6 @@
 # your_app/filters.py
+from .models import (Book, Author)
 from django_filters import rest_framework as filters
-from .models import Author
 
 
 class AuthorFilter(filters.FilterSet):
@@ -15,3 +15,26 @@ class AuthorFilter(filters.FilterSet):
         model = Author
         # List all the fields you want to enable for filtering
         fields = ["author_name", "nationality", "gender"]
+
+
+class BookFilter(filters.FilterSet):
+    book_name = filters.CharFilter(
+        field_name='book_name',
+        lookup_expr='icontains'
+    )
+    book_language = filters.CharFilter(
+        field_name='book_language',
+        lookup_expr='icontains'
+    )
+    published_on = filters.DateFromToRangeFilter()
+
+    class Meta:
+        model = Book
+        fields = [
+            'book_name',
+            'book_genre',
+            'book_language',
+            'published_on',
+            'authors',
+            'book_isbn'
+        ]
