@@ -41,7 +41,7 @@ const App: React.FC = () => {
               Component={lazy(() => import("./pages/user/Authors"))}
             />
             <Route
-              path="books"
+              path="book"
               Component={lazy(() => import("./pages/user/Books"))}
             />
           </Route>

@@ -1,13 +1,12 @@
 import { z } from "zod";
 import { pageSchema, pageQuerySchema } from "./page";
+import { date } from "./date";
 export const AuthorSchema = z.strictObject({
   author_id: z.number().int().positive(),
   author_image: z.url(),
   author_description: z.string().min(10).max(1000),
   author_name: z.string().min(2).max(100),
-  born_on: z
-    .string()
-    .refine((date) => !isNaN(Date.parse(date)), { message: "Invalid date" }),
+  born_on: date,
   nationality: z.string(),
   gender: z.enum(["m", "f", "t", "unknown"]),
 });
