@@ -7,9 +7,9 @@
 }
 
 html[data-theme] {
-  --radius-selector: 0.5rem;
-  --radius-field: 0.5rem;
-  --radius-box: 0.5rem;
+  --radius-selector: 1rem;
+  --radius-field: 1rem;
+  --radius-box: 1rem;
   --depth: 0;
 }
 

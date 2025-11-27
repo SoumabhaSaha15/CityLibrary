@@ -4,8 +4,10 @@ import { RouterProvider, createRouter } from "@tanstack/react-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { routeTree } from "./routeTree.gen";
 // import "./styles.css";
+import { ModalProvider } from "./Contexts/Modal/ModalProvider";
 import "./index.css";
 import ToastProvider from "./Contexts/Toast/ToastProvider";
+import { StrictMode } from "react";
 
 const queryClient = new QueryClient();
 
@@ -30,11 +32,13 @@ declare module "@tanstack/react-router" {
 }
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <ToastProvider>
-    <ThemeProvider>
-      <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
-      </QueryClientProvider>
-    </ThemeProvider>
-  </ToastProvider>
+  <ModalProvider>
+    <ToastProvider>
+      <ThemeProvider>
+        <QueryClientProvider client={queryClient}>
+          <RouterProvider router={router} />
+        </QueryClientProvider>
+      </ThemeProvider>
+    </ToastProvider>
+  </ModalProvider>
 );
