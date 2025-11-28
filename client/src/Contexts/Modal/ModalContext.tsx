@@ -1,11 +1,4 @@
-import React, {
-  createContext,
-  use,
-  // useContext,
-  // useRef,
-  // type FC,
-  type ReactNode,
-} from "react";
+import React, { createContext, use, type ReactNode } from "react";
 
 export type ModalContextType = {
   modalRef: React.RefObject<HTMLDialogElement | null>;
@@ -27,20 +20,3 @@ export const useModal = (): ModalContextType => {
   return context;
 };
 export default ModalContext;
-
-// export const Modal: FC<{ children: ReactNode }> = (
-//   { children } = { children: "" }
-// ) => {
-//   const { modalRef, closeModal } = useModal();
-
-//   return (
-//     <dialog ref={modalRef} className="modal modal-bottom sm:modal-middle">
-//       <div className="modal-box">
-//         {children}
-//         <button className="btn" onClick={closeModal}>
-//           Close
-//         </button>
-//       </div>
-//     </dialog>
-//   );
-// };

@@ -1,44 +1,72 @@
-import { prettifyError } from 'zod';
-import { ToastContext } from './ToastContext';
-import { useState, type ReactNode } from 'react';
-import { ToastOptionsValidator, type ToastOptionsType } from './ToastContext';
-export default function ToastProvider({ children }: { children: ReactNode; }) {
+import { useState, useRef, useEffect, type ReactNode } from "react";
+import {
+  ToastContext,
+  ToastOptionsValidator,
+  type ToastOptionsType,
+  DefaultToastPosition,
+} from "./ToastContext";
 
-  const [toasts, setToasts] = useState<{ component: string; id: string }[]>([]);
+interface Toast {
+  id: string;
+  component: ReactNode;
+  options: ToastOptionsType;
+}
 
-  const [toastOptions, setToastOptions] = useState<ToastOptionsType>({
-    toastPosition: ["", ""],
-    toastVariant: "alert-info",
-  });
+export default function ToastProvider({ children }: { children: ReactNode }) {
+  const [toasts, setToasts] = useState<Toast[]>([]);
+  const timeoutsRef = useRef<Map<string, number>>(new Map());
 
-  const close = (id: string) => setToasts(toasts => toasts.filter(toast => toast.id !== id));
+  const close = (id: string) => {
+    const timer = timeoutsRef.current.get(id);
+    if (timer) {
+      clearTimeout(timer);
+      timeoutsRef.current.delete(id);
+    }
+    setToasts((prev) => prev.filter((toast) => toast.id !== id));
+  };
 
-  const open = (component: string, autoClose: boolean = true, timeout: number = 1000, toastOptions: ToastOptionsType = {
-    toastPosition: ["", ""],
-    toastVariant: "alert-info"
-  }) => {
-    const isValid = ToastOptionsValidator.safeParse(toastOptions);
-    setToastOptions(prev => isValid.success ? isValid.data : ((prettifyError(isValid.error)), prev));
+  const open = (
+    component: ReactNode,
+    autoClose = true,
+    timeout = 3000,
+    toastOptions: ToastOptionsType = {
+      toastPosition: DefaultToastPosition,
+      toastVariant: "alert-info",
+    }
+  ): string => {
+    const validated = ToastOptionsValidator.safeParse(toastOptions);
+    const options = validated.success
+      ? validated.data
+      : {
+          toastPosition: DefaultToastPosition,
+          toastVariant: "alert-info" as const,
+        };
+
     const id = crypto.randomUUID();
-    setToasts((toasts) => [{ id, component }, ...toasts]);
-    if (autoClose) setTimeout(() => close(id), timeout);
+    setToasts((prev) => [...prev, { id, component, options }]);
+    if (autoClose) {
+      const timer = window.setTimeout(() => close(id), timeout);
+      timeoutsRef.current.set(id, timer);
+    }
     return id;
   };
+
+  useEffect(() => () => timeoutsRef.current.forEach(clearTimeout), []); // Cleanup on unmount
 
   return (
     <ToastContext.Provider value={{ open, close }}>
       {children}
-      <div
-        className={"toast" + ((toastOptions.toastPosition[0] == "") ? "" : (" " + toastOptions.toastPosition.join(" ")))}
-        children={toasts.map(({ id, component }) => (
+      <div className="toast toast-end toast-bottom">
+        {toasts.map(({ id, component, options }) => (
           <div
-            id={id}
             key={id}
-            children={component}
-            className={"alert " + toastOptions.toastVariant}
-          />
+            className={`alert ${options.toastVariant}`}
+            onClick={() => close(id)}
+          >
+            {component}
+          </div>
         ))}
-      />
+      </div>
     </ToastContext.Provider>
   );
 }

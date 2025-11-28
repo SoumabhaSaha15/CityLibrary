@@ -1,8 +1,9 @@
-import { BiBook } from "react-icons/bi";
 import ScrollReveal from "scrollreveal";
-import Modal from "@/Components/Modal";
-import { useModal } from "@/Contexts/Modal/ModalContext";
+import { BiBook } from "react-icons/bi";
+import { FaXmark } from "react-icons/fa6";
 import { type FC, useState, useEffect } from "react";
+import Modal, { ModalTrigger } from "@/Components/Modal";
+import ModalProvider from "@/Contexts/Modal/ModalProvider";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   FaSearch,
@@ -14,7 +15,6 @@ import {
   FaArrowRight,
   FaCheckCircle,
 } from "react-icons/fa";
-import { ModalProvider } from "@/Contexts/Modal/ModalProvider";
 
 const Home: FC = () => {
   useEffect(
@@ -29,8 +29,6 @@ const Home: FC = () => {
     []
   );
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  const { openModal } = useModal();
 
   const features = [
     {
@@ -262,13 +260,12 @@ const Home: FC = () => {
                   entire collection
                 </p>
                 <div className="card-actions">
-                  <button
-                    className="btn btn-lg bg-base-100 text-primary hover:bg-base-200 border-none gap-2 shadow-lg rounded-full"
-                    onClick={openModal}
-                  >
-                    <FaUserPlus className="w-5 h-5" />
-                    Create Free Account
-                  </button>
+                  <ModalTrigger>
+                    <button className="btn btn-lg bg-base-100 text-primary hover:bg-base-200 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                      <FaUserPlus className="w-5 h-5" />
+                      Create Free Account
+                    </button>
+                  </ModalTrigger>
                 </div>
               </div>
             </div>
@@ -304,18 +301,16 @@ const Home: FC = () => {
           </div>
         </footer>
       </div>
-      <Modal className="">
+      <Modal>
         <div className="modal-box">
+          <form method="dialog">
+            {/* if there is a button in form, it will close the modal */}
+            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+              <FaXmark className="w-5 h-5" />
+            </button>
+          </form>
           <h3 className="font-bold text-lg">Hello!</h3>
-          <p className="py-4">
-            Press ESC key or click the button below to close
-          </p>
-          <div className="modal-action">
-            <form method="dialog">
-              {/* if there is a button in form, it will close the modal */}
-              <button className="btn">Close</button>
-            </form>
-          </div>
+          <p className="py-4">Press ESC key or click on ✕ button to close</p>
         </div>
       </Modal>
     </>
