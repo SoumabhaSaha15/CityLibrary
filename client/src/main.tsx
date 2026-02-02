@@ -1,9 +1,9 @@
 import "./index.css";
 import ReactDOM from "react-dom/client";
 import { routeTree } from "./routeTree.gen";
+import { QueryClient } from "@tanstack/react-query";
 import DaisyUIProvider from "@/Contexts/DaisyUIProvider";
 import { RouterProvider, createRouter } from "@tanstack/react-router";
-import { QueryClient } from "@tanstack/react-query";
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
 import { createAsyncStoragePersister } from "@tanstack/query-async-storage-persister";
 const persister = createAsyncStoragePersister({ storage: window.localStorage });
