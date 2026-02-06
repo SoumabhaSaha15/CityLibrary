@@ -1,4 +1,6 @@
 import { cn } from "@/util/cn";
+import { useState, useEffect } from "react";
+import LoadingPage from "@/Loader";
 import base from "@/util/axios-base";
 import useRipple from "use-ripple-hook";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -13,6 +15,21 @@ export const Route = createFileRoute("/login")({
 
 function RouteComponent() {
   const [ripple, event] = useRipple({ timingFunction: "ease-in-out" });
+  const [passwordType, setPasswordType] = useState<"text" | "password">(
+    "password",
+  );
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  useEffect(() => {
+    try {
+      base.get("/user/login").then((res) => {
+        if (res.status === 200) navigate({ to: "/user" });
+        else setIsLoading(false);
+      });
+    } catch (error) {
+      console.log(error);
+    }
+    return () => setIsLoading(false);
+  }, []);
   const {
     handleSubmit,
     register,
@@ -21,6 +38,7 @@ function RouteComponent() {
   } = useForm<LoginSchema>({ resolver: zodResolver(loginSchema) });
   const navigate = useNavigate();
   const toast = useToast();
+
   const signup: SubmitHandler<LoginSchema> = async (data) => {
     const response = await base.post("/user/login", data);
     if (response.status === 200) {
@@ -33,10 +51,13 @@ function RouteComponent() {
         DefaultOptions.success,
       );
     } else {
-      toast.open("Failed to create user", false, 5000, DefaultOptions.error);
+      toast.open("Failed to login", true, 5000, DefaultOptions.error);
     }
   };
-  return (
+
+  return isLoading ? (
+    <LoadingPage />
+  ) : (
     <>
       <div className="hero min-h-dvh scroll-smooth transition-all snap-y snap-mandatory">
         <div className="hero min-h-screen px-4 py-8">
@@ -95,7 +116,7 @@ function RouteComponent() {
                         {errors.password ? errors.password.message : "Password"}
                       </span>
                       <input
-                        type="password"
+                        type={passwordType}
                         className={cn(
                           "validator input input-bordered w-full focus:outline-none focus:ring-0 focus:ring-accent rounded-full",
                           errors.password && "focus:ring-error",
@@ -109,6 +130,19 @@ function RouteComponent() {
                       />
                     </label>
                   </div>
+
+                  <label className="label justify-between">
+                    Show password
+                    <input
+                      type="checkbox"
+                      className="checkbox"
+                      onInput={() =>
+                        setPasswordType((prev) =>
+                          prev == "password" ? "text" : "password",
+                        )
+                      }
+                    />
+                  </label>
 
                   <button
                     ref={ripple}

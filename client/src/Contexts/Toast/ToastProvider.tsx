@@ -32,7 +32,7 @@ export default function ToastProvider({ children }: { children: ReactNode }) {
     toastOptions: ToastOptionsType = {
       toastPosition: DefaultToastPosition,
       toastVariant: "alert-info",
-    }
+    },
   ): string => {
     const validated = ToastOptionsValidator.safeParse(toastOptions);
     const options = validated.success
@@ -60,7 +60,7 @@ export default function ToastProvider({ children }: { children: ReactNode }) {
         {toasts.map(({ id, component, options }) => (
           <div
             key={id}
-            className={`alert ${options.toastVariant}`}
+            className={`alert ${options.toastVariant} rounded-full`}
             onClick={() => close(id)}
           >
             {component}

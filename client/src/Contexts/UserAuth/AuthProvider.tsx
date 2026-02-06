@@ -24,10 +24,10 @@ const UserAuthProvider: React.FC<{ children: React.ReactNode }> = ({
           `error in fetching profile status message:${response.statusText}`,
         );
       setUserDetails(response.data);
-      toast.open("Login Successful", false, 3000, DefaultOptions.success);
+      toast.open("Login Successful", true, 3000, DefaultOptions.success);
       onSuccess();
     } catch (e) {
-      toast.open("Login Failed", false, 3000, DefaultOptions.error);
+      toast.open("Login Failed", true, 3000, DefaultOptions.error);
       onError();
     }
   };

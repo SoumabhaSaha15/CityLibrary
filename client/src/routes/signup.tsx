@@ -8,16 +8,22 @@ import { useToast, DefaultOptions } from "@/Contexts/Toast/ToastContext";
 import { signupSchema, type SignupSchema } from "@/validators/user-auth";
 
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
+import LoadingPage from "@/Loader";
 export const Route = createFileRoute("/signup")({
   component: RouteComponent,
 });
 
 function RouteComponent() {
   const [ripple, event] = useRipple({ timingFunction: "ease-in-out" });
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const defaultImage = import.meta.env.VITE_DEFAULT_USER_IMAGE;
+  const [passwordType, setPasswordType] = useState<"text" | "password">(
+    "password",
+  );
   const [displayImage, setDisplayImage] = useState<string>(defaultImage);
   const navigate = useNavigate();
   const toast = useToast();
+
   const {
     handleSubmit,
     register,
@@ -26,6 +32,18 @@ function RouteComponent() {
     formState: { errors, isSubmitting },
   } = useForm<SignupSchema>({ resolver: zodResolver(signupSchema) });
   const watchedImage = watch("profile");
+
+  useEffect(() => {
+    try {
+      base.get("/user/login").then((res) => {
+        if (res.status === 200) navigate({ to: "/user" });
+        else setIsLoading(false);
+      });
+    } catch (error) {
+      console.log(error);
+    }
+    return () => setIsLoading(false);
+  }, []);
 
   useEffect(() => {
     if (watchedImage && watchedImage[0]) {
@@ -47,11 +65,13 @@ function RouteComponent() {
         DefaultOptions.success,
       );
     } else {
-      toast.open("Failed to create user", false, 5000, DefaultOptions.error);
+      toast.open("Failed to create user", true, 1000, DefaultOptions.error);
     }
   };
 
-  return (
+  return isLoading ? (
+    <LoadingPage />
+  ) : (
     <>
       <div className="hero min-h-dvh scroll-smooth transition-all snap-y snap-mandatory">
         <div className="hero min-h-screen px-4 py-8">
@@ -61,10 +81,9 @@ function RouteComponent() {
                 Signup to our service
               </h1>
               <p className="py-6 px-2 sm:px-6">
-                Already have an account{" "}
+                Already have an account&nbsp;
                 <Link to="/login" className="link link-accent">
-                  {" "}
-                  login{" "}
+                  login
                 </Link>
               </p>
             </div>
@@ -156,7 +175,7 @@ function RouteComponent() {
                         {errors.password ? errors.password.message : "Password"}
                       </span>
                       <input
-                        type="password"
+                        type={passwordType}
                         className={cn(
                           "validator input input-bordered w-full focus:outline-none focus:ring-0 focus:ring-accent rounded-full",
                           errors.password && "focus:ring-error",
@@ -170,6 +189,19 @@ function RouteComponent() {
                       />
                     </label>
                   </div>
+
+                  <label className="label justify-between">
+                    Show password
+                    <input
+                      type="checkbox"
+                      className="checkbox"
+                      onInput={() =>
+                        setPasswordType((prev) =>
+                          prev == "password" ? "text" : "password",
+                        )
+                      }
+                    />
+                  </label>
 
                   <button
                     ref={ripple}

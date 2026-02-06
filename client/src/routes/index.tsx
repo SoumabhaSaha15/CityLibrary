@@ -4,7 +4,7 @@ import { FaXmark } from "react-icons/fa6";
 import { type FC, useState, useEffect } from "react";
 import Modal, { ModalTrigger } from "@/Components/Modal";
 import ModalProvider from "@/Contexts/Modal/ModalProvider";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import {
   FaSearch,
   FaUserPlus,
@@ -24,10 +24,11 @@ const Home: FC = () => {
           delay: (index + 1) * 100,
           reset: true,
           easing: "ease-in-out",
-        })
+        }),
       ),
-    []
+    [],
   );
+  const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const features = [
@@ -126,7 +127,12 @@ const Home: FC = () => {
           </div>
 
           <div className="navbar-end gap-2">
-            <button className="btn btn-ghost btn-sm sm:btn-md rounded-full">
+            <button
+              className="btn btn-ghost btn-sm sm:btn-md rounded-full"
+              onClick={() => {
+                navigate({ to: "/login" });
+              }}
+            >
               Sign In
             </button>
           </div>
