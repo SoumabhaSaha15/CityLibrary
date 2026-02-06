@@ -2,7 +2,7 @@ import { BiLoaderAlt } from "react-icons/bi";
 
 const LoadingPage = () => {
   return (
-    <div className="min-h-screen bg-linear-to-br from-base-200 to-base-300 flex items-center justify-center p-4">
+    <div className="min-h-[calc(100dvh-64px)] flex items-center justify-center p-4">
       <div className="card bg-base-100 shadow-2xl max-w-md w-full">
         <div className="card-body items-center text-center">
           <div className="relative mb-8">

@@ -1,4 +1,5 @@
 import { cn } from "@/util/cn";
+import LoadingPage from "@/Loader";
 import base from "@/util/axios-base";
 import useRipple from "use-ripple-hook";
 import { useEffect, useState } from "react";
@@ -8,7 +9,6 @@ import { useToast, DefaultOptions } from "@/Contexts/Toast/ToastContext";
 import { signupSchema, type SignupSchema } from "@/validators/user-auth";
 
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
-import LoadingPage from "@/Loader";
 export const Route = createFileRoute("/signup")({
   component: RouteComponent,
 });

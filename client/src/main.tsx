@@ -6,6 +6,9 @@ import DaisyUIProvider from "@/Contexts/DaisyUIProvider";
 import { RouterProvider, createRouter } from "@tanstack/react-router";
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
 import { createAsyncStoragePersister } from "@tanstack/query-async-storage-persister";
+import LoadingPage from "./Loader";
+import NotFoundPage from "./NotFound";
+import ErrorPage from "./Error";
 const persister = createAsyncStoragePersister({ storage: window.localStorage });
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -20,6 +23,9 @@ const router = createRouter({
   context: {
     queryClient,
   },
+  defaultPendingComponent: LoadingPage,
+  defaultNotFoundComponent: NotFoundPage,
+  defaultErrorComponent: ErrorPage,
   defaultPreload: "intent",
   defaultPreloadStaleTime: 0,
   scrollRestoration: true,

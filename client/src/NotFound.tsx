@@ -4,7 +4,7 @@ import { MdError } from "react-icons/md";
 
 const NotFoundPage = () => {
   return (
-    <div className="min-h-screen bg-linear-to-br from-base-200 to-base-300 flex items-center justify-center p-4">
+    <div className="min-h-[calc(100dvh-64px)] flex items-center justify-center p-4">
       <div className="card bg-base-100 shadow-2xl max-w-2xl w-full">
         <div className="card-body items-center text-center">
           <div className="relative mb-8">
@@ -23,17 +23,17 @@ const NotFoundPage = () => {
             moved or deleted.
           </p>
 
-          <div className="alert alert-warning shadow-lg mb-8 max-w-md">
+          <div className="alert alert-warning shadow-lg mb-8 max-w-md rounded-full">
             <FaExclamationTriangle className="w-6 h-6" />
             <span>The requested URL was not found on this server</span>
           </div>
 
           <div className="card-actions flex-col sm:flex-row gap-3">
-            <button className="btn btn-primary btn-lg gap-2">
+            <button className="btn btn-primary btn-lg gap-2 rounded-full">
               <FaHome className="w-5 h-5" />
               Go Home
             </button>
-            <button className="btn btn-outline btn-lg gap-2">
+            <button className="btn btn-outline btn-lg gap-2 rounded-full">
               <FaArrowLeft className="w-5 h-5" />
               Go Back
             </button>

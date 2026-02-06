@@ -122,7 +122,7 @@ const User: FC = () => {
                 className="is-drawer-close:tooltip is-drawer-close:tooltip-right rounded-full"
                 data-tip="Expand"
               >
-                <TbLayoutSidebarRightExpand />
+                <TbLayoutSidebarRightExpand size={16} />
                 <span className="is-drawer-close:hidden">Expanden</span>
               </label>
             </li>
