@@ -6,7 +6,7 @@ import {
   AuthorPaginatedSchema,
 } from "@/validators/author";
 
-const authorQuery = async (query = {}) => {
+const authorQuery = async (query: Record<string, any> = { page: 1 }) => {
   const response: AxiosResponse<AuthorPaginated> =
     await base.get<AuthorPaginated>("/authors", {
       params: query,
@@ -14,7 +14,7 @@ const authorQuery = async (query = {}) => {
     });
   return response.data;
 };
-const useAuthors = (query = {}) =>
+const useAuthors = (query: Record<string, any>) =>
   queryOptions({
     queryKey: ["authors", query],
     queryFn: () => authorQuery(query),

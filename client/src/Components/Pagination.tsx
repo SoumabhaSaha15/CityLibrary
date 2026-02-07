@@ -15,10 +15,10 @@ const Pagination = ({
   const pages = [...Array(totalPages)].map((_, i) => i + 1);
 
   return (
-    <div className="join">
+    <div className="join p-1 justify-center">
       {/* Previous Button */}
       <button
-        className="join-item btn"
+        className="join-item btn rounded-l-full"
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
       >
@@ -40,7 +40,7 @@ const Pagination = ({
 
       {/* Next Button */}
       <button
-        className="join-item btn"
+        className="join-item btn rounded-r-full"
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
       >

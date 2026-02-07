@@ -7,6 +7,7 @@ from rest_framework.response import Response
 from rest_framework.request import Request
 from django.http import HttpRequest
 from django.contrib.auth.models import AbstractUser
+from .pagination import CustomPagination
 from .serializers import (
     AuthorSerializer,
     UserCreateSerializer,
@@ -96,6 +97,7 @@ class AuthorPaginator(ListAPIView):
     queryset = Author.objects.all()
     filter_backends = [DjangoFilterBackend]
     filterset_class = AuthorFilter
+    pagination_class = CustomPagination
 
 
 class AuthorDetailView(APIView):
@@ -125,3 +127,4 @@ class BookPaginator(ListAPIView):
     queryset = Book.objects.all()
     filter_backends = [DjangoFilterBackend]
     filterset_class = BookFilter
+    pagination_class = CustomPagination

@@ -1,15 +1,10 @@
 // ErrorPage.tsx
-import { FaBug, FaRedo, FaHome } from "react-icons/fa";
 import { MdError } from "react-icons/md";
 import { BiErrorCircle } from "react-icons/bi";
+import { FaBug, FaRedo, FaHome } from "react-icons/fa";
+import { type ErrorComponentProps } from "@tanstack/react-router";
 
-interface ErrorPageProps {
-  error: Error;
-  info?: { componentStack: string };
-  reset: () => void;
-}
-
-const ErrorPage = (props: ErrorPageProps) => {
+const ErrorPage = (props: ErrorComponentProps) => {
   return (
     <div className="min-h-[calc(100dvh-64px)] flex items-center justify-center p-4">
       <div className="card bg-base-100 shadow-2xl max-w-2xl w-full">
@@ -35,7 +30,12 @@ const ErrorPage = (props: ErrorPageProps) => {
           </div>
 
           <div className="card-actions flex-col sm:flex-row gap-3">
-            <button className="btn btn-error btn-lg gap-2">
+            <button
+              className="btn btn-error btn-lg gap-2"
+              onClick={() => {
+                props.reset();
+              }}
+            >
               <FaRedo className="w-5 h-5" />
               Try Again
             </button>

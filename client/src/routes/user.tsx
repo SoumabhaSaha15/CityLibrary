@@ -1,6 +1,7 @@
 import { useEffect, type FC } from "react";
 import { GoHomeFill } from "react-icons/go";
-import { LuSettings2 } from "react-icons/lu";
+import { MdLogout } from "react-icons/md";
+import { LuSettings, LuBook } from "react-icons/lu";
 import { createFileRoute } from "@tanstack/react-router";
 import { Outlet, useNavigate } from "@tanstack/react-router";
 import { useUserAuth } from "@/Contexts/UserAuth/AuthContext";
@@ -26,15 +27,15 @@ const User: FC = () => {
       <div className="drawer-content">
         {/* Navbar */}
         <nav className="navbar w-full bg-base-300">
-          <div className="flex-1">
+          <div className="flex flex-1 justify-baseline items-center flex-row">
             <label
               htmlFor="my-drawer-4"
               aria-label="open sidebar"
-              className="btn btn-square btn-ghost hover:bg-base-200 lg:hidden rounded-full"
+              className="btn btn-square btn-ghost bg-base-100 hover:bg-base-200 lg:hidden rounded-full"
             >
               <TbLayoutSidebarLeftExpand className="size-5" />
             </label>
-            <div className="px-4">CityLibrary</div>
+            <div className="p-3">CityLibrary</div>
           </div>
           <div className="flex gap-2">
             <div className="dropdown dropdown-bottom dropdown-left">
@@ -55,12 +56,12 @@ const User: FC = () => {
               </div>
               <ul
                 tabIndex={-1}
-                className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
+                className="menu menu-md dropdown-content bg-base-300 rounded-box z-1 mt-4 w-64 p-4 shadow"
               >
-                <li>
+                <li className="mb-2">
                   <a>{user.userDetails?.username}</a>
                 </li>
-                <li>
+                <li className="mb-2">
                   <a>{user.userDetails?.email}</a>
                 </li>
                 <li>
@@ -74,6 +75,7 @@ const User: FC = () => {
                       }
                     }}
                   >
+                    <MdLogout className="size-5" />
                     Logout
                   </button>
                 </li>
@@ -93,27 +95,45 @@ const User: FC = () => {
           {/* Sidebar content here */}
           <ul className="menu w-full grow">
             {/* List item */}
+
             <li>
               <button
                 className="is-drawer-close:tooltip is-drawer-close:tooltip-right rounded-full"
                 data-tip="Homepage"
+                onClick={() => {
+                  navigate({ to: "/user" });
+                }}
               >
                 {/* Home icon */}
                 <GoHomeFill className="size-4" />
                 <span className="is-drawer-close:hidden">Homepage</span>
               </button>
             </li>
-            {/* List item */}
+
+            <li>
+              <button
+                className="is-drawer-close:tooltip is-drawer-close:tooltip-right rounded-full"
+                data-tip="Book"
+                onClick={() => {
+                  navigate({ to: "/user/book" });
+                }}
+              >
+                <LuBook className="size-4" />
+                <span className="is-drawer-close:hidden">Book</span>
+              </button>
+            </li>
+
             <li>
               <button
                 className="is-drawer-close:tooltip is-drawer-close:tooltip-right rounded-full"
                 data-tip="Settings"
               >
-                <LuSettings2 className="size-4" />
+                <LuSettings className="size-4" />
                 <span className="is-drawer-close:hidden">Settings</span>
               </button>
             </li>
           </ul>
+
           <ul className="drawer-end menu w-full grow flex-col-reverse">
             <li>
               <label

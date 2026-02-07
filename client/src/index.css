@@ -23,3 +23,7 @@ body {
   transition-timing-function: linear;
   scroll-behavior: smooth;
 }
+
+.page-height {
+  @apply max-h-[calc(100dvh-64px)];
+}

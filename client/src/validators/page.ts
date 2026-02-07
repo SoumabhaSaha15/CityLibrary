@@ -2,6 +2,8 @@ import { z } from "zod";
 export const pageSchema = z.strictObject({
   count: z.number().int().nonnegative(),
   next: z.url().nullable(),
+  page_count: z.int(),
+  current_page: z.int(),
   previous: z.url().nullable(),
 });
 

@@ -13,7 +13,7 @@ const persister = createAsyncStoragePersister({ storage: window.localStorage });
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 10 * 60 * 1000,
+      staleTime: 15 * 60 * 1000,
     },
   },
 });
