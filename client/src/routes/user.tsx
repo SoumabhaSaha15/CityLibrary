@@ -1,6 +1,7 @@
 import { useEffect, type FC } from "react";
-import { GoHomeFill } from "react-icons/go";
 import { MdLogout } from "react-icons/md";
+import { GoHomeFill } from "react-icons/go";
+import { GiQuillInk } from "react-icons/gi";
 import { LuSettings, LuBook } from "react-icons/lu";
 import { createFileRoute } from "@tanstack/react-router";
 import { Outlet, useNavigate } from "@tanstack/react-router";
@@ -120,6 +121,19 @@ const User: FC = () => {
               >
                 <LuBook className="size-4" />
                 <span className="is-drawer-close:hidden">Book</span>
+              </button>
+            </li>
+
+            <li>
+              <button
+                className="is-drawer-close:tooltip is-drawer-close:tooltip-right rounded-full"
+                data-tip="Author"
+                onClick={() => {
+                  navigate({ to: "/user/author" });
+                }}
+              >
+                <GiQuillInk className="size-4" />
+                <span className="is-drawer-close:hidden">Author</span>
               </button>
             </li>
 

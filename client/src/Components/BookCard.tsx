@@ -5,8 +5,8 @@ import {
   FaBarcode,
   FaUser,
 } from "react-icons/fa";
-import { BiSolidBookmark } from "react-icons/bi";
 import { type Book } from "@/validators/book";
+import { BiSolidBookmark } from "react-icons/bi";
 
 interface BookCardProps {
   book: Book;
@@ -14,7 +14,7 @@ interface BookCardProps {
 
 const BookCard = ({ book }: BookCardProps) => {
   return (
-    <div className="card card-side bg-base-100 shadow-xl hover:shadow-2xl transition-all duration-300 flex-col sm:flex-row overflow-hidden max-w-full max-h-full">
+    <div className="card card-side bg-base-100 shadow-xl hover:shadow-2xl transition-all duration-300 flex-col sm:flex-row overflow-hidden max-w-full max-h-full min-h-full min-w-full">
       <figure className="relative w-full sm:w-48 md:w-56 h-64 sm:h-auto shrink-0">
         <img
           src={book.book_cover}

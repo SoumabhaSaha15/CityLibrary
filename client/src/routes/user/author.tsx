@@ -1,9 +1,48 @@
-import { createFileRoute } from '@tanstack/react-router'
-
-export const Route = createFileRoute('/user/author')({
-  component: RouteComponent,
-})
-
+import { MdSearch } from "react-icons/md";
+import { useQuery } from "@tanstack/react-query";
+import Pagination from "@/Components/Pagination";
+import AuthorCard from "@/Components/AuthorCard";
+import authorQueryoptions from "@/hooks/fetchAuthors";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 function RouteComponent() {
-  return <div>Hello "/user/author"!</div>
+  const search = Route.useSearch();
+  const { data } = useQuery(authorQueryoptions(search));
+  const navigate = useNavigate({ from: Route.fullPath });
+  return (
+    <>
+      <div className="page-height w-full flex flex-col">
+        <div className="max-h-[calc(100dvh-104px)] overflow-y-auto overflow-x-clip grid place-items-center grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 auto-rows-[33vh] gap-2 p-2">
+          {data?.results.map((item, index) => (
+            <AuthorCard author={item} key={`author[${index}]`} />
+          ))}
+        </div>
+        <Pagination
+          currentPage={data?.current_page || 0}
+          totalPages={data?.page_count || 0}
+          onPageChange={(newPage) => {
+            if (newPage !== 1)
+              navigate({ search: (prev) => ({ ...prev, page: newPage }) });
+            else
+              navigate({
+                search: (prev) => {
+                  //@ts-ignore
+                  const { page, ...page_removed } = prev;
+                  return page_removed;
+                },
+              });
+          }}
+        />
+      </div>
+      <div className="fab">
+        <button className="btn btn-lg btn-circle btn-primary">
+          <MdSearch className="size-8" />
+        </button>
+      </div>
+    </>
+  );
 }
+export const Route = createFileRoute("/user/author")({
+  component: RouteComponent,
+  loader: ({ params, context: { queryClient } }) =>
+    queryClient.ensureQueryData(authorQueryoptions(params)),
+});

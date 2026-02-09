@@ -14,10 +14,10 @@ const authorQuery = async (query: Record<string, any> = { page: 1 }) => {
     });
   return response.data;
 };
-const useAuthors = (query: Record<string, any>) =>
+const authorQueryoptions = (query: Record<string, any>) =>
   queryOptions({
-    queryKey: ["authors", query],
+    queryKey: ["authors", JSON.stringify(query)],
     queryFn: () => authorQuery(query),
     retry: 1,
   });
-export default useAuthors;
+export default authorQueryoptions;

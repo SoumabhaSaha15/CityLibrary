@@ -15,7 +15,7 @@ const bookQuery = async (query: Record<string, any> = { page: 1 }) => {
 };
 const useBooks = (query: Record<string, any>) =>
   queryOptions({
-    queryKey: ["books", query],
+    queryKey: ["books", JSON.stringify(query)],
     queryFn: () => bookQuery(query),
     retry: 1,
   });
