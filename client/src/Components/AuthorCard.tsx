@@ -36,8 +36,8 @@ const AuthorCard = ({ author }: AuthorCardProps) => {
   };
 
   return (
-    <div className="card card-side bg-base-100 shadow-xl hover:shadow-2xl transition-all duration-300 flex-col sm:flex-row overflow-hidden max-w-full max-h-full min-h-full min-w-full">
-      <figure className="relative w-full sm:w-48 md:w-56 h-64 sm:h-auto shrink-0">
+    <div className="card card-side bg-base-100 shadow-xl hover:shadow-2xl transition-all duration-300 flex-row overflow-hidden max-w-full max-h-full min-h-full min-w-full">
+      <figure className="relative w-30 sm:w-48 md:w-56 h-64 sm:h-auto shrink-0">
         <img
           src={author.author_image}
           alt={author.author_name}

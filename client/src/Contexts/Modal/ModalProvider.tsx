@@ -1,18 +1,27 @@
-import { type FC, useRef } from "react";
+import { type FC, useRef, useCallback, useMemo } from "react";
 import { type ModalProviderProps, ModalContext } from "./ModalContext";
 const ModalProvider: FC<ModalProviderProps> = ({ children }) => {
   const modalRef = useRef<HTMLDialogElement>(null);
 
-  const openModal = (): void =>
-    void (modalRef.current && modalRef.current.showModal());
+  // 1. Use useCallback to keep these functions stable across renders
+  const openModal = useCallback((): void => {
+    modalRef.current && modalRef.current.showModal();
+  }, []);
 
-  const closeModal = (): void =>
-    void (modalRef.current && modalRef.current.close());
+  const closeModal = useCallback((): void => {
+    if (modalRef.current) {
+      modalRef.current.close();
+    }
+  }, []);
+
+  // 2. Wrap the value in useMemo to prevent unnecessary re-renders in consumers
+  const value = useMemo(
+    () => ({ modalRef, openModal, closeModal }),
+    [openModal, closeModal],
+  );
 
   return (
-    <ModalContext.Provider value={{ modalRef, openModal, closeModal }}>
-      {children}
-    </ModalContext.Provider>
+    <ModalContext.Provider value={value}>{children}</ModalContext.Provider>
   );
 };
 
