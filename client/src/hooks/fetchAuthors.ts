@@ -4,9 +4,10 @@ import { queryOptions } from "@tanstack/react-query";
 import {
   type AuthorPaginated,
   AuthorPaginatedSchema,
+  type AuthorQuery,
 } from "@/validators/author";
 
-const authorQuery = async (query: Record<string, any> = { page: 1 }) => {
+const authorQuery = async (query: AuthorQuery = { page: 1 }) => {
   const response: AxiosResponse<AuthorPaginated> =
     await base.get<AuthorPaginated>("/authors", {
       params: query,
@@ -14,7 +15,7 @@ const authorQuery = async (query: Record<string, any> = { page: 1 }) => {
     });
   return response.data;
 };
-const authorQueryoptions = (query: Record<string, any>) =>
+const authorQueryoptions = (query: AuthorQuery) =>
   queryOptions({
     queryKey: ["authors", JSON.stringify(query)],
     queryFn: () => authorQuery(query),

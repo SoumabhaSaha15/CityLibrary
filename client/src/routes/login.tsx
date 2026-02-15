@@ -7,8 +7,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { loginSchema, type LoginSchema } from "@/validators/user-auth";
 import { useToast, DefaultOptions } from "@/Contexts/Toast/ToastContext";
-
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
+import { type ResponseSchema, responseSchema } from "@/validators/user-auth";
 export const Route = createFileRoute("/login")({
   component: RouteComponent,
 });
@@ -21,12 +21,22 @@ function RouteComponent() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   useEffect(() => {
     try {
-      base.get("/user/login").then((res) => {
-        if (res.status === 200) navigate({ to: "/user" });
-        else setIsLoading(false);
-      });
+      base
+        .get<ResponseSchema>("/user/login", {
+          schema: responseSchema,
+        })
+        .then((res) => {
+          if (res.status === 200) {
+            window.localStorage.setItem("loginData", JSON.stringify(res.data));
+            navigate({ to: "/user" });
+          } else setIsLoading(false);
+        })
+        .catch((_: Error) => {
+          setIsLoading(false);
+        });
     } catch (error) {
       console.log(error);
+      setIsLoading(false);
     }
     return () => setIsLoading(false);
   }, []);
@@ -40,16 +50,13 @@ function RouteComponent() {
   const toast = useToast();
 
   const signup: SubmitHandler<LoginSchema> = async (data) => {
-    const response = await base.post("/user/login", data);
+    const response = await base.post<ResponseSchema>("/user/login", data, {
+      schema: responseSchema,
+    });
     if (response.status === 200) {
       reset();
+      window.localStorage.setItem("loginData", JSON.stringify(response.data));
       navigate({ to: "/user" });
-      toast.open(
-        "User logged in successfully",
-        true,
-        1000,
-        DefaultOptions.success,
-      );
     } else {
       toast.open("Failed to login", true, 5000, DefaultOptions.error);
     }

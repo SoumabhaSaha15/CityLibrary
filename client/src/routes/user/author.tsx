@@ -11,8 +11,8 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { AuthorQuerySchema, type AuthorQuery } from "@/validators/author";
 
 function RouteComponent() {
-  const searchFAB = useRipple();
-  const filterBtn = useRipple();
+  const searchFAB = useRipple({ color: "currentColor" });
+  const filterBtn = useRipple({ color: "currentColor" });
   const search = Route.useSearch();
   const { data } = useQuery(authorQueryoptions(search));
   const navigate = useNavigate({ from: Route.fullPath });
@@ -29,8 +29,8 @@ function RouteComponent() {
     <>
       <div className="page-height w-full flex flex-col">
         <div className="max-h-[calc(100dvh-104px)] overflow-y-auto overflow-x-clip grid place-items-center grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 auto-rows-[33vh] gap-2 p-2">
-          {data?.results.map((item, index) => (
-            <AuthorCard author={item} key={`author[${index}]`} />
+          {data?.results.map((item) => (
+            <AuthorCard author={item} key={`author[${item.author_id}]`} />
           ))}
         </div>
         <Pagination
@@ -66,7 +66,7 @@ function RouteComponent() {
           <div className="card w-full max-w-sm shrink-0 mx-auto border-base-300 p-2">
             <form
               className="card-body"
-              method="dialog"
+              // method="dialog"
               onSubmit={handleSubmit((data) => {
                 closeModal();
                 navigate({ search: (_) => data });

@@ -16,15 +16,13 @@ const UserAuthProvider: React.FC<{ children: React.ReactNode }> = ({
     onError: () => void = () => {},
   ) => {
     try {
-      const response = await base.get<ResponseSchema>("/user/login", {
-        schema: responseSchema,
-      });
-      if (response.status != 200)
-        throw new Error(
-          `error in fetching profile status message:${response.statusText}`,
-        );
-      setUserDetails(response.data);
+      setUserDetails(
+        responseSchema.parse(
+          JSON.parse(window.localStorage.getItem("loginData") || ""),
+        ),
+      );
       toast.open("Login Successful", true, 3000, DefaultOptions.success);
+      window.localStorage.removeItem("loginData");
       onSuccess();
     } catch (e) {
       toast.open("Login Failed", true, 3000, DefaultOptions.error);

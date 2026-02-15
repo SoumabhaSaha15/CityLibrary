@@ -14,8 +14,8 @@ function Book() {
     <>
       <div className="page-height w-full flex flex-col">
         <div className="max-h-[calc(100dvh-104px)] overflow-y-auto overflow-x-clip grid place-items-center grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 auto-rows-[33vh] gap-2 p-2">
-          {data?.results.map((item, index) => (
-            <BookCard book={item} key={`book[${index}]`} />
+          {data?.results.map((item) => (
+            <BookCard book={item} key={`book[${item.book_id}]`} />
           ))}
         </div>
         <Pagination

@@ -7,8 +7,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { useToast, DefaultOptions } from "@/Contexts/Toast/ToastContext";
 import { signupSchema, type SignupSchema } from "@/validators/user-auth";
-
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
+import { type ResponseSchema, responseSchema } from "@/validators/user-auth";
 export const Route = createFileRoute("/signup")({
   component: RouteComponent,
 });
@@ -35,12 +35,19 @@ function RouteComponent() {
 
   useEffect(() => {
     try {
-      base.get("/user/login").then((res) => {
-        if (res.status === 200) navigate({ to: "/user" });
-        else setIsLoading(false);
-      });
+      base
+        .get<ResponseSchema>("/user/login", {
+          schema: responseSchema,
+        })
+        .then((res) => {
+          if (res.status === 200) {
+            window.localStorage.setItem("loginData", JSON.stringify(res.data));
+            navigate({ to: "/user" });
+          } else setIsLoading(false);
+        });
     } catch (error) {
       console.log(error);
+      setIsLoading(false);
     }
     return () => setIsLoading(false);
   }, []);
@@ -55,6 +62,7 @@ function RouteComponent() {
 
   const signup: SubmitHandler<SignupSchema> = async (data) => {
     const response = await base.postForm("/user/signup", data);
+    console.log(response.data, data);
     if (response.status === 201) {
       reset();
       navigate({ to: "/user" });
