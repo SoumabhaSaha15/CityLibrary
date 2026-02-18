@@ -28,7 +28,7 @@ function RouteComponent() {
   return (
     <>
       <div className="page-height w-full flex flex-col">
-        <div className="max-h-[calc(100dvh-104px)] overflow-y-auto overflow-x-clip grid place-items-center grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 auto-rows-[33vh] gap-2 p-2">
+        <div className="min-h-[calc(100dvh-120px)] overflow-y-auto overflow-x-clip grid place-items-center grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 auto-rows-[33vh] gap-2 p-2">
           {data?.results.map((item) => (
             <AuthorCard author={item} key={`author[${item.author_id}]`} />
           ))}
@@ -63,7 +63,7 @@ function RouteComponent() {
 
       <dialog className="modal" ref={modalRef}>
         <div className="modal-box">
-          <div className="card w-full max-w-sm shrink-0 mx-auto border-base-300 p-2">
+          <div className="card w-full shrink-0 mx-auto border-base-300 p-2">
             <form
               className="card-body"
               // method="dialog"
@@ -147,7 +147,7 @@ function RouteComponent() {
               </div>
             </form>
           </div>
-          <div className="modal-action place-items-center"></div>
+          {/* <div className="modal-action place-items-center"></div> */}
         </div>
       </dialog>
     </>

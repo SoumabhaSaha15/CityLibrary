@@ -1,5 +1,5 @@
-import { useEffect, type FC } from "react";
 import { MdLogout } from "react-icons/md";
+import { useEffect, type FC } from "react";
 import { GoHomeFill } from "react-icons/go";
 import { GiQuillInk } from "react-icons/gi";
 import { LuSettings, LuBook } from "react-icons/lu";
@@ -96,53 +96,52 @@ const User: FC = () => {
           {/* Sidebar content here */}
           <ul className="menu w-full grow">
             {/* List item */}
-
             <li>
               <button
-                className="is-drawer-close:tooltip is-drawer-close:tooltip-right rounded-full"
+                className="is-drawer-close:btn is-drawer-close:btn-circle is-drawer-close:tooltip is-drawer-close:tooltip-right rounded-full is-drawer-close:justify-center is-drawer-close:aspect-square"
                 data-tip="Homepage"
                 onClick={() => {
                   navigate({ to: "/user" });
                 }}
               >
                 {/* Home icon */}
-                <GoHomeFill className="size-4" />
+                <GoHomeFill className="size-6 text-accent-content" />
                 <span className="is-drawer-close:hidden">Homepage</span>
               </button>
             </li>
 
             <li>
               <button
-                className="is-drawer-close:tooltip is-drawer-close:tooltip-right rounded-full"
+                className="is-drawer-close:btn is-drawer-close:btn-circle is-drawer-close:tooltip is-drawer-close:tooltip-right rounded-full is-drawer-close:justify-center is-drawer-close:aspect-square"
                 data-tip="Book"
                 onClick={() => {
                   navigate({ to: "/user/book" });
                 }}
               >
-                <LuBook className="size-4" />
+                <LuBook className="size-6 text-accent-content" />
                 <span className="is-drawer-close:hidden">Book</span>
               </button>
             </li>
 
             <li>
               <button
-                className="is-drawer-close:tooltip is-drawer-close:tooltip-right rounded-full"
+                className="is-drawer-close:btn is-drawer-close:btn-circle is-drawer-close:tooltip is-drawer-close:tooltip-right rounded-full is-drawer-close:justify-center is-drawer-close:aspect-square"
                 data-tip="Author"
                 onClick={() => {
                   navigate({ to: "/user/author" });
                 }}
               >
-                <GiQuillInk className="size-4" />
+                <GiQuillInk className="size-6 text-accent-content" />
                 <span className="is-drawer-close:hidden">Author</span>
               </button>
             </li>
 
             <li>
               <button
-                className="is-drawer-close:tooltip is-drawer-close:tooltip-right rounded-full"
+                className="is-drawer-close:btn is-drawer-close:btn-circle is-drawer-close:tooltip is-drawer-close:tooltip-right rounded-full is-drawer-close:justify-center is-drawer-close:aspect-square"
                 data-tip="Settings"
               >
-                <LuSettings className="size-4" />
+                <LuSettings className="size-6 text-accent-content" />
                 <span className="is-drawer-close:hidden">Settings</span>
               </button>
             </li>
@@ -153,11 +152,12 @@ const User: FC = () => {
               <label
                 htmlFor="my-drawer-4"
                 aria-label="open sidebar"
-                className="is-drawer-close:tooltip is-drawer-close:tooltip-right rounded-full"
+                className="is-drawer-close:btn is-drawer-close:btn-circle is-drawer-close:tooltip is-drawer-close:tooltip-right is-drawer-close:rounded-full is-drawer-close:justify-center  is-drawer-close:aspect-square"
                 data-tip="Expand"
               >
-                <TbLayoutSidebarRightExpand size={16} />
-                <span className="is-drawer-close:hidden">Expanden</span>
+                {/* Removed hardcoded size={16} to let Tailwind control it */}
+                <TbLayoutSidebarRightExpand className="size-6 text-accent-content" />
+                <span className="is-drawer-close:hidden">Expand</span>
               </label>
             </li>
           </ul>

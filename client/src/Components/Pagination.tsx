@@ -15,7 +15,7 @@ const Pagination = ({
   const pages = [...Array(totalPages)].map((_, i) => i + 1);
 
   return (
-    <div className="join p-1 justify-center">
+    <div className="join p-2 justify-center ">
       {/* Previous Button */}
       <button
         className="join-item btn rounded-l-full"
