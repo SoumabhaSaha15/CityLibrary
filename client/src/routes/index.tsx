@@ -204,8 +204,11 @@ const Home: FC = () => {
 
               {/* Quick Stats */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-2xl mx-auto lg:mx-0">
-                {stats.map((stat, index) => (
-                  <div key={index} className="text-center lg:text-left">
+                {stats.map((stat) => (
+                  <div
+                    key={crypto.randomUUID()}
+                    className="text-center lg:text-left"
+                  >
                     <div className="text-2xl sm:text-3xl font-bold text-primary">
                       {stat.number}
                     </div>
@@ -233,9 +236,9 @@ const Home: FC = () => {
             </div>
 
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {features.map((feature, index) => (
+              {features.map((feature) => (
                 <div
-                  key={index}
+                  key={crypto.randomUUID()}
                   className="card bg-base-100 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 rounded-3xl"
                 >
                   <div className="card-body items-center text-center">

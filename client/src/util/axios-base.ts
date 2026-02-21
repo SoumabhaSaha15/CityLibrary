@@ -90,7 +90,7 @@ base.interceptors.response.use(
             isValidationError: true,
           });
         }
-        throw error;
+        // throw error;
       }
     }
 

@@ -35,8 +35,11 @@ const BookCard = ({ book }: BookCardProps) => {
         </h2>
 
         <div className="flex flex-wrap gap-2 my-1">
-          {book.book_genre.slice(0, 3).map((genre, index) => (
-            <span key={index} className="badge badge-primary badge-sm">
+          {book.book_genre.slice(0, 3).map((genre) => (
+            <span
+              key={crypto.randomUUID()}
+              className="badge badge-primary badge-sm"
+            >
               {genre}
             </span>
           ))}

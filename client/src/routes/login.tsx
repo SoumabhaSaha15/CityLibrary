@@ -14,6 +14,7 @@ export const Route = createFileRoute("/login")({
 });
 
 function RouteComponent() {
+  const navigate = useNavigate();
   const [ripple, event] = useRipple({ timingFunction: "ease-in-out" });
   const [passwordType, setPasswordType] = useState<"text" | "password">(
     "password",
@@ -46,7 +47,6 @@ function RouteComponent() {
     reset,
     formState: { errors, isSubmitting },
   } = useForm<LoginSchema>({ resolver: zodResolver(loginSchema) });
-  const navigate = useNavigate();
   const toast = useToast();
 
   const signup: SubmitHandler<LoginSchema> = async (data) => {
@@ -157,17 +157,16 @@ function RouteComponent() {
                     disabled={isSubmitting}
                     onPointerDown={event}
                     className="btn btn-primary w-full hover:btn-secondary rounded-full"
-                    children={
-                      isSubmitting ? (
-                        <>
-                          <span className="loading loading-dots loading-md text-accent" />
-                          Submitting...
-                        </>
-                      ) : (
-                        <>Submit</>
-                      )
-                    }
-                  />
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <span className="loading loading-dots loading-md text-accent" />
+                        Submitting...
+                      </>
+                    ) : (
+                      <>Submit</>
+                    )}
+                  </button>
                 </form>
               </div>
             </div>

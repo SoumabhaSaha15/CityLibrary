@@ -104,7 +104,7 @@ function RouteComponent() {
                   <label htmlFor="profile">
                     <div className="avatar grid place-items-center">
                       <div className="w-32 rounded-full">
-                        <img src={displayImage} />
+                        <img src={displayImage} alt="profile-pic" />
                       </div>
                     </div>
                   </label>
@@ -217,17 +217,16 @@ function RouteComponent() {
                     disabled={isSubmitting}
                     onPointerDown={event}
                     className="btn btn-primary w-full hover:btn-secondary rounded-full"
-                    children={
-                      isSubmitting ? (
-                        <>
-                          <span className="loading loading-dots loading-md text-accent" />
-                          Submitting...
-                        </>
-                      ) : (
-                        <>Submit</>
-                      )
-                    }
-                  />
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <span className="loading loading-dots loading-md text-accent" />
+                        Submitting...
+                      </>
+                    ) : (
+                      <>Submit</>
+                    )}
+                  </button>
                 </form>
               </div>
             </div>
