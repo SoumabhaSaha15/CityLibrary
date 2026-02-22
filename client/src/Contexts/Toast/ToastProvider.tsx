@@ -58,13 +58,13 @@ export default function ToastProvider({ children }: { children: ReactNode }) {
       {children}
       <div className="toast toast-end toast-bottom">
         {toasts.map(({ id, component, options }) => (
-          <div
+          <button
             key={id}
             className={`alert ${options.toastVariant} rounded-full`}
             onClick={() => close(id)}
           >
             {component}
-          </div>
+          </button>
         ))}
       </div>
     </ToastContext.Provider>

@@ -4,7 +4,7 @@ import base from "@/util/axios-base";
 import useRipple from "use-ripple-hook";
 import { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm, type SubmitHandler } from "react-hook-form";
+import { useForm, type SubmitHandler, useWatch } from "react-hook-form";
 import { useToast, DefaultOptions } from "@/Contexts/Toast/ToastContext";
 import { signupSchema, type SignupSchema } from "@/validators/user-auth";
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
@@ -14,7 +14,7 @@ export const Route = createFileRoute("/signup")({
 });
 
 function RouteComponent() {
-  const [ripple, event] = useRipple({ timingFunction: "ease-in-out" });
+  const [ripple, event] = useRipple({ color: "currentColor" });
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const defaultImage = import.meta.env.VITE_DEFAULT_USER_IMAGE;
   const [passwordType, setPasswordType] = useState<"text" | "password">(
@@ -28,30 +28,33 @@ function RouteComponent() {
     handleSubmit,
     register,
     reset,
-    watch,
+    control,
+    // watch,
     formState: { errors, isSubmitting },
   } = useForm<SignupSchema>({ resolver: zodResolver(signupSchema) });
-  const watchedImage = watch("profile");
-
+  const watchedImage = useWatch({ name: "profile", control });
   useEffect(() => {
-    try {
-      base
-        .get<ResponseSchema>("/user/login", {
+    let cancelled = false;
+    const checkSession = async () => {
+      try {
+        const res = await base.get<ResponseSchema>("/user/login", {
           schema: responseSchema,
-        })
-        .then((res) => {
-          if (res.status === 200) {
-            window.localStorage.setItem("loginData", JSON.stringify(res.data));
-            navigate({ to: "/user" });
-          } else setIsLoading(false);
         });
-    } catch (error) {
-      console.log(error);
-      setIsLoading(false);
-    }
-    return () => setIsLoading(false);
-  }, []);
+        if (cancelled) return;
+        if (res.status === 200) {
+          window.localStorage.setItem("loginData", JSON.stringify(res.data));
+          navigate({ to: "/user" });
+        } else setIsLoading(false);
+      } catch {
+        if (!cancelled) setIsLoading(false);
+      }
+    };
 
+    checkSession();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
   useEffect(() => {
     if (watchedImage && watchedImage[0]) {
       const objectUrl = URL.createObjectURL(watchedImage[0]);
@@ -100,8 +103,9 @@ function RouteComponent() {
                 <form
                   className="fieldset space-y-4"
                   onSubmit={handleSubmit(signup)}
+                  aria-label=""
                 >
-                  <label htmlFor="profile">
+                  <label htmlFor="profile" aria-label="Upload profile picture">
                     <div className="avatar grid place-items-center">
                       <div className="w-32 rounded-full">
                         <img src={displayImage} alt="profile-pic" />
