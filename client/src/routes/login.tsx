@@ -21,26 +21,30 @@ function RouteComponent() {
   );
   const [isLoading, setIsLoading] = useState<boolean>(true);
   useEffect(() => {
-    try {
-      base
-        .get<ResponseSchema>("/user/login", {
+    let cancelled = false;
+
+    const checkSession = async () => {
+      try {
+        const res = await base.get<ResponseSchema>("/user/login", {
           schema: responseSchema,
-        })
-        .then((res) => {
-          if (res.status === 200) {
-            window.localStorage.setItem("loginData", JSON.stringify(res.data));
-            navigate({ to: "/user" });
-          } else setIsLoading(false);
-        })
-        .catch((_: Error) => {
-          setIsLoading(false);
         });
-    } catch (error) {
-      console.log(error);
-      setIsLoading(false);
-    }
-    return () => setIsLoading(false);
+        if (cancelled) return;
+        if (res.status === 200) {
+          window.localStorage.setItem("loginData", JSON.stringify(res.data));
+          navigate({ to: "/user" });
+        } else setIsLoading(false);
+      } catch {
+        if (!cancelled) setIsLoading(false);
+      }
+    };
+
+    checkSession();
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
+
   const {
     handleSubmit,
     register,

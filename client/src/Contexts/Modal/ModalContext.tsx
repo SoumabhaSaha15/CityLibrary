@@ -19,4 +19,4 @@ export const useModal = (): ModalContextType => {
   const context = use(ModalContext);
   return context;
 };
-export default ModalContext;
+// export default ModalContext;

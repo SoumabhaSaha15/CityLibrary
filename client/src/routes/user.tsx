@@ -60,10 +60,12 @@ const User: FC = () => {
                 className="menu menu-md dropdown-content bg-base-300 rounded-box z-1 mt-4 w-64 p-4 shadow"
               >
                 <li className="mb-2">
-                  <a>{user.userDetails?.username}</a>
+                  <span className="font-bold">
+                    {user.userDetails?.username}
+                  </span>
                 </li>
                 <li className="mb-2">
-                  <a>{user.userDetails?.email}</a>
+                  <span className="text-sm">{user.userDetails?.email}</span>
                 </li>
                 <li>
                   <button
@@ -167,5 +169,9 @@ const User: FC = () => {
   );
 };
 export const Route = createFileRoute("/user")({
-  component: () => <UserAuthProvider children={<User />} />,
+  component: () => (
+    <UserAuthProvider>
+      <User />
+    </UserAuthProvider>
+  ),
 });

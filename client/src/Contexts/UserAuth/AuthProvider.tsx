@@ -4,6 +4,24 @@ import { UserAuthContext } from "./AuthContext";
 import { useToast, DefaultOptions } from "../Toast/ToastContext";
 import { responseSchema, type ResponseSchema } from "@/validators/user-auth";
 
+async function performLogin(): Promise<ResponseSchema> {
+  const raw = window.localStorage.getItem("loginData") || "";
+  const data = responseSchema.parse(JSON.parse(raw));
+  window.localStorage.removeItem("loginData");
+  return data;
+}
+
+async function performLogout(
+  userDetails: ResponseSchema | null,
+): Promise<void> {
+  if (userDetails == null) throw new Error("No user logged in!!!");
+  const response = await base.get("/user/logout");
+  if (response.status !== 204)
+    throw new Error(
+      `Error in logging out status message: ${response.statusText}`,
+    );
+}
+
 const UserAuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
@@ -11,20 +29,16 @@ const UserAuthProvider: React.FC<{ children: React.ReactNode }> = ({
     null,
   );
   const toast = useToast();
+
   const login = async (
     onSuccess: () => void = () => {},
     onError: () => void = () => {},
   ) => {
     try {
-      setUserDetails(
-        responseSchema.parse(
-          JSON.parse(window.localStorage.getItem("loginData") || ""),
-        ),
-      );
+      setUserDetails(await performLogin());
       toast.open("Login Successful", true, 3000, DefaultOptions.success);
-      window.localStorage.removeItem("loginData");
       onSuccess();
-    } catch (e) {
+    } catch {
       toast.open("Login Failed", true, 3000, DefaultOptions.error);
       onError();
     }
@@ -35,12 +49,7 @@ const UserAuthProvider: React.FC<{ children: React.ReactNode }> = ({
     onError: () => void = () => {},
   ) => {
     try {
-      if (userDetails == null) throw new Error(`No user logged in!!!`);
-      const response = await base.get("/user/logout");
-      if (response.status != 204)
-        throw new Error(
-          `Error in logging out status message:${response.statusText}`,
-        );
+      await performLogout(userDetails);
       setUserDetails(null);
       onSuccess();
     } catch (err) {
@@ -55,4 +64,5 @@ const UserAuthProvider: React.FC<{ children: React.ReactNode }> = ({
     </UserAuthContext.Provider>
   );
 };
+
 export default UserAuthProvider;

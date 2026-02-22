@@ -11,8 +11,8 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { AuthorQuerySchema, type AuthorQuery } from "@/validators/author";
 
 function RouteComponent() {
-  const searchFAB = useRipple({ color: "currentColor" });
-  const filterBtn = useRipple({ color: "currentColor" });
+  const [searchFABRef, searchFABEvent] = useRipple({ color: "currentColor" });
+  const [filterBtnRef, filterBtnEvent] = useRipple({ color: "currentColor" });
   const search = Route.useSearch();
   const { data } = useQuery(authorQueryoptions(search));
   const navigate = useNavigate({ from: Route.fullPath });
@@ -53,8 +53,8 @@ function RouteComponent() {
       <div className="fab">
         <button
           className="btn btn-lg btn-circle btn-primary"
-          ref={searchFAB[0]}
-          onPointerDown={searchFAB[1]}
+          ref={searchFABRef}
+          onPointerDown={searchFABEvent}
           onClick={openModal}
         >
           <MdSearch className="size-8" />
@@ -138,8 +138,8 @@ function RouteComponent() {
               <div className="form-control mt-2 flex justify-center">
                 <button
                   type="submit"
-                  ref={filterBtn[0]}
-                  onPointerDown={filterBtn[1]}
+                  ref={filterBtnRef}
+                  onPointerDown={filterBtnEvent}
                   className="btn btn-primary rounded-full w-full"
                 >
                   filter author
