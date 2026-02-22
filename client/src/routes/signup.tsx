@@ -20,7 +20,7 @@ function RouteComponent() {
   const [passwordType, setPasswordType] = useState<"text" | "password">(
     "password",
   );
-  // const [displayImage, setDisplayImage] = useState<string>(defaultImage);
+  const [displayImage, setDisplayImage] = useState<string>(defaultImage);
   const navigate = useNavigate();
   const toast = useToast();
   const {
@@ -31,10 +31,6 @@ function RouteComponent() {
     formState: { errors, isSubmitting },
   } = useForm<SignupSchema>({ resolver: zodResolver(signupSchema) });
   const watchedImage = useWatch({ name: "profile", control });
-  const imageFile = watchedImage?.[0];
-  const displayImage = imageFile
-    ? URL.createObjectURL(imageFile)
-    : defaultImage;
 
   useEffect(() => {
     let cancelled = false;
@@ -58,13 +54,17 @@ function RouteComponent() {
       cancelled = true;
     };
   }, []);
-  useEffect(() => {
-    const file = watchedImage?.[0];
-    if (!file) return;
-    const objectUrl = URL.createObjectURL(file);
-    return () => URL.revokeObjectURL(objectUrl);
-  }, [watchedImage]);
 
+  useEffect(() => {
+    if (watchedImage?.[0]) {
+      const objectUrl = URL.createObjectURL(watchedImage[0]);
+      setDisplayImage(objectUrl);
+      return () => {
+        URL.revokeObjectURL(objectUrl);
+        setDisplayImage(defaultImage);
+      };
+    }
+  }, [watchedImage]);
   const signup: SubmitHandler<SignupSchema> = async (data) => {
     const response = await base.postForm("/user/signup", data);
     console.log(response.data, data);
