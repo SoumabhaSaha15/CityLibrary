@@ -65,6 +65,7 @@ function RouteComponent() {
       };
     }
   }, [watchedImage]);
+
   const signup: SubmitHandler<SignupSchema> = async (data) => {
     const response = await base.postForm("/user/signup", data);
     console.log(response.data, data);

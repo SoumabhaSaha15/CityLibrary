@@ -107,7 +107,7 @@ const User: FC = () => {
                 }}
               >
                 {/* Home icon */}
-                <GoHomeFill className="size-6 text-accent-content" />
+                <GoHomeFill className="size-6 text-accent" />
                 <span className="is-drawer-close:hidden">Homepage</span>
               </button>
             </li>
@@ -120,7 +120,7 @@ const User: FC = () => {
                   navigate({ to: "/user/book" });
                 }}
               >
-                <LuBook className="size-6 text-accent-content" />
+                <LuBook className="size-6 text-accent" />
                 <span className="is-drawer-close:hidden">Book</span>
               </button>
             </li>
@@ -133,7 +133,7 @@ const User: FC = () => {
                   navigate({ to: "/user/author" });
                 }}
               >
-                <GiQuillInk className="size-6 text-accent-content" />
+                <GiQuillInk className="size-6 text-accent" />
                 <span className="is-drawer-close:hidden">Author</span>
               </button>
             </li>
@@ -143,7 +143,7 @@ const User: FC = () => {
                 className="is-drawer-close:btn is-drawer-close:btn-circle is-drawer-close:tooltip is-drawer-close:tooltip-right rounded-full is-drawer-close:justify-center is-drawer-close:aspect-square"
                 data-tip="Settings"
               >
-                <LuSettings className="size-6 text-accent-content" />
+                <LuSettings className="size-6 text-accent" />
                 <span className="is-drawer-close:hidden">Settings</span>
               </button>
             </li>
@@ -158,7 +158,7 @@ const User: FC = () => {
                 data-tip="Expand"
               >
                 {/* Removed hardcoded size={16} to let Tailwind control it */}
-                <TbLayoutSidebarRightExpand className="size-6 text-accent-content" />
+                <TbLayoutSidebarRightExpand className="size-6 text-accent" />
                 <span className="is-drawer-close:hidden">Expand</span>
               </label>
             </li>

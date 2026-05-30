@@ -1,10 +1,4 @@
-import {
-  FaBook,
-  FaLanguage,
-  FaCalendar,
-  FaBarcode,
-  FaUser,
-} from "react-icons/fa";
+import { FaBook, FaLanguage, FaUser } from "react-icons/fa";
 import { type Book } from "@/validators/book";
 import { BiSolidBookmark } from "react-icons/bi";
 
@@ -19,7 +13,7 @@ const BookCard = ({ book }: BookCardProps) => {
         <img
           src={book.book_cover}
           alt={book.book_name}
-          className="w-full h-full object-contain bg-base-content"
+          className="w-full h-full object-cover bg-base-content"
         />
         <div className="absolute top-4 left-4">
           <button className="btn btn-circle btn-primary btn-sm shadow-lg">
@@ -50,9 +44,9 @@ const BookCard = ({ book }: BookCardProps) => {
           )}
         </div>
 
-        <p className="text-sm text-base-content/70 line-clamp-2 overflow-hidden">
+        {/* <p className="text-sm text-base-content/70 line-clamp-2 overflow-hidden">
           {book.book_description}
-        </p>
+        </p> */}
 
         <div className="space-y-1 mt-2 overflow-hidden">
           <div className="flex items-center gap-2 text-xs">
@@ -67,20 +61,6 @@ const BookCard = ({ book }: BookCardProps) => {
             <FaLanguage className="w-3 h-3 text-accent shrink-0" />
             <span className="font-semibold shrink-0">Language:</span>
             <span className="truncate">{book.book_language}</span>
-          </div>
-
-          <div className="flex items-center gap-2 text-xs">
-            <FaCalendar className="w-3 h-3 text-info shrink-0" />
-            <span className="font-semibold shrink-0">Published:</span>
-            <span className="truncate">
-              {new Date(book.published_on).toLocaleDateString("en-IN")}
-            </span>
-          </div>
-
-          <div className="flex items-center gap-2 text-xs">
-            <FaBarcode className="w-3 h-3 text-warning shrink-0" />
-            <span className="font-semibold shrink-0">ISBN:</span>
-            <span className="font-mono truncate">{book.book_isbn}</span>
           </div>
         </div>
 

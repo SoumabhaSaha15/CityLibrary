@@ -297,10 +297,18 @@ const Home: FC = () => {
           </div>
           <div className="w-full">
             <div className="flex flex-wrap justify-center gap-3 sm:gap-4 text-sm sm:text-base">
-              <a className="link link-hover">About</a>
-              <a className="link link-hover">Contact</a>
-              <a className="link link-hover">Privacy</a>
-              <a className="link link-hover">Terms</a>
+              <a className="link link-hover" href="#About">
+                About
+              </a>
+              <a className="link link-hover" href="#Contact">
+                Contact
+              </a>
+              <a className="link link-hover" href="#Privacy">
+                Privacy
+              </a>
+              <a className="link link-hover" href="#Terms">
+                Terms
+              </a>
             </div>
           </div>
           <div className="w-full">

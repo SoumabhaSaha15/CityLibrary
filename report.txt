@@ -1,0 +1,8 @@
+react-doctor v0.0.29
+
+[32m✔[39m Select projects to scan [2m›[22m client
+[?25l[2K[1G[36m?[39m [1mFound 5 uncommitted changed files. Only scan current changes?[22m [90m»[39m [90m(Y/n)[39m[2K[1G[2K[1G[31m×[39m [1mFound 5 uncommitted changed files. Only scan current changes?[22m [90m...[39m yes
+[?25h
+Cancelled.
+[2mRun `npx react-doctor@latest --fix` to fix issues.[22m
+
