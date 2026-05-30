@@ -13,6 +13,9 @@ class AuthorAdmin(ModelAdmin):
     list_filter = ('gender', 'nationality')
     readonly_fields = ('image_preview',)
 
+    list_per_page = 10
+    list_max_show_all = 40
+
     fieldsets = (
         ("Author Information", {
             "fields": ('author_name', 'author_description', 'image_preview', 'author_image'),

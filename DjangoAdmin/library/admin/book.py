@@ -18,6 +18,9 @@ class BookAdmin(ModelAdmin):
 
     readonly_fields = ('book_cover_preview',)
 
+    list_per_page = 10
+
+    list_max_show_all = 40
     # Organizes the edit page into clean sections
     fieldsets = (
         ("Book Details", {
