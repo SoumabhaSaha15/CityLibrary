@@ -7,3 +7,6 @@ from django.contrib.admin import register
 class GenreAdmin(ModelAdmin):
     search_fields = ('genre_name',)  # <-- Required for autocomplete
     list_display = ('genre_name', 'genre_description')
+
+    list_per_page = 10
+    list_max_show_all = 40

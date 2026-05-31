@@ -1,15 +1,17 @@
 """
 For more information on this file, see https://docs.djangoproject.com/en/5.2/topics/settings/
 For the full list of settings and their values, see https://docs.djangoproject.com/en/5.2/ref/settings/
-Password validation https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
+#auth-password-validators
+Password validation https://docs.djangoproject.com/en/5.2/ref/settings/
 Database https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 Static files (CSS, JavaScript, Images) https://docs.djangoproject.com/en/5.2/howto/static-files/
-Default primary key field type https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
+#default-auto-field
+Default primary key field type https://docs.djangoproject.com/en/5.2/ref/settings/
 Internationalization https://docs.djangoproject.com/en/5.2/topics/i18n/
 """
 
-import environ
 import os
+import environ
 import cloudinary
 from pathlib import Path
 
@@ -126,3 +128,45 @@ CORS_ALLOWED_ORIGINS = [
 ]
 CORS_ALLOW_CREDENTIALS = True
 # settings.py
+
+
+UNFOLD = {
+    "COLORS": {
+        "base": {
+            # Pure neutral gray (Chroma 0, Hue 0)
+            "50": "oklch(98.5% 0 0)",
+            "100": "oklch(96.7% 0 0)",
+            "200": "oklch(92.8% 0 0)",
+            "300": "oklch(87.2% 0 0)",
+            "400": "oklch(70.7% 0 0)",
+            "500": "oklch(55.1% 0 0)",
+            "600": "oklch(44.6% 0 0)",
+            "700": "oklch(37.3% 0 0)",
+            "800": "oklch(27.8% 0 0)",
+            "900": "oklch(21% 0 0)",
+            "950": "oklch(13% 0 0)",
+        },
+        "primary": {
+            # Pure neutral gray (Chroma 0, Hue 0)
+            "50": "oklch(97.7% 0 0)",
+            "100": "oklch(94.6% 0 0)",
+            "200": "oklch(90.2% 0 0)",
+            "300": "oklch(82.7% 0 0)",
+            "400": "oklch(71.4% 0 0)",
+            "500": "oklch(62.7% 0 0)",
+            "600": "oklch(55.8% 0 0)",
+            "700": "oklch(49.6% 0 0)",
+            "800": "oklch(43.8% 0 0)",
+            "900": "oklch(38.1% 0 0)",
+            "950": "oklch(29.1% 0 0)",
+        },
+        "font": {
+            "subtle-light": "var(--color-base-500)",
+            "subtle-dark": "var(--color-base-400)",
+            "default-light": "var(--color-base-600)",
+            "default-dark": "var(--color-base-300)",
+            "important-light": "var(--color-base-900)",
+            "important-dark": "var(--color-base-100)",
+        }
+    }
+}

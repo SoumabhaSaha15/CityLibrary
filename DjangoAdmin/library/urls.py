@@ -1,13 +1,7 @@
 from django.urls import path
-from .views import (
-    AuthorDetailView,
-    AuthorPaginator,
-    BookDetailView,
-    BookPaginator,
-    UserSignupView,
-    UserLoginView,
-    UserLogoutView
-)
+from .views import *
+
+
 urlpatterns = [
     path('authors', AuthorPaginator.as_view()),
     path('authors/<int:pk>', AuthorDetailView.as_view()),

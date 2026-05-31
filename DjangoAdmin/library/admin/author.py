@@ -37,8 +37,8 @@ class AuthorAdmin(ModelAdmin):
                 # FIX: Pass the .public_id string, not the whole object
                 image_url, _ = cloudinary.utils.cloudinary_url(
                     obj.author_image.public_id,
-                    width=150,
-                    height=150,
+                    width=100,
+                    height=100,
                     crop="fill",
                     secure=True
                 )
