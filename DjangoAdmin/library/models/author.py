@@ -3,6 +3,7 @@ from django.db import models
 from django.utils import timezone
 from cloudinary.models import CloudinaryField
 from django.core.exceptions import ValidationError
+from django.core.validators import FileExtensionValidator
 
 
 class Author(models.Model):
@@ -21,7 +22,9 @@ class Author(models.Model):
     # Reinstated original field names with snake_case convention
     author_id = models.AutoField(primary_key=True)
     author_image: CloudinaryField = CloudinaryField(
-        "author_image", folder="city-library/author"
+        "author_image",
+        folder="city-library/author",
+        validators=[FileExtensionValidator(['jpg', 'jpeg', 'png'])]
     )
     author_description = models.CharField(max_length=256)
     author_name = models.CharField(max_length=64)
@@ -38,19 +41,6 @@ class Author(models.Model):
     # Model-level validation. This is the correct place to check dynamic values like the current date.
     def clean(self):
         super().clean()
-        if self.author_image:
-            # The file name is available on the 'name' attribute
-            filename = self.author_image.name
-            # Get the file extension and convert to lowercase
-            ext = os.path.splitext(filename)[1].lower()
-            # List of allowed extensions
-            valid_extensions = [".jpg", ".jpeg", ".png"]
-            if not ext in valid_extensions:
-                raise ValidationError(
-                    {
-                        "author_image": f"Unsupported file type. Please upload a JPG or PNG image."
-                    }
-                )
         if self.born_on and self.born_on >= timezone.now().date():
             raise ValidationError(
                 {"born_on": "Birth date must be in the past."})

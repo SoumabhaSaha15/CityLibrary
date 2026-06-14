@@ -1,7 +1,20 @@
 # from django.templatetags.static import staticfiles
 
+# from DjangoAdmin.Admin.settings import static
+from django.templatetags.static import static
+
+
 UNFOLD = {
     "SITE_HEADER": "Admin Panel",
+    # "SITE_ICON": "local_library",
+    "SITE_FAVICONS": [
+        {
+            "rel": "icon",
+            "type": "image/svg+xml",    # Use "image/x-icon" if using a .ico file
+            # Path to your icon in your Django static folder
+            "href": lambda request: static("logo.svg"),
+        },
+    ],
     "COLORS": {
         "base": {
             # Pure neutral gray backgrounds and borders

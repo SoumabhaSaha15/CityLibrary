@@ -6,13 +6,17 @@ from django.db import models
 from django.utils import timezone
 from cloudinary.models import CloudinaryField
 from django.core.exceptions import ValidationError
+from django.core.validators import FileExtensionValidator
 
 
 class Book(models.Model):
     book_id = models.AutoField(primary_key=True)
     book_name = models.CharField(max_length=256)
     book_cover = CloudinaryField(
-        "book_cover", folder="city-library/books", null=True, blank=True)
+        "book_cover",
+        folder="city-library/books",
+        validators=[FileExtensionValidator(['jpg', 'jpeg', 'png'])]
+    )
     book_genre = models.ManyToManyField(Genre, related_name='books')
     book_description = models.TextField(blank=True)
     book_isbn = models.CharField(
@@ -60,15 +64,6 @@ class Book(models.Model):
 
             # Save the cleaned, hyphen-less version
             self.book_isbn = cleaned_isbn
-        if self.book_cover and hasattr(self.book_cover, 'name'):
-            filename = self.book_cover.name
-            ext = os.path.splitext(filename)[1].lower()
-            valid_extensions = [".jpg", ".jpeg", ".png"]
-            if ext not in valid_extensions:
-                raise ValidationError(
-                    {"book_cover": "Unsupported file type. Please upload a JPG or PNG image."}
-                )
-
         if self.published_on and self.published_on >= timezone.now().date():
             raise ValidationError(
                 {"published_on": "Publication date must be in the past."}

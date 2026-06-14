@@ -1,4 +1,4 @@
-import useRipple from "use-ripple-hook";
+import { useRipple } from "use-ripple-hook";
 import { useForm } from "react-hook-form";
 import { MdSearch } from "react-icons/md";
 import { useQuery } from "@tanstack/react-query";
