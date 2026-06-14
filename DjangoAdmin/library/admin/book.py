@@ -1,4 +1,6 @@
 import cloudinary
+from import_export.admin import ImportExportModelAdmin
+from unfold.contrib.import_export.forms import ImportForm, ExportForm
 from ..models import Book
 from unfold.admin import ModelAdmin
 from django.utils.html import format_html
@@ -6,7 +8,9 @@ from django.contrib.admin import register, display
 
 
 @register(Book)
-class BookAdmin(ModelAdmin):
+class BookAdmin(ModelAdmin, ImportExportModelAdmin):
+    import_form_class = ImportForm
+    export_form_class = ExportForm
     list_display = ('book_id', 'book_name', 'book_cover_preview',
                     'published_on', 'book_language', 'book_isbn')
     search_fields = ('book_name', 'book_isbn')

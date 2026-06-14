@@ -3,10 +3,14 @@ from ..models import Author
 from unfold.admin import ModelAdmin
 from django.utils.html import format_html
 from django.contrib.admin import register, display
+from import_export.admin import ImportExportModelAdmin
+from unfold.contrib.import_export.forms import ImportForm, ExportForm
 
 
 @register(Author)
-class AuthorAdmin(ModelAdmin):
+class AuthorAdmin(ModelAdmin, ImportExportModelAdmin):
+    import_form_class = ImportForm
+    export_form_class = ExportForm
     list_display = ('author_id', 'author_name',
                     'image_preview', 'nationality', 'born_on')
     search_fields = ('author_name', 'nationality')
