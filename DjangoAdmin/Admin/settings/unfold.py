@@ -12,7 +12,7 @@ UNFOLD = {
             "rel": "icon",
             "type": "image/svg+xml",    # Use "image/x-icon" if using a .ico file
             # Path to your icon in your Django static folder
-            "href": lambda request: static("logo.svg"),
+            "href": lambda request: static("admin.png"),
         },
     ],
     "COLORS": {

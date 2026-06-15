@@ -1,6 +1,8 @@
 allowBuilds:
   esbuild: true
   scrollreveal: true
+minimumReleaseAgeExclude:
+  - axios@1.18.0
 onlyBuiltDependencies:
   - esbuild
   - scrollreveal
