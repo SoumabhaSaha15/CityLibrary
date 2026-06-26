@@ -10,8 +10,10 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django_extensions",
+    "drf_redesign",
     "rest_framework",
     "django_filters",
     "library",
-    "import_export"
+    "import_export",
+    "drf_spectacular"
 ]  # Application definition

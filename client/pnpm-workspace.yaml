@@ -3,6 +3,9 @@ allowBuilds:
   scrollreveal: true
 minimumReleaseAgeExclude:
   - axios@1.18.0
+  - '@types/node@26.0.1'
+  - qs@6.15.3
+  - daisyui@5.6.2
 onlyBuiltDependencies:
   - esbuild
   - scrollreveal

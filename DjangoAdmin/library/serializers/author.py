@@ -13,9 +13,9 @@ class AuthorSerializer(serializers.ModelSerializer):
     def get_author_image(self, object: Author) -> str:
         image_url, options = cloudinary_url(
             object.author_image.public_id,
-            width=150,
-            height=150,
-            crop="fill",
+            # width=150,
+            # height=150,
+            # crop="fill",
             secure=True
         )
         return image_url

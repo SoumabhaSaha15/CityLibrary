@@ -1,9 +1,9 @@
 import { FaBook, FaLanguage, FaUser } from "react-icons/fa";
-import { type Book } from "@/validators/book";
+import { type PartialBook } from "@/validators/book";
 import { BiSolidBookmark } from "react-icons/bi";
 
 interface BookCardProps {
-  book: Book;
+  book: PartialBook;
 }
 
 const BookCard = ({ book }: BookCardProps) => {
@@ -43,10 +43,6 @@ const BookCard = ({ book }: BookCardProps) => {
             </span>
           )}
         </div>
-
-        {/* <p className="text-sm text-base-content/70 line-clamp-2 overflow-hidden">
-          {book.book_description}
-        </p> */}
 
         <div className="space-y-1 mt-2 overflow-hidden">
           <div className="flex items-center gap-2 text-xs">

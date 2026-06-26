@@ -60,12 +60,14 @@ const User: FC = () => {
                 className="menu menu-md dropdown-content bg-base-300 rounded-box z-1 mt-4 w-64 p-4 shadow"
               >
                 <li className="mb-2">
-                  <span className="font-bold">
+                  <span className="font-bold w-56 text-sm block overflow-hidden text-ellipsis whitespace-nowrap">
                     {user.userDetails?.username}
                   </span>
                 </li>
                 <li className="mb-2">
-                  <span className="text-sm">{user.userDetails?.email}</span>
+                  <span className="text-sm w-56 block overflow-hidden text-ellipsis whitespace-nowrap">
+                    {user.userDetails?.email}
+                  </span>
                 </li>
                 <li>
                   <button

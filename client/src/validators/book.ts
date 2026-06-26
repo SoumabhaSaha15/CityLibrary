@@ -14,7 +14,24 @@ export const BookSchema = z.strictObject({
   published_on: date,
 });
 export type Book = z.infer<typeof BookSchema>;
+
+export const PartialBookSchema = BookSchema.pick({
+  book_id: true,
+  book_cover: true,
+  book_name: true,
+  book_genre: true,
+  authors: true,
+  book_language: true,
+});
+export type PartialBook = z.infer<typeof PartialBookSchema>;
+
 export const BookPaginatedSchema = pageSchema.extend({
   results: z.array(BookSchema).max(10),
 });
+
+export const PartialBookPaginatedSchema = pageSchema.extend({
+  results: z.array(PartialBookSchema).max(10),
+});
+
 export type BookPaginated = z.infer<typeof BookPaginatedSchema>;
+export type PartialBookPaginated = z.infer<typeof PartialBookPaginatedSchema>;

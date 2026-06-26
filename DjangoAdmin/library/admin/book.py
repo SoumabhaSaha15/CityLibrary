@@ -45,11 +45,11 @@ class BookAdmin(ModelAdmin, ImportExportModelAdmin):
             try:
                 image_url, _ = cloudinary.utils.cloudinary_url(
                     obj.book_cover.public_id,
-                    width=100,  # A bit smaller for a book cover
+                    width=200,  # A bit smaller for a book cover
                     crop="fill",
                     secure=True
                 )
-                return format_html('<img src="{}" width="100" />', image_url)
+                return format_html('<img src="{}" width="200" />', image_url)
             except Exception as e:
                 return f"Error: {e}"
         return "(No Cover)"

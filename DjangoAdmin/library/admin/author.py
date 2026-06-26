@@ -41,12 +41,11 @@ class AuthorAdmin(ModelAdmin, ImportExportModelAdmin):
                 # FIX: Pass the .public_id string, not the whole object
                 image_url, _ = cloudinary.utils.cloudinary_url(
                     obj.author_image.public_id,
-                    width=100,
-                    height=100,
+                    width=200,
                     crop="fill",
                     secure=True
                 )
-                return format_html('<a href="{}" target="_blank"><img src="{}" width="150" /></a>', image_url, image_url)
+                return format_html('<a href="{}" target="_blank"><img src="{}" width="200" /></a>', image_url, image_url)
             except Exception as e:
                 return f"Error: {e}"
         return "(No Image)"
