@@ -1,71 +1,98 @@
+import { useState } from "react";
 import { FaBook, FaLanguage, FaUser } from "react-icons/fa";
-import { type PartialBook } from "@/validators/book";
 import { BiSolidBookmark } from "react-icons/bi";
+import { type PartialBook } from "@/validators/book";
 
 interface BookCardProps {
   book: PartialBook;
 }
 
+const VISIBLE_GENRES = 2;
+
 const BookCard = ({ book }: BookCardProps) => {
+  const [imageFailed, setImageFailed] = useState(false);
+
+  const visibleGenres = book.book_genre.slice(0, VISIBLE_GENRES);
+  const hiddenGenreCount = book.book_genre.length - visibleGenres.length;
+
+  const authorNames = book.authors.map((a) => a.author_name).join(", ");
+
   return (
-    <div className="card card-side bg-base-100 shadow-xl hover:shadow-2xl transition-all duration-300 flex-col sm:flex-row overflow-hidden max-w-full max-h-full min-h-full min-w-full">
-      <figure className="relative w-full sm:w-48 md:w-56 h-64 sm:h-auto shrink-0">
-        <img
-          src={book.book_cover}
-          alt={book.book_name}
-          className="w-full h-full object-cover bg-base-content"
-        />
-        <div className="absolute top-4 left-4">
-          <button className="btn btn-circle btn-primary btn-sm shadow-lg">
-            <BiSolidBookmark className="w-5 h-5" />
-          </button>
-        </div>
+    <div
+      className={`card h-full w-full shadow-sm hover:shadow-lg transition-shadow duration-300 ${
+        imageFailed ? "bg-base-200" : "image-full"
+      }`}
+    >
+      <figure>
+        {!imageFailed && (
+          <img
+            src={book.book_cover}
+            alt={book.book_name}
+            onError={() => setImageFailed(true)}
+            className="h-full w-full object-contain bg-base-200"
+          />
+        )}
       </figure>
 
-      <div className="card-body overflow-hidden">
-        <h2 className="card-title text-lg sm:text-xl">
-          <FaBook className="w-5 h-5 text-primary shrink-0" />
-          <span className="line-clamp-1">{book.book_name}</span>
-        </h2>
+      <button
+        type="button"
+        aria-label="Bookmark this book"
+        className="btn btn-circle btn-lg absolute top-3 right-3 z-10 border-none bg-base-100/90 text-primary shadow backdrop-blur-sm hover:bg-primary hover:text-primary-content"
+      >
+        <BiSolidBookmark className="h-6 w-6" />
+      </button>
 
-        <div className="flex flex-wrap gap-2 my-1">
-          {book.book_genre.slice(0, 3).map((genre) => (
+      <div className="card-body justify-end gap-1.5 overflow-hidden p-4">
+        <div className="flex flex-wrap gap-1">
+          {visibleGenres.map((genre) => (
             <span
-              key={crypto.randomUUID()}
-              className="badge badge-primary badge-sm"
+              key={genre}
+              className="badge badge-primary badge-md border-none px-1.5 py-2"
             >
               {genre}
             </span>
           ))}
-          {book.book_genre.length > 3 && (
-            <span className="badge badge-outline badge-sm">
-              +{book.book_genre.length - 3}
+          {hiddenGenreCount > 0 && (
+            <span className="badge badge-ghost badge-lg border-none bg-base-100/80 px-1.5 py-2">
+              +{hiddenGenreCount}
             </span>
           )}
         </div>
 
-        <div className="space-y-1 mt-2 overflow-hidden">
-          <div className="flex items-center gap-2 text-xs">
-            <FaUser className="w-3 h-3 text-secondary shrink-0" />
-            <span className="font-semibold shrink-0">Authors:</span>
-            <span className="truncate">
-              {book.authors.map((a) => a.author_name).join(", ")}
-            </span>
-          </div>
+        <h2
+          className="card-title text-lg leading-snug text-neutral-content line-clamp-2 sm:text-base font-black"
+          title={book.book_name}
+        >
+          {imageFailed && <FaBook className="h-3.5 w-3.5 shrink-0" />}
+          {book.book_name}
+        </h2>
 
-          <div className="flex items-center gap-2 text-xs">
-            <FaLanguage className="w-3 h-3 text-accent shrink-0" />
-            <span className="font-semibold shrink-0">Language:</span>
-            <span className="truncate">{book.book_language}</span>
-          </div>
+        <div className="flex min-w-0 items-center gap-1.5 text-lg text-neutral-content/80">
+          <FaUser className="h-6 w-6 shrink-0" />
+          <span className="truncate" title={authorNames}>
+            {authorNames}
+          </span>
         </div>
 
-        <div className="card-actions justify-end mt-2">
-          <button className="btn btn-primary btn-sm gap-2">
-            <FaBook className="w-4 h-4" />
+        <div className="flex min-w-0 items-center gap-1.5 text-lg text-neutral-content/80">
+          <FaLanguage className="h-8 w-8 shrink-0" />
+          <span className="truncate">{book.book_language}</span>
+        </div>
+
+        <div className="card-actions justify-end pt-1">
+          <button
+            type="button"
+            className="btn btn-primary rounded-full btn-md gap-1 sm:btn-sm"
+          >
+            <FaBook className="h-3 w-3" />
             Details
           </button>
-          <button className="btn btn-outline btn-sm">Borrow</button>
+          <button
+            type="button"
+            className="btn btn-outline rounded-full btn-md sm:btn-sm"
+          >
+            Borrow
+          </button>
         </div>
       </div>
     </div>

@@ -15,7 +15,7 @@ html[data-theme] {
 
 html,
 body {
-  font-family: "Tomorrow", sans-serif;
+  font-family: "IBM Plex Serif", serif;
   transition-property:
     color, background-color, border-color, box-shadow, opacity, scale, radius,
     rotate;

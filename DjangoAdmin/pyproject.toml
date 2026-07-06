@@ -5,7 +5,7 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.14"
 dependencies = [
-    "cloudinary>=1.44.2",
+    "cloudinary>=1.45.0",
     "dj-rest-auth>=7.2.0",
     "django>=6.0.6",
     "django-allauth>=65.18.0",
@@ -14,14 +14,14 @@ dependencies = [
     "django-extensions>=4.1",
     "django-filter>=25.2",
     "django-import-export>=4.4.1",
-    "django-unfold>=0.99.0",
+    "django-unfold>=0.100.0",
     "djangorestframework>=3.17.1",
     "djangorestframework-simplejwt>=5.5.1",
     "drf-redesign>=0.6.0",
-    "drf-spectacular>=0.29.0",
+    "drf-spectacular>=0.30.0",
     "markdown>=3.10.2",
-    "pillow>=12.2.0",
-    "uvicorn>=0.49.0",
+    "pillow>=12.3.0",
+    "uvicorn>=0.50.2",
     "whitenoise>=6.12.0",
 ]
 [tool.autopep8]
