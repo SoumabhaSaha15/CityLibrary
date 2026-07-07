@@ -37,9 +37,6 @@ const AuthorCard = ({ author }: AuthorCardProps) => {
 
       <div className="card-body justify-end gap-1.5 overflow-hidden p-4">
         <div className="flex flex-wrap gap-1">
-          <span className="badge badge-primary badge-md border-none px-1.5 py-2">
-            Author
-          </span>
           <span className="badge badge-secondary badge-md border-none px-1.5 py-2">
             {author.nationality}
           </span>

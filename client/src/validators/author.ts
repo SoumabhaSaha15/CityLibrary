@@ -1,6 +1,7 @@
 import z from "zod";
 import { date } from "./date";
 import { pageSchema, pageQuerySchema } from "./page";
+import { cleanEmptyString } from "./clean-empty-strings";
 
 export const AuthorSchema = z.strictObject({
   author_id: z.number().int().positive(),
@@ -27,8 +28,17 @@ export type PartialAuthor = z.infer<typeof PartialAuthorSchema>;
 export const AuthorQuerySchema = pageQuerySchema.extend({
   author_name: z.string().optional(),
   nationality: z.string().optional(),
-  gender: z.enum(["m", "f", "t", "unknown"]).optional(),
+  gender: z.enum(["m", "f", "t", "unknown", ""]).optional(),
 });
+cleanEmptyString;
+export const filter = cleanEmptyString(AuthorQuerySchema);
+// .transform((v) => {
+//   const object: any = {};
+//   Object.entries(v).forEach((i) => {
+//     if (i[1] !== "") object[i[0]] = i[1];
+//   });
+//   return object;
+// });
 export type AuthorQuery = z.infer<typeof AuthorQuerySchema>;
 // export const AuthorQueryBuilder = z
 //   .string()

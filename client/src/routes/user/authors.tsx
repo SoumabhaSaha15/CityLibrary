@@ -7,8 +7,12 @@ import AuthorCard from "@/Components/AuthorCard";
 import authorQueryoptions from "@/hooks/fetchAuthors";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useModal } from "@/Contexts/Modal/ModalContext";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { AuthorQuerySchema, type AuthorQuery } from "@/validators/author";
+import { createFileRoute, useNavigate, redirect } from "@tanstack/react-router";
+import {
+  AuthorQuerySchema,
+  filter,
+  type AuthorQuery,
+} from "@/validators/author";
 
 function RouteComponent() {
   const [searchFABRef, searchFABEvent] = useRipple({ color: "currentColor" });
@@ -24,7 +28,9 @@ function RouteComponent() {
   } = useForm<Omit<AuthorQuery, "page">>({
     resolver: zodResolver(AuthorQuerySchema.omit({ page: true })),
   });
+
   const genders = AuthorQuerySchema.shape.gender.unwrap().options;
+
   return (
     <>
       <div className="page-height w-full flex flex-col">
@@ -36,17 +42,9 @@ function RouteComponent() {
         <Pagination
           currentPage={data?.current_page || 0}
           totalPages={data?.page_count || 0}
-          onPageChange={(newPage) => {
-            if (newPage !== 1)
-              navigate({ search: (prev) => ({ ...prev, page: newPage }) });
-            else
-              navigate({
-                search: (prev) => {
-                  const { page, ...page_removed } = prev;
-                  return page_removed;
-                },
-              });
-          }}
+          onPageChange={(newPage) =>
+            navigate({ search: (prev) => ({ ...prev, page: newPage }) })
+          }
         />
       </div>
 
@@ -69,7 +67,9 @@ function RouteComponent() {
               // method="dialog"
               onSubmit={handleSubmit((data) => {
                 closeModal();
-                navigate({ search: (_) => data });
+                navigate({
+                  search: () => ({ ...filter.parse(data), page: 1 }),
+                });
               })}
             >
               <div className="form-control mb-3">
@@ -129,8 +129,8 @@ function RouteComponent() {
                     Select Gender
                   </option>
                   {genders.map((item) => (
-                    <option value={item} key={item}>
-                      {item}
+                    <option value={item} key={crypto.randomUUID()}>
+                      {item == "" ? "unselect" : item}
                     </option>
                   ))}
                 </select>
@@ -153,9 +153,21 @@ function RouteComponent() {
     </>
   );
 }
-export const Route = createFileRoute("/user/author")({
+export const Route = createFileRoute("/user/authors")({
   component: RouteComponent,
+  beforeLoad: ({ search }) => {
+    console.log(search);
+    if (!search.page) {
+      throw redirect({
+        to: "/user/authors",
+        search: { page: 1 },
+        replace: true, // Replaces history so hitting 'back' works properly
+      });
+    }
+  },
   loader: ({ params, context: { queryClient } }) =>
-    queryClient.ensureQueryData(authorQueryoptions(params)),
+    queryClient.ensureQueryData(
+      authorQueryoptions({ ...params, page: (params as any).page || 1 }),
+    ),
   validateSearch: AuthorQuerySchema,
 });

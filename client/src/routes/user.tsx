@@ -119,7 +119,7 @@ const User: FC = () => {
                 className="is-drawer-close:btn is-drawer-close:btn-circle is-drawer-close:tooltip is-drawer-close:tooltip-right rounded-full is-drawer-close:justify-center is-drawer-close:aspect-square"
                 data-tip="Book"
                 onClick={() => {
-                  navigate({ to: "/user/book" });
+                  navigate({ to: "/user/books", params: { page: 1 } });
                 }}
               >
                 <LuBook className="size-6 text-accent" />
@@ -132,7 +132,7 @@ const User: FC = () => {
                 className="is-drawer-close:btn is-drawer-close:btn-circle is-drawer-close:tooltip is-drawer-close:tooltip-right rounded-full is-drawer-close:justify-center is-drawer-close:aspect-square"
                 data-tip="Author"
                 onClick={() => {
-                  navigate({ to: "/user/author" });
+                  navigate({ to: "/user/authors", params: { page: 1 } });
                 }}
               >
                 <GiQuillInk className="size-6 text-accent" />

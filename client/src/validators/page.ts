@@ -8,6 +8,6 @@ export const pageSchema = z.strictObject({
 });
 
 export const pageQuerySchema = z.strictObject({
-  page: z.coerce.number().optional(),
+  page: z.int().default(1),
 });
 export type PageQuery = z.infer<typeof pageQuerySchema>;

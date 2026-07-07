@@ -13,8 +13,8 @@ import { Route as UserRouteImport } from './routes/user'
 import { Route as SignupRouteImport } from './routes/signup'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as UserBookRouteImport } from './routes/user/book'
-import { Route as UserAuthorRouteImport } from './routes/user/author'
+import { Route as UserBooksRouteImport } from './routes/user/books'
+import { Route as UserAuthorsRouteImport } from './routes/user/authors'
 
 const UserRoute = UserRouteImport.update({
   id: '/user',
@@ -36,14 +36,14 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const UserBookRoute = UserBookRouteImport.update({
-  id: '/book',
-  path: '/book',
+const UserBooksRoute = UserBooksRouteImport.update({
+  id: '/books',
+  path: '/books',
   getParentRoute: () => UserRoute,
 } as any)
-const UserAuthorRoute = UserAuthorRouteImport.update({
-  id: '/author',
-  path: '/author',
+const UserAuthorsRoute = UserAuthorsRouteImport.update({
+  id: '/authors',
+  path: '/authors',
   getParentRoute: () => UserRoute,
 } as any)
 
@@ -52,16 +52,16 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
   '/user': typeof UserRouteWithChildren
-  '/user/author': typeof UserAuthorRoute
-  '/user/book': typeof UserBookRoute
+  '/user/authors': typeof UserAuthorsRoute
+  '/user/books': typeof UserBooksRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
   '/user': typeof UserRouteWithChildren
-  '/user/author': typeof UserAuthorRoute
-  '/user/book': typeof UserBookRoute
+  '/user/authors': typeof UserAuthorsRoute
+  '/user/books': typeof UserBooksRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -69,23 +69,23 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
   '/user': typeof UserRouteWithChildren
-  '/user/author': typeof UserAuthorRoute
-  '/user/book': typeof UserBookRoute
+  '/user/authors': typeof UserAuthorsRoute
+  '/user/books': typeof UserBooksRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/login' | '/signup' | '/user' | '/user/author' | '/user/book'
+    '/' | '/login' | '/signup' | '/user' | '/user/authors' | '/user/books'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/signup' | '/user' | '/user/author' | '/user/book'
+  to: '/' | '/login' | '/signup' | '/user' | '/user/authors' | '/user/books'
   id:
     | '__root__'
     | '/'
     | '/login'
     | '/signup'
     | '/user'
-    | '/user/author'
-    | '/user/book'
+    | '/user/authors'
+    | '/user/books'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -125,31 +125,31 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/user/book': {
-      id: '/user/book'
-      path: '/book'
-      fullPath: '/user/book'
-      preLoaderRoute: typeof UserBookRouteImport
+    '/user/books': {
+      id: '/user/books'
+      path: '/books'
+      fullPath: '/user/books'
+      preLoaderRoute: typeof UserBooksRouteImport
       parentRoute: typeof UserRoute
     }
-    '/user/author': {
-      id: '/user/author'
-      path: '/author'
-      fullPath: '/user/author'
-      preLoaderRoute: typeof UserAuthorRouteImport
+    '/user/authors': {
+      id: '/user/authors'
+      path: '/authors'
+      fullPath: '/user/authors'
+      preLoaderRoute: typeof UserAuthorsRouteImport
       parentRoute: typeof UserRoute
     }
   }
 }
 
 interface UserRouteChildren {
-  UserAuthorRoute: typeof UserAuthorRoute
-  UserBookRoute: typeof UserBookRoute
+  UserAuthorsRoute: typeof UserAuthorsRoute
+  UserBooksRoute: typeof UserBooksRoute
 }
 
 const UserRouteChildren: UserRouteChildren = {
-  UserAuthorRoute: UserAuthorRoute,
-  UserBookRoute: UserBookRoute,
+  UserAuthorsRoute: UserAuthorsRoute,
+  UserBooksRoute: UserBooksRoute,
 }
 
 const UserRouteWithChildren = UserRoute._addFileChildren(UserRouteChildren)
