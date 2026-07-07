@@ -29,7 +29,7 @@ const BookCard = ({ book }: BookCardProps) => {
             src={book.book_cover}
             alt={book.book_name}
             onError={() => setImageFailed(true)}
-            className="h-full w-full object-contain bg-base-200"
+            className="h-full w-full object-cover bg-base-200"
           />
         )}
       </figure>
@@ -68,14 +68,14 @@ const BookCard = ({ book }: BookCardProps) => {
         </h2>
 
         <div className="flex min-w-0 items-center gap-1.5 text-lg text-neutral-content/80">
-          <FaUser className="h-6 w-6 shrink-0" />
+          <FaUser className="h-4 w-4 shrink-0" />
           <span className="truncate" title={authorNames}>
             {authorNames}
           </span>
         </div>
 
         <div className="flex min-w-0 items-center gap-1.5 text-lg text-neutral-content/80">
-          <FaLanguage className="h-8 w-8 shrink-0" />
+          <FaLanguage className="h-4 w-4 shrink-0" />
           <span className="truncate">{book.book_language}</span>
         </div>
 

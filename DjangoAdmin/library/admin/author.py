@@ -45,7 +45,9 @@ class AuthorAdmin(ModelAdmin, ImportExportModelAdmin):
                     crop="fill",
                     secure=True
                 )
-                return format_html('<a href="{}" target="_blank"><img src="{}" width="200" /></a>', image_url, image_url)
+                return format_html(
+                    '<img src="{}" class="h-40 w-40 object-cover rounded-2xl border" />',
+                    image_url)
             except Exception as e:
                 return f"Error: {e}"
         return "(No Image)"

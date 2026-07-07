@@ -28,7 +28,7 @@ function RouteComponent() {
   return (
     <>
       <div className="page-height w-full flex flex-col">
-        <div className="min-h-[calc(100dvh-120px)] overflow-y-auto overflow-x-clip grid place-items-center grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 auto-rows-[33vh] gap-2 p-2">
+        <div className="min-h-[calc(100dvh-120px)] overflow-y-auto overflow-x-clip grid place-items-center grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 auto-rows-[60vh] sm:auto-rows-[50vh] gap-2 p-2">
           {data?.results.map((item) => (
             <AuthorCard author={item} key={`author[${item.author_id}]`} />
           ))}

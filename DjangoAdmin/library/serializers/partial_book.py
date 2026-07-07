@@ -1,7 +1,7 @@
 from ..models import Book
-from .minimal_author import MinimalAuthorSerializer
-from cloudinary.utils import cloudinary_url
 from rest_framework import serializers
+from cloudinary.utils import cloudinary_url
+from .minimal_author import MinimalAuthorSerializer
 
 
 class PartialBookSerializer(serializers.ModelSerializer):

@@ -7,6 +7,17 @@ minimumReleaseAgeExclude:
   - qs@6.15.3
   - daisyui@5.6.2 || 5.6.14
   - react-hook-form@7.81.0
+  - '@typescript-eslint/eslint-plugin@8.63.0'
+  - '@typescript-eslint/parser@8.63.0'
+  - '@typescript-eslint/project-service@8.63.0'
+  - '@typescript-eslint/scope-manager@8.63.0'
+  - '@typescript-eslint/tsconfig-utils@8.63.0'
+  - '@typescript-eslint/type-utils@8.63.0'
+  - '@typescript-eslint/types@8.63.0'
+  - '@typescript-eslint/typescript-estree@8.63.0'
+  - '@typescript-eslint/utils@8.63.0'
+  - '@typescript-eslint/visitor-keys@8.63.0'
+  - typescript-eslint@8.63.0
 onlyBuiltDependencies:
   - esbuild
   - scrollreveal

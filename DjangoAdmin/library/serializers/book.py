@@ -1,4 +1,4 @@
-from ..models import Author, Book
+from ..models import Book
 from rest_framework import serializers
 from cloudinary.utils import cloudinary_url
 from .minimal_author import MinimalAuthorSerializer

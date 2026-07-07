@@ -1,7 +1,7 @@
-from django.contrib.auth.models import User
-from cloudinary.utils import cloudinary_url
-from rest_framework import serializers
 from django.conf import settings
+from rest_framework import serializers
+from cloudinary.utils import cloudinary_url
+from django.contrib.auth.models import User
 
 
 class UserSerializer(serializers.ModelSerializer):

@@ -49,7 +49,7 @@ class BookAdmin(ModelAdmin, ImportExportModelAdmin):
                     crop="fill",
                     secure=True
                 )
-                return format_html('<img src="{}" width="200" />', image_url)
+                return format_html('<img src="{}" class="w-40 h-40 object-cover rounded border border-base-300" />', image_url)
             except Exception as e:
                 return f"Error: {e}"
         return "(No Cover)"

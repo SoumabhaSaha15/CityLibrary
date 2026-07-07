@@ -1,101 +1,76 @@
-import {
-  FaUser,
-  FaGlobe,
-  FaCalendar,
-  FaVenusMars,
-  FaBook,
-  FaMars,
-  FaVenus,
-  FaTransgender,
-} from "react-icons/fa";
-import { type Author } from "@/validators/author";
+import { useState } from "react";
 import { BiSolidUserDetail } from "react-icons/bi";
+import { type PartialAuthor } from "@/validators/author";
+import { FaUser, FaGlobe, FaBook } from "react-icons/fa";
 
 interface AuthorCardProps {
-  author: Author;
+  author: PartialAuthor;
 }
-const AuthorCard = ({ author }: AuthorCardProps) => {
-  const getGenderLabel = (gender: string) => {
-    const labels = {
-      m: "Male",
-      f: "Female",
-      t: "Transgender",
-      unknown: "Not Specified",
-    };
-    return labels[gender as keyof typeof labels] || "Not Specified";
-  };
 
-  const getGenderIcon = (gender: string) => {
-    const icons = {
-      m: <FaMars className="w-3 h-3 text-blue-500 shrink-0" />,
-      f: <FaVenus className="w-3 h-3 text-pink-500 shrink-0" />,
-      t: <FaTransgender className="w-3 h-3 text-purple-500 shrink-0" />,
-      unknown: <FaVenusMars className="w-3 h-3 text-gray-500 shrink-0" />,
-    };
-    return icons[gender as keyof typeof icons] || icons.unknown;
-  };
+const AuthorCard = ({ author }: AuthorCardProps) => {
+  const [imageFailed, setImageFailed] = useState(false);
 
   return (
-    <div className="card card-side bg-base-100 shadow-xl hover:shadow-2xl transition-all duration-300 flex-row overflow-hidden max-w-full max-h-full min-h-full min-w-full">
-      <figure className="relative w-30 sm:w-48 md:w-56 h-64 sm:h-auto shrink-0">
-        <img
-          src={author.author_image}
-          alt={author.author_name}
-          className="w-full h-full object-cover"
-        />
-        <div className="absolute top-4 left-4">
-          <button className="btn btn-circle btn-primary btn-sm shadow-lg">
-            <BiSolidUserDetail className="w-5 h-5" />
-          </button>
-        </div>
+    <div
+      className={`card h-full w-full shadow-sm hover:shadow-lg transition-shadow duration-300 ${
+        imageFailed ? "bg-base-200" : "image-full"
+      }`}
+    >
+      <figure>
+        {!imageFailed && (
+          <img
+            src={author.author_image}
+            alt={author.author_name}
+            onError={() => setImageFailed(true)}
+            className="h-full w-full object-cover bg-base-200"
+          />
+        )}
       </figure>
 
-      <div className="card-body overflow-hidden">
-        <h2 className="card-title text-lg sm:text-xl">
-          <FaUser className="w-5 h-5 text-primary shrink-0" />
-          <span className="line-clamp-1">{author.author_name}</span>
-        </h2>
+      <button
+        type="button"
+        aria-label="View author details"
+        className="btn btn-circle btn-lg absolute top-3 right-3 z-10 border-none bg-base-100/90 text-primary shadow backdrop-blur-sm hover:bg-primary hover:text-primary-content"
+      >
+        <BiSolidUserDetail className="h-6 w-6" />
+      </button>
 
-        <div className="flex flex-wrap gap-2 my-1">
-          <span className="badge badge-primary badge-sm">Author</span>
-          <span className="badge badge-secondary badge-sm">
+      <div className="card-body justify-end gap-1.5 overflow-hidden p-4">
+        <div className="flex flex-wrap gap-1">
+          <span className="badge badge-primary badge-md border-none px-1.5 py-2">
+            Author
+          </span>
+          <span className="badge badge-secondary badge-md border-none px-1.5 py-2">
             {author.nationality}
           </span>
         </div>
 
-        <p className="text-sm text-base-content/70 line-clamp-3 overflow-hidden">
-          {author.author_description}
-        </p>
+        <h2
+          className="card-title text-lg leading-snug text-neutral-content line-clamp-2 sm:text-base font-black"
+          title={author.author_name}
+        >
+          {imageFailed && <FaUser className="h-3.5 w-3.5 shrink-0" />}
+          {author.author_name}
+        </h2>
 
-        <div className="space-y-1 mt-2 overflow-hidden">
-          <div className="flex items-center gap-2 text-xs">
-            <FaCalendar className="w-3 h-3 text-info shrink-0" />
-            <span className="font-semibold shrink-0">Born:</span>
-            <span className="truncate">
-              {new Date(author.born_on).toLocaleDateString("en-IN")}
-            </span>
-          </div>
-
-          <div className="flex items-center gap-2 text-xs">
-            <FaGlobe className="w-3 h-3 text-success shrink-0" />
-            <span className="font-semibold shrink-0">Nationality:</span>
-            <span className="truncate">{author.nationality}</span>
-          </div>
-
-          <div className="flex items-center gap-2 text-xs">
-            {getGenderIcon(author.gender)}
-            <span className="font-semibold shrink-0">Gender:</span>
-            <span className="truncate">{getGenderLabel(author.gender)}</span>
-          </div>
+        <div className="flex min-w-0 items-center gap-1.5 text-lg text-neutral-content/80">
+          <FaGlobe className="h-4 w-4 shrink-0" />
+          <span className="truncate">{author.nationality}</span>
         </div>
 
-        <div className="card-actions justify-end mt-2">
-          <button className="btn btn-primary btn-sm gap-2">
-            <FaUser className="w-4 h-4" />
+        <div className="card-actions justify-end pt-1">
+          <button
+            type="button"
+            className="btn btn-primary rounded-full btn-md gap-1"
+          >
+            <FaUser className="h-4 w-4" />
             View Profile
           </button>
-          <button className="btn btn-outline btn-sm gap-2">
-            <FaBook className="w-4 h-4" />
+          <button
+            type="button"
+            className="btn btn-outline rounded-full btn-md gap-1"
+          >
+            <FaBook className="h-4 w-4" />
             Books
           </button>
         </div>
