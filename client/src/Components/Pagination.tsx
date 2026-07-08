@@ -1,3 +1,5 @@
+import { MdArrowBack } from "react-icons/md";
+import { MdArrowForward } from "react-icons/md";
 type PaginationProp = {
   currentPage: number;
   totalPages: number;
@@ -15,21 +17,21 @@ const Pagination = ({
   const pages = [...Array(totalPages)].map((_, i) => i + 1);
 
   return (
-    <div className="join p-2 justify-center">
+    <div className="join p-2 justify-center gap-0.5">
       {/* Previous Button */}
       <button
-        className="join-item btn rounded-l-full"
+        className="join-item btn rounded-l-lg rounded-r-sm"
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
       >
-        «
+        <MdArrowBack className="size-4" />
       </button>
 
       {/* Page Numbers */}
       {pages.map((page) => (
         <button
           key={page}
-          className={`join-item btn ${
+          className={`join-item btn rounded-sm ${
             currentPage === page ? "btn-active btn-primary" : ""
           }`}
           onClick={() => onPageChange(page)}
@@ -40,11 +42,11 @@ const Pagination = ({
 
       {/* Next Button */}
       <button
-        className="join-item btn rounded-r-full"
+        className="join-item btn rounded-r-lg rounded-l-sm"
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
       >
-        »
+        <MdArrowForward className="size-4" />
       </button>
     </div>
   );

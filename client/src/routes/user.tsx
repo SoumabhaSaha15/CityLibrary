@@ -1,10 +1,14 @@
+import { GoSun } from "react-icons/go";
+import { GoMoon } from "react-icons/go";
 import { ImQuill } from "react-icons/im";
-import { MdLogout } from "react-icons/md";
 import { useEffect, type FC } from "react";
+import { useRipple } from "use-ripple-hook";
 import { GoHomeFill } from "react-icons/go";
 import { GiHamburgerMenu } from "react-icons/gi";
+import { RiLogoutBoxLine } from "react-icons/ri";
 import { LuSettings, LuBook } from "react-icons/lu";
 import { createFileRoute } from "@tanstack/react-router";
+import { useTheme } from "@/Contexts/Theme/ThemeContext";
 import { TbLayoutSidebarRightExpand } from "react-icons/tb";
 import { Outlet, useNavigate } from "@tanstack/react-router";
 import { useUserAuth } from "@/Contexts/UserAuth/AuthContext";
@@ -12,7 +16,16 @@ import UserAuthProvider from "@/Contexts/UserAuth/AuthProvider";
 
 const User: FC = () => {
   const user = useUserAuth();
+  const [homeRipple, homeEvent] = useRipple({ color: "currentColor" });
+  const [openRipple, openEvent] = useRipple({ color: "currentColor" });
+  const [bookRipple, bookEvent] = useRipple({ color: "currentColor" });
+  const [closeRipple, closeEvent] = useRipple({ color: "currentColor" });
+  const [themeRipple, themeEvent] = useRipple({ color: "currentColor" });
+  const [authorRipple, authorEvent] = useRipple({ color: "currentColor" });
+  const [settingsRipple, settingsEvent] = useRipple({ color: "currentColor" });
+
   const navigate = useNavigate();
+  const { theme, applyTheme } = useTheme();
   useEffect(() => {
     if (user.userDetails === null) {
       user.login(
@@ -31,11 +44,13 @@ const User: FC = () => {
             <label
               htmlFor="my-drawer-4"
               aria-label="open sidebar"
-              className="p-2 btn btn-square btn-ghost bg-base-100 rounded-full hover:bg-base-200 lg:hidden"
+              onPointerDown={openEvent}
+              ref={openRipple}
+              className="p-2 hover:bg-primary btn btn-square btn-ghost bg-base-100 rounded-lg lg:hidden"
             >
               <GiHamburgerMenu className="size-6" />
             </label>
-            <div className="p-3">CityLibrary</div>
+            <div className="p-2 font-black text-lg">CityLibrary</div>
           </div>
           <div className="flex gap-2">
             <div className="dropdown dropdown-bottom dropdown-left">
@@ -64,21 +79,6 @@ const User: FC = () => {
                     {user.userDetails?.email}
                   </span>
                 </li>
-                <li>
-                  <button
-                    className="bg-error"
-                    onClick={() => {
-                      if (user.userDetails !== null) {
-                        user.logout(() => {
-                          navigate({ to: "/login" });
-                        });
-                      }
-                    }}
-                  >
-                    <MdLogout className="size-4" />
-                    Logout
-                  </button>
-                </li>
               </ul>
             </div>
           </div>
@@ -93,15 +93,17 @@ const User: FC = () => {
         />
         <div className="flex min-h-full flex-col items-start bg-base-200 is-drawer-close:w-14 is-drawer-open:w-64">
           {/* Sidebar content here */}
-          <ul className="menu w-full grow">
+          <ul className="menu w-full grow gap-0.5">
             {/* List item */}
             <li>
               <button
-                className="p-2 is-drawer-close:tooltip is-drawer-close:tooltip-right is-drawer-open:h-10 max-h-10 rounded-full is-drawer-close:justify-center is-drawer-close:aspect-square"
+                className="bg-base-300 hover:bg-primary p-2 is-drawer-close:tooltip is-drawer-close:tooltip-right is-drawer-open:h-10 max-h-10 rounded-b-sm rounded-t-lg is-drawer-close:justify-center is-drawer-close:aspect-square"
                 data-tip="Homepage"
                 onClick={() => {
                   navigate({ to: "/user" });
                 }}
+                ref={homeRipple}
+                onPointerDown={homeEvent}
               >
                 {/* Home icon */}
                 <GoHomeFill className="size-6 text-accent" />
@@ -111,8 +113,10 @@ const User: FC = () => {
 
             <li>
               <button
-                className="p-2 is-drawer-close:tooltip is-drawer-close:tooltip-right is-drawer-open:h-10 max-h-10 rounded-full is-drawer-close:justify-center is-drawer-close:aspect-square"
+                className="bg-base-300 hover:bg-primary p-2 is-drawer-close:tooltip is-drawer-close:tooltip-right is-drawer-open:h-10 max-h-10 rounded-sm is-drawer-close:justify-center is-drawer-close:aspect-square"
                 data-tip="Book"
+                ref={bookRipple}
+                onPointerDown={bookEvent}
                 onClick={() => {
                   navigate({ to: "/user/books", params: { page: 1 } });
                 }}
@@ -124,8 +128,10 @@ const User: FC = () => {
 
             <li>
               <button
-                className="p-2 is-drawer-close:tooltip is-drawer-close:tooltip-right is-drawer-open:h-10 max-h-10 rounded-full is-drawer-close:justify-center is-drawer-close:aspect-square"
+                className="bg-base-300 hover:bg-primary p-2 is-drawer-close:tooltip is-drawer-close:tooltip-right is-drawer-open:h-10 max-h-10 rounded-sm is-drawer-close:justify-center is-drawer-close:aspect-square"
                 data-tip="Author"
+                ref={authorRipple}
+                onPointerDown={authorEvent}
                 onClick={() => {
                   navigate({ to: "/user/authors", params: { page: 1 } });
                 }}
@@ -137,8 +143,10 @@ const User: FC = () => {
 
             <li>
               <button
-                className="p-2 is-drawer-close:tooltip is-drawer-close:tooltip-right is-drawer-open:h-10 max-h-10 rounded-full is-drawer-close:justify-center is-drawer-close:aspect-square"
+                className="bg-base-300 hover:bg-primary p-2 is-drawer-close:tooltip is-drawer-close:tooltip-right is-drawer-open:h-10 max-h-10 rounded-t-sm rounded-b-lg is-drawer-close:justify-center is-drawer-close:aspect-square"
                 data-tip="Settings"
+                onPointerDown={settingsEvent}
+                ref={settingsRipple}
               >
                 <LuSettings className="size-6 text-accent" />
                 <span className="is-drawer-close:hidden">Settings</span>
@@ -146,16 +154,54 @@ const User: FC = () => {
             </li>
           </ul>
 
-          <ul className="drawer-end menu w-full grow flex-col-reverse">
+          <ul className="drawer-end menu w-full grow flex-col-reverse gap-0.5">
+            <li>
+              <label
+                aria-label="logout buttton"
+                className="bg-error p-2 is-drawer-close:tooltip is-drawer-close:tooltip-right is-drawer-open:h-10 max-h-10 rounded-t-sm rounded-b-lg is-drawer-close:justify-center is-drawer-close:aspect-square"
+                data-tip="Logout"
+                onClick={() => {
+                  if (user.userDetails !== null) {
+                    user.logout(() => {
+                      navigate({ to: "/login" });
+                    });
+                  }
+                }}
+              >
+                <RiLogoutBoxLine className="size-6" />
+                <span className="is-drawer-close:hidden">Logout</span>
+              </label>
+            </li>
+
             <li>
               <label
                 htmlFor="my-drawer-4"
                 aria-label="open sidebar"
-                className="p-2 is-drawer-close:tooltip is-drawer-close:tooltip-right is-drawer-open:h-10 max-h-10 rounded-full is-drawer-close:justify-center is-drawer-close:aspect-square"
+                className="bg-base-300 hover:bg-primary p-2 is-drawer-close:tooltip is-drawer-close:tooltip-right is-drawer-open:h-10 max-h-10 rounded-sm is-drawer-close:justify-center is-drawer-close:aspect-square"
                 data-tip="Toggle Drawer"
+                onPointerDown={closeEvent}
+                ref={closeRipple}
               >
                 <TbLayoutSidebarRightExpand className="size-6 text-accent" />
                 <span className="is-drawer-close:hidden">Close</span>
+              </label>
+            </li>
+
+            <li>
+              <label
+                aria-label="change theme"
+                className="bg-base-300 hover:bg-primary p-2 is-drawer-close:tooltip is-drawer-close:tooltip-right is-drawer-open:h-10 max-h-10 rounded-b-sm rounded-t-lg is-drawer-close:justify-center is-drawer-close:aspect-square"
+                data-tip="Toggle Theme"
+                onClick={() => applyTheme(theme === "dark" ? "light" : "dark")}
+                onPointerDown={themeEvent}
+                ref={themeRipple}
+              >
+                {theme == "light" ? (
+                  <GoSun className="size-6 text-accent" />
+                ) : (
+                  <GoMoon className="size-6 text-accent" />
+                )}
+                <span className="is-drawer-close:hidden">{theme}</span>
               </label>
             </li>
           </ul>

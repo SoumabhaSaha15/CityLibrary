@@ -12,7 +12,7 @@ pnpm-lock.yaml
 dist
 dist-ssr
 *.local
-
+**/.tanstack/
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

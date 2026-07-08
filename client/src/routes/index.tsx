@@ -1,9 +1,6 @@
 import ScrollReveal from "scrollreveal";
 import { BiBook } from "react-icons/bi";
-import { FaXmark } from "react-icons/fa6";
 import { type FC, useState, useEffect } from "react";
-import Modal, { ModalTrigger } from "@/Components/Modal";
-import ModalProvider from "@/Contexts/Modal/ModalProvider";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import {
   FaSearch,
@@ -269,12 +266,13 @@ const Home: FC = () => {
                   entire collection
                 </p>
                 <div className="card-actions">
-                  <ModalTrigger>
-                    <button className="btn btn-lg bg-base-100 text-primary hover:bg-base-200 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
-                      <FaUserPlus className="w-5 h-5" />
-                      Create Free Account
-                    </button>
-                  </ModalTrigger>
+                  <button
+                    className="btn btn-lg bg-base-100 text-primary hover:bg-base-200 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
+                    onClick={() => navigate({ to: "/signup" })}
+                  >
+                    <FaUserPlus className="w-5 h-5" />
+                    Create Free Account
+                  </button>
                 </div>
               </div>
             </div>
@@ -318,28 +316,12 @@ const Home: FC = () => {
           </div>
         </footer>
       </div>
-      <Modal>
-        <div className="modal-box">
-          <form method="dialog">
-            {/* if there is a button in form, it will close the modal */}
-            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
-              <FaXmark className="w-5 h-5" />
-            </button>
-          </form>
-          <h3 className="font-bold text-lg">Hello!</h3>
-          <p className="py-4">Press ESC key or click on ✕ button to close</p>
-        </div>
-      </Modal>
     </>
   );
 };
 
 const ModalWrapper = () => {
-  return (
-    <ModalProvider>
-      <Home />
-    </ModalProvider>
-  );
+  return <Home />;
 };
 export const Route = createFileRoute("/")({
   component: ModalWrapper,
