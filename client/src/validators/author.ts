@@ -32,28 +32,5 @@ export const AuthorQuerySchema = pageQuerySchema.extend({
 });
 cleanEmptyString;
 export const filter = cleanEmptyString(AuthorQuerySchema);
-// .transform((v) => {
-//   const object: any = {};
-//   Object.entries(v).forEach((i) => {
-//     if (i[1] !== "") object[i[0]] = i[1];
-//   });
-//   return object;
-// });
+
 export type AuthorQuery = z.infer<typeof AuthorQuerySchema>;
-// export const AuthorQueryBuilder = z
-//   .string()
-//   .transform<AuthorQuery>((str: string) => {
-//     const query: AuthorQuery = {};
-//     const arr = str.split("&");
-//     if (arr.length === 1 && !arr[0].includes("="))
-//       return { author_name: arr[0] };
-//     for (const kv of arr) {
-//       const [key, value] = kv.split("=");
-//       if (key === "page") query.page = Number(value);
-//       if (key === "author_name") query.author_name = String(value);
-//       if (key === "nationality") query.nationality = String(value);
-//       if (key === "gender")
-//         query.gender = String(value) as AuthorQuery["gender"];
-//     }
-//     return AuthorQuerySchema.parse(query);
-//   });

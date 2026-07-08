@@ -7,7 +7,7 @@ import {
   type AuthorQuery,
 } from "@/validators/author";
 
-const authorQuery = async (query: AuthorQuery = { page: 1 }) => {
+const authorQuery = async (query: AuthorQuery) => {
   const response: AxiosResponse<AuthorPaginated> =
     await base.get<AuthorPaginated>("/authors", {
       params: query,

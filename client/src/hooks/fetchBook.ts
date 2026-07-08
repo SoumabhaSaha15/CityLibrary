@@ -6,7 +6,7 @@ import {
   PartialBookPaginatedSchema,
 } from "@/validators/book";
 
-const bookQuery = async (query: Record<string, any> = { page: 1 }) => {
+const bookQuery = async (query: Record<string, any>) => {
   const response: AxiosResponse<PartialBookPaginated> =
     await base.get<PartialBookPaginated>("/books", {
       params: query,

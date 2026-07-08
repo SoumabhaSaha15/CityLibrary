@@ -1,16 +1,15 @@
+import { ImQuill } from "react-icons/im";
 import { MdLogout } from "react-icons/md";
 import { useEffect, type FC } from "react";
 import { GoHomeFill } from "react-icons/go";
-import { GiQuillInk } from "react-icons/gi";
+import { GiHamburgerMenu } from "react-icons/gi";
 import { LuSettings, LuBook } from "react-icons/lu";
 import { createFileRoute } from "@tanstack/react-router";
+import { TbLayoutSidebarRightExpand } from "react-icons/tb";
 import { Outlet, useNavigate } from "@tanstack/react-router";
 import { useUserAuth } from "@/Contexts/UserAuth/AuthContext";
 import UserAuthProvider from "@/Contexts/UserAuth/AuthProvider";
-import {
-  TbLayoutSidebarLeftExpand,
-  TbLayoutSidebarRightExpand,
-} from "react-icons/tb";
+
 const User: FC = () => {
   const user = useUserAuth();
   const navigate = useNavigate();
@@ -32,19 +31,15 @@ const User: FC = () => {
             <label
               htmlFor="my-drawer-4"
               aria-label="open sidebar"
-              className="btn btn-square btn-ghost bg-base-100 hover:bg-base-200 lg:hidden rounded-full"
+              className="p-2 btn btn-square btn-ghost bg-base-100 rounded-full hover:bg-base-200 lg:hidden"
             >
-              <TbLayoutSidebarLeftExpand className="size-5" />
+              <GiHamburgerMenu className="size-6" />
             </label>
             <div className="p-3">CityLibrary</div>
           </div>
           <div className="flex gap-2">
             <div className="dropdown dropdown-bottom dropdown-left">
-              <div
-                tabIndex={0}
-                role="button"
-                className="btn btn-ghost btn-circle avatar"
-              >
+              <div tabIndex={0} role="button" className="avatar aspect-square">
                 <div className="w-10 rounded-full">
                   <img
                     alt="Tailwind CSS Navbar component"
@@ -57,7 +52,7 @@ const User: FC = () => {
               </div>
               <ul
                 tabIndex={-1}
-                className="menu menu-md dropdown-content bg-base-300 rounded-box z-1 mt-4 w-64 p-4 shadow"
+                className="menu menu-md dropdown-content bg-base-300 rounded-box z-2 mt-4 w-64 p-4 shadow"
               >
                 <li className="mb-2">
                   <span className="font-bold w-56 text-sm block overflow-hidden text-ellipsis whitespace-nowrap">
@@ -80,7 +75,7 @@ const User: FC = () => {
                       }
                     }}
                   >
-                    <MdLogout className="size-5" />
+                    <MdLogout className="size-4" />
                     Logout
                   </button>
                 </li>
@@ -102,7 +97,7 @@ const User: FC = () => {
             {/* List item */}
             <li>
               <button
-                className="is-drawer-close:btn is-drawer-close:btn-circle is-drawer-close:tooltip is-drawer-close:tooltip-right rounded-full is-drawer-close:justify-center is-drawer-close:aspect-square"
+                className="p-2 is-drawer-close:tooltip is-drawer-close:tooltip-right is-drawer-open:h-10 max-h-10 rounded-full is-drawer-close:justify-center is-drawer-close:aspect-square"
                 data-tip="Homepage"
                 onClick={() => {
                   navigate({ to: "/user" });
@@ -116,7 +111,7 @@ const User: FC = () => {
 
             <li>
               <button
-                className="is-drawer-close:btn is-drawer-close:btn-circle is-drawer-close:tooltip is-drawer-close:tooltip-right rounded-full is-drawer-close:justify-center is-drawer-close:aspect-square"
+                className="p-2 is-drawer-close:tooltip is-drawer-close:tooltip-right is-drawer-open:h-10 max-h-10 rounded-full is-drawer-close:justify-center is-drawer-close:aspect-square"
                 data-tip="Book"
                 onClick={() => {
                   navigate({ to: "/user/books", params: { page: 1 } });
@@ -129,20 +124,20 @@ const User: FC = () => {
 
             <li>
               <button
-                className="is-drawer-close:btn is-drawer-close:btn-circle is-drawer-close:tooltip is-drawer-close:tooltip-right rounded-full is-drawer-close:justify-center is-drawer-close:aspect-square"
+                className="p-2 is-drawer-close:tooltip is-drawer-close:tooltip-right is-drawer-open:h-10 max-h-10 rounded-full is-drawer-close:justify-center is-drawer-close:aspect-square"
                 data-tip="Author"
                 onClick={() => {
                   navigate({ to: "/user/authors", params: { page: 1 } });
                 }}
               >
-                <GiQuillInk className="size-6 text-accent" />
+                <ImQuill className="size-6 text-accent" />
                 <span className="is-drawer-close:hidden">Author</span>
               </button>
             </li>
 
             <li>
               <button
-                className="is-drawer-close:btn is-drawer-close:btn-circle is-drawer-close:tooltip is-drawer-close:tooltip-right rounded-full is-drawer-close:justify-center is-drawer-close:aspect-square"
+                className="p-2 is-drawer-close:tooltip is-drawer-close:tooltip-right is-drawer-open:h-10 max-h-10 rounded-full is-drawer-close:justify-center is-drawer-close:aspect-square"
                 data-tip="Settings"
               >
                 <LuSettings className="size-6 text-accent" />
@@ -156,12 +151,11 @@ const User: FC = () => {
               <label
                 htmlFor="my-drawer-4"
                 aria-label="open sidebar"
-                className="is-drawer-close:btn is-drawer-close:btn-circle is-drawer-close:tooltip is-drawer-close:tooltip-right is-drawer-close:rounded-full is-drawer-close:justify-center  is-drawer-close:aspect-square"
-                data-tip="Expand"
+                className="p-2 is-drawer-close:tooltip is-drawer-close:tooltip-right is-drawer-open:h-10 max-h-10 rounded-full is-drawer-close:justify-center is-drawer-close:aspect-square"
+                data-tip="Toggle Drawer"
               >
-                {/* Removed hardcoded size={16} to let Tailwind control it */}
                 <TbLayoutSidebarRightExpand className="size-6 text-accent" />
-                <span className="is-drawer-close:hidden">Expand</span>
+                <span className="is-drawer-close:hidden">Close</span>
               </label>
             </li>
           </ul>

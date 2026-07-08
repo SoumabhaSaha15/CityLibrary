@@ -1,10 +1,9 @@
 import z from "zod";
-export const cleanEmptyString = (schema: z.ZodObject<any>) => {
+
+export const cleanEmptyString = <T extends z.ZodObject<any>>(schema: T) => {
   return schema.transform((v) => {
-    const object: any = {};
-    Object.entries(v).forEach((i) => {
-      if (i[1] !== "") object[i[0]] = i[1];
-    });
-    return object;
+    return Object.fromEntries(
+      Object.entries(v).filter(([_, value]) => value !== ""),
+    ) as z.infer<T>; // Casts the return object back to your strict type
   });
 };

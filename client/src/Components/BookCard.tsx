@@ -1,8 +1,9 @@
+import { cn } from "@/util/cn";
 import { useState } from "react";
-import { FaBook, FaLanguage, FaUser } from "react-icons/fa";
+import { ImQuill } from "react-icons/im";
 import { BiSolidBookmark } from "react-icons/bi";
+import { IoLanguageSharp } from "react-icons/io5";
 import { type PartialBook } from "@/validators/book";
-
 interface BookCardProps {
   book: PartialBook;
 }
@@ -19,9 +20,10 @@ const BookCard = ({ book }: BookCardProps) => {
 
   return (
     <div
-      className={`card h-full w-full shadow-sm hover:shadow-lg transition-shadow duration-300 ${
-        imageFailed ? "bg-base-200" : "image-full"
-      }`}
+      className={cn(
+        "card h-full w-full shadow-sm hover:shadow-lg transition-shadow duration-300",
+        imageFailed ? "bg-base-200" : "image-full",
+      )}
     >
       <figure>
         {!imageFailed && (
@@ -37,17 +39,24 @@ const BookCard = ({ book }: BookCardProps) => {
       <button
         type="button"
         aria-label="Bookmark this book"
-        className="btn btn-circle btn-lg absolute top-3 right-3 z-10 border-none bg-base-100/90 text-primary shadow backdrop-blur-sm hover:bg-primary hover:text-primary-content"
+        className="btn btn-circle btn-md absolute top-3 right-3 z-1 border-none bg-base-100/90 text-primary shadow backdrop-blur-sm hover:bg-primary hover:text-primary-content"
       >
-        <BiSolidBookmark className="h-6 w-6" />
+        <BiSolidBookmark className="h-4 w-4" />
       </button>
 
       <div className="card-body justify-end gap-1.5 overflow-hidden p-4">
+        <h1
+          className="card-title text-xl leading-snug text-neutral-content line-clamp-2 font-black"
+          title={book.book_name}
+        >
+          {book.book_name}
+        </h1>
+
         <div className="flex flex-wrap gap-1">
           {visibleGenres.map((genre) => (
             <span
               key={genre}
-              className="badge badge-primary badge-md border-none px-1.5 py-2"
+              className="badge badge-secondary badge-sm border-none px-1.5 py-2 text-secondary-content font-black"
             >
               {genre}
             </span>
@@ -59,38 +68,26 @@ const BookCard = ({ book }: BookCardProps) => {
           )}
         </div>
 
-        <h2
-          className="card-title text-lg leading-snug text-neutral-content line-clamp-2 sm:text-base font-black"
-          title={book.book_name}
-        >
-          {imageFailed && <FaBook className="h-3.5 w-3.5 shrink-0" />}
-          {book.book_name}
-        </h2>
-
         <div className="flex min-w-0 items-center gap-1.5 text-lg text-neutral-content/80">
-          <FaUser className="h-4 w-4 shrink-0" />
+          <ImQuill className="h-4 w-4 shrink-0" />
           <span className="truncate" title={authorNames}>
             {authorNames}
           </span>
         </div>
 
         <div className="flex min-w-0 items-center gap-1.5 text-lg text-neutral-content/80">
-          <FaLanguage className="h-4 w-4 shrink-0" />
+          <IoLanguageSharp className="h-4 w-4 shrink-0" />
           <span className="truncate">{book.book_language}</span>
         </div>
 
         <div className="card-actions justify-end pt-1">
           <button
             type="button"
-            className="btn btn-primary rounded-full btn-md gap-1 sm:btn-sm"
+            className="btn btn-primary rounded-full btn-md gap-1"
           >
-            <FaBook className="h-3 w-3" />
             Details
           </button>
-          <button
-            type="button"
-            className="btn btn-outline rounded-full btn-md sm:btn-sm"
-          >
+          <button type="button" className="btn btn-accent rounded-full btn-md">
             Borrow
           </button>
         </div>

@@ -4,7 +4,6 @@ import Pagination from "@/Components/Pagination";
 import { useQuery } from "@tanstack/react-query";
 import booksQueryOptions from "@/hooks/fetchBook";
 import { createFileRoute, useNavigate, redirect } from "@tanstack/react-router";
-import { AuthorQuerySchema } from "@/validators/author";
 
 function Book() {
   const search = Route.useSearch();
@@ -22,21 +21,8 @@ function Book() {
         <Pagination
           currentPage={data?.current_page || 0}
           totalPages={data?.page_count || 0}
-          onPageChange={
-            (newPage) =>
-              navigate({ search: (prev) => ({ ...prev, page: newPage }) })
-            //   {
-            //   if (newPage !== 1)
-            //     navigate({ search: (prev) => ({ ...prev, page: newPage }) });
-            //   else
-            //     navigate({
-            //       search: (prev) => {
-            //         //@ts-ignore
-            //         const { page, ...page_removed } = prev;
-            //         return page_removed;
-            //       },
-            //     });
-            // }
+          onPageChange={(newPage) =>
+            navigate({ search: (prev) => ({ ...prev, page: newPage }) })
           }
         />
       </div>
@@ -62,5 +48,4 @@ export const Route = createFileRoute("/user/books")({
   },
   loader: ({ params, context: { queryClient } }) =>
     queryClient.ensureQueryData(booksQueryOptions(params)),
-  // validateSearch: AuthorQuerySchema,
 });
