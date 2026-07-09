@@ -13,6 +13,7 @@ import { Route as UserRouteImport } from './routes/user'
 import { Route as SignupRouteImport } from './routes/signup'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as UserIndexRouteImport } from './routes/user/index'
 import { Route as UserBooksRouteImport } from './routes/user/books'
 import { Route as UserAuthorsRouteImport } from './routes/user/authors'
 
@@ -36,6 +37,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const UserIndexRoute = UserIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => UserRoute,
+} as any)
 const UserBooksRoute = UserBooksRouteImport.update({
   id: '/books',
   path: '/books',
@@ -54,14 +60,15 @@ export interface FileRoutesByFullPath {
   '/user': typeof UserRouteWithChildren
   '/user/authors': typeof UserAuthorsRoute
   '/user/books': typeof UserBooksRoute
+  '/user/': typeof UserIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
-  '/user': typeof UserRouteWithChildren
   '/user/authors': typeof UserAuthorsRoute
   '/user/books': typeof UserBooksRoute
+  '/user': typeof UserIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -71,13 +78,20 @@ export interface FileRoutesById {
   '/user': typeof UserRouteWithChildren
   '/user/authors': typeof UserAuthorsRoute
   '/user/books': typeof UserBooksRoute
+  '/user/': typeof UserIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/login' | '/signup' | '/user' | '/user/authors' | '/user/books'
+    | '/'
+    | '/login'
+    | '/signup'
+    | '/user'
+    | '/user/authors'
+    | '/user/books'
+    | '/user/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/signup' | '/user' | '/user/authors' | '/user/books'
+  to: '/' | '/login' | '/signup' | '/user/authors' | '/user/books' | '/user'
   id:
     | '__root__'
     | '/'
@@ -86,6 +100,7 @@ export interface FileRouteTypes {
     | '/user'
     | '/user/authors'
     | '/user/books'
+    | '/user/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -125,6 +140,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/user/': {
+      id: '/user/'
+      path: '/'
+      fullPath: '/user/'
+      preLoaderRoute: typeof UserIndexRouteImport
+      parentRoute: typeof UserRoute
+    }
     '/user/books': {
       id: '/user/books'
       path: '/books'
@@ -145,11 +167,13 @@ declare module '@tanstack/react-router' {
 interface UserRouteChildren {
   UserAuthorsRoute: typeof UserAuthorsRoute
   UserBooksRoute: typeof UserBooksRoute
+  UserIndexRoute: typeof UserIndexRoute
 }
 
 const UserRouteChildren: UserRouteChildren = {
   UserAuthorsRoute: UserAuthorsRoute,
   UserBooksRoute: UserBooksRoute,
+  UserIndexRoute: UserIndexRoute,
 }
 
 const UserRouteWithChildren = UserRoute._addFileChildren(UserRouteChildren)

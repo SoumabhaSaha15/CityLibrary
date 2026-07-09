@@ -1,18 +1,17 @@
-import { GoSun } from "react-icons/go";
-import { GoMoon } from "react-icons/go";
 import { ImQuill } from "react-icons/im";
+import { IoLogOut } from "react-icons/io5";
 import { useEffect, type FC } from "react";
 import { useRipple } from "use-ripple-hook";
 import { GoHomeFill } from "react-icons/go";
+import { BiSolidBookAlt } from "react-icons/bi";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { RiLogoutBoxLine } from "react-icons/ri";
-import { LuSettings, LuBook } from "react-icons/lu";
 import { createFileRoute } from "@tanstack/react-router";
 import { useTheme } from "@/Contexts/Theme/ThemeContext";
-import { TbLayoutSidebarRightExpand } from "react-icons/tb";
 import { Outlet, useNavigate } from "@tanstack/react-router";
 import { useUserAuth } from "@/Contexts/UserAuth/AuthContext";
 import UserAuthProvider from "@/Contexts/UserAuth/AuthProvider";
+import { TbLayoutSidebarRightExpandFilled } from "react-icons/tb";
+import { IoMdSunny, IoMdMoon, IoMdSettings } from "react-icons/io";
 
 const User: FC = () => {
   const user = useUserAuth();
@@ -36,13 +35,13 @@ const User: FC = () => {
   }, []);
   return (
     <div className="drawer lg:drawer-open">
-      <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
+      <input id="side-rails" type="checkbox" className="drawer-toggle" />
       <div className="drawer-content">
         {/* Navbar */}
         <nav className="navbar w-full bg-base-300">
           <div className="flex flex-1 justify-baseline items-center flex-row">
             <label
-              htmlFor="my-drawer-4"
+              htmlFor="side-rails"
               aria-label="open sidebar"
               onPointerDown={openEvent}
               ref={openRipple}
@@ -87,13 +86,13 @@ const User: FC = () => {
       </div>
       <div className="drawer-side is-drawer-close:overflow-visible">
         <label
-          htmlFor="my-drawer-4"
+          htmlFor="side-rails"
           aria-label="close sidebar"
           className="drawer-overlay"
         />
         <div className="flex min-h-full flex-col items-start bg-base-200 is-drawer-close:w-14 is-drawer-open:w-64">
           {/* Sidebar content here */}
-          <ul className="menu w-full grow gap-0.5">
+          <ul className="menu w-full grow gap-0.5 bg-base-100">
             {/* List item */}
             <li>
               <button
@@ -121,7 +120,7 @@ const User: FC = () => {
                   navigate({ to: "/user/books", params: { page: 1 } });
                 }}
               >
-                <LuBook className="size-6 text-accent" />
+                <BiSolidBookAlt className="size-6 text-accent" />
                 <span className="is-drawer-close:hidden">Book</span>
               </button>
             </li>
@@ -148,13 +147,13 @@ const User: FC = () => {
                 onPointerDown={settingsEvent}
                 ref={settingsRipple}
               >
-                <LuSettings className="size-6 text-accent" />
+                <IoMdSettings className="size-6 text-accent" />
                 <span className="is-drawer-close:hidden">Settings</span>
               </button>
             </li>
           </ul>
 
-          <ul className="drawer-end menu w-full grow flex-col-reverse gap-0.5">
+          <ul className="drawer-end menu w-full grow flex-col-reverse gap-0.5 bg-base-100">
             <li>
               <label
                 aria-label="logout buttton"
@@ -168,21 +167,21 @@ const User: FC = () => {
                   }
                 }}
               >
-                <RiLogoutBoxLine className="size-6" />
+                <IoLogOut className="size-6 rotate-180" />
                 <span className="is-drawer-close:hidden">Logout</span>
               </label>
             </li>
 
             <li>
               <label
-                htmlFor="my-drawer-4"
+                htmlFor="side-rails"
                 aria-label="open sidebar"
                 className="bg-base-300 hover:bg-primary p-2 is-drawer-close:tooltip is-drawer-close:tooltip-right is-drawer-open:h-10 max-h-10 rounded-sm is-drawer-close:justify-center is-drawer-close:aspect-square"
                 data-tip="Toggle Drawer"
                 onPointerDown={closeEvent}
                 ref={closeRipple}
               >
-                <TbLayoutSidebarRightExpand className="size-6 text-accent" />
+                <TbLayoutSidebarRightExpandFilled className="is-drawer-close:rotate-180 size-6 text-accent" />
                 <span className="is-drawer-close:hidden">Close</span>
               </label>
             </li>
@@ -197,9 +196,9 @@ const User: FC = () => {
                 ref={themeRipple}
               >
                 {theme == "light" ? (
-                  <GoSun className="size-6 text-accent" />
+                  <IoMdSunny className="size-6 text-accent" />
                 ) : (
-                  <GoMoon className="size-6 text-accent" />
+                  <IoMdMoon className="size-6 text-accent" />
                 )}
                 <span className="is-drawer-close:hidden">{theme}</span>
               </label>

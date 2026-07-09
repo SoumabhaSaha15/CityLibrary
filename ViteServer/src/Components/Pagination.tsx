@@ -1,5 +1,7 @@
-import { MdArrowBack } from "react-icons/md";
-import { MdArrowForward } from "react-icons/md";
+import {
+  MdOutlineKeyboardDoubleArrowLeft,
+  MdOutlineKeyboardDoubleArrowRight,
+} from "react-icons/md";
 type PaginationProp = {
   currentPage: number;
   totalPages: number;
@@ -24,7 +26,7 @@ const Pagination = ({
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
       >
-        <MdArrowBack className="size-4" />
+        <MdOutlineKeyboardDoubleArrowLeft className="size-4" />
       </button>
 
       {/* Page Numbers */}
@@ -46,7 +48,7 @@ const Pagination = ({
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
       >
-        <MdArrowForward className="size-4" />
+        <MdOutlineKeyboardDoubleArrowRight className="size-4" />
       </button>
     </div>
   );
