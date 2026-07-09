@@ -34,7 +34,7 @@ function RouteComponent() {
   return (
     <>
       <div className="page-height w-full flex flex-col bg-base-200">
-        <div className="min-h-[calc(100dvh-120px)] overflow-y-auto overflow-x-clip grid place-items-center grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 auto-rows-[60vh] sm:auto-rows-[50vh] gap-2 p-2">
+        <div className="min-h-[calc(100dvh-120px)] overflow-y-auto overflow-x-clip grid place-items-center grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 auto-rows-[60vh] sm:auto-rows-[50vh] gap-2 p-2">
           {data?.results.map((item) => (
             <AuthorCard author={item} key={`author[${item.author_id}]`} />
           ))}
@@ -50,7 +50,7 @@ function RouteComponent() {
 
       <div className="fab">
         <button
-          className="btn btn-lg btn-circle btn-primary"
+          className="btn btn-lg btn-square btn-primary"
           ref={searchFABRef}
           onPointerDown={searchFABEvent}
           onClick={openModal}
@@ -73,7 +73,7 @@ function RouteComponent() {
               })}
             >
               <div className="form-control mb-3">
-                <label className="label rounded-full" htmlFor="author_name">
+                <label className="label rounded-lg" htmlFor="author_name">
                   {errors.author_name ? (
                     <span className="label-text text-error">
                       {errors.author_name.message}
@@ -86,7 +86,7 @@ function RouteComponent() {
                   id="author_name"
                   type="text"
                   {...register("author_name")}
-                  className="input input-bordered w-full rounded-full focus:outline-none focus:ring-0 focus:ring-accent"
+                  className="input input-bordered w-full rounded-md focus:outline-none focus:ring-0 focus:ring-accent"
                 />
               </div>
 
@@ -105,7 +105,7 @@ function RouteComponent() {
                   id="nationality"
                   type="text"
                   {...register("nationality")}
-                  className="input input-bordered w-full rounded-full focus:outline-none focus:ring-0 focus:ring-accent"
+                  className="input input-bordered w-full rounded-md focus:outline-none focus:ring-0 focus:ring-accent"
                 />
               </div>
 
@@ -121,7 +121,7 @@ function RouteComponent() {
                   )}
                 </label>
                 <select
-                  className="select select-bordered w-full rounded-full focus:outline-none focus:ring-0 focus:ring-accent"
+                  className="select select-bordered w-full rounded-md focus:outline-none focus:ring-0 focus:ring-accent"
                   {...register("gender")}
                   id="gender"
                 >
@@ -140,7 +140,7 @@ function RouteComponent() {
                   type="submit"
                   ref={filterBtnRef}
                   onPointerDown={filterBtnEvent}
-                  className="btn btn-primary rounded-full w-full"
+                  className="btn btn-primary rounded-lg w-full"
                 >
                   filter author
                 </button>

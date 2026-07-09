@@ -1,6 +1,7 @@
 import { cn } from "@/util/cn";
 import { useState } from "react";
 import { ImQuill } from "react-icons/im";
+import { useRipple } from "use-ripple-hook";
 import { BiSolidBookmark } from "react-icons/bi";
 import { IoLanguageSharp } from "react-icons/io5";
 import { type PartialBook } from "@/validators/book";
@@ -12,7 +13,9 @@ const VISIBLE_GENRES = 2;
 
 const BookCard = ({ book }: BookCardProps) => {
   const [imageFailed, setImageFailed] = useState(false);
-
+  const [borrowRipple, borrowEvent] = useRipple({ color: "currentColor" });
+  const [detailsRipple, detailsEvent] = useRipple({ color: "currentColor" });
+  const [bookmarkRipple, bookmarkEvent] = useRipple({ color: "currentColor" });
   const visibleGenres = book.book_genre.slice(0, VISIBLE_GENRES);
   const hiddenGenreCount = book.book_genre.length - visibleGenres.length;
 
@@ -39,9 +42,11 @@ const BookCard = ({ book }: BookCardProps) => {
       <button
         type="button"
         aria-label="Bookmark this book"
+        ref={bookmarkRipple}
+        onPointerDown={bookmarkEvent}
         className="btn btn-circle btn-md absolute top-3 right-3 z-1 border-none bg-base-100/90 text-primary shadow backdrop-blur-sm hover:bg-primary hover:text-primary-content"
       >
-        <BiSolidBookmark className="h-4 w-4" />
+        <BiSolidBookmark className="h-6 w-6" />
       </button>
 
       <div className="card-body justify-end gap-1.5 overflow-hidden p-4">
@@ -56,7 +61,7 @@ const BookCard = ({ book }: BookCardProps) => {
           {visibleGenres.map((genre) => (
             <span
               key={genre}
-              className="badge badge-secondary badge-sm border-none px-1.5 py-2 text-secondary-content font-black"
+              className="badge badge-secondary badge-md border-none px-1.5 py-2 text-secondary-content font-black"
             >
               {genre}
             </span>
@@ -83,11 +88,18 @@ const BookCard = ({ book }: BookCardProps) => {
         <div className="card-actions justify-end pt-1">
           <button
             type="button"
-            className="btn btn-primary rounded-full btn-md gap-1"
+            className="btn btn-primary rounded-lg btn-md"
+            ref={detailsRipple}
+            onPointerDown={detailsEvent}
           >
             Details
           </button>
-          <button type="button" className="btn btn-accent rounded-full btn-md">
+          <button
+            type="button"
+            className="btn btn-accent rounded-lg btn-md"
+            ref={borrowRipple}
+            onPointerDown={borrowEvent}
+          >
             Borrow
           </button>
         </div>

@@ -68,7 +68,7 @@ const Home: FC = () => {
             <div className="dropdown lg:hidden">
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="btn btn-circle btn-ghost rounded-full"
+                className="btn btn-circle btn-ghost rounded-lg"
               >
                 <FaBars className="w-5 h-5" />
               </button>
@@ -86,7 +86,7 @@ const Home: FC = () => {
                 </ul>
               )}
             </div>
-            <Link to="/" className="btn btn-ghost text-xl gap-2 rounded-full">
+            <Link to="/" className="btn btn-ghost text-xl gap-2 rounded-lg">
               <BiBook className="w-6 h-6 text-primary" />
               <span className="font-bold bg-gradient-to-right from-primary to-secondary bg-clip-text">
                 CityLibrary
@@ -99,7 +99,7 @@ const Home: FC = () => {
               <li>
                 <a
                   href="#About"
-                  className="hover:text-primary transition-colors rounded-full"
+                  className="hover:text-primary transition-colors rounded-lg"
                 >
                   About
                 </a>
@@ -107,7 +107,7 @@ const Home: FC = () => {
               <li>
                 <a
                   href="#Features"
-                  className="hover:text-primary transition-colors rounded-full"
+                  className="hover:text-primary transition-colors rounded-lg"
                 >
                   Features
                 </a>
@@ -115,7 +115,7 @@ const Home: FC = () => {
               <li>
                 <a
                   href="#Contacts"
-                  className="hover:text-primary transition-colors rounded-full"
+                  className="hover:text-primary transition-colors rounded-lg"
                 >
                   Contacts
                 </a>
@@ -125,7 +125,7 @@ const Home: FC = () => {
 
           <div className="navbar-end gap-2">
             <button
-              className="btn btn-ghost btn-sm sm:btn-md rounded-full"
+              className="btn btn-ghost btn-sm sm:btn-md rounded-lg"
               onClick={() => {
                 navigate({ to: "/login" });
               }}
@@ -144,13 +144,13 @@ const Home: FC = () => {
                 <img
                   src="image.svg"
                   alt="Library"
-                  className="rounded-3xl shadow-2xl w-full max-w-lg mx-auto transform hover:scale-105 transition-transform duration-300"
+                  className="rounded-lg shadow-2xl w-full max-w-lg mx-auto transform hover:scale-105 transition-transform duration-300"
                 />
                 {/* Floating Card */}
-                <div className="absolute -bottom-6 -left-6 bg-base-100 p-4 rounded-2xl shadow-xl hidden sm:block">
+                <div className="absolute -bottom-6 -left-6 bg-base-100 p-4 rounded-lg shadow-xl hidden sm:block">
                   <div className="flex items-center gap-3">
                     <div className="avatar placeholder">
-                      <div className="bg-primary text-primary-content rounded-full w-12 items-center justify-center flex">
+                      <div className="bg-primary text-primary-content rounded-lg w-12 items-center justify-center flex">
                         <FaChartLine size="20" />
                       </div>
                     </div>
@@ -164,13 +164,13 @@ const Home: FC = () => {
                 </div>
               </div>
               {/* Decorative elements */}
-              <div className="absolute top-10 -right-10 w-32 h-32 bg-primary/10 rounded-full blur-3xl"></div>
-              <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-secondary/10 rounded-full blur-3xl"></div>
+              <div className="absolute top-10 -right-10 w-32 h-32 bg-primary/10 rounded-lg blur-3xl"></div>
+              <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-secondary/10 rounded-lg blur-3xl"></div>
             </div>
 
             {/* Hero Content */}
             <div className="flex-1 text-center lg:text-left">
-              <div className="badge badge-primary badge-lg mb-4 gap-2 rounded-full">
+              <div className="badge badge-primary badge-lg mb-4 gap-2 rounded-lg">
                 <FaCheckCircle /> Trusted by 50,000+ Readers
               </div>
 
@@ -189,11 +189,11 @@ const Home: FC = () => {
 
               {/* CTA Buttons */}
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-12">
-                <button className="btn btn-primary btn-lg gap-2 shadow-lg hover:shadow-xl rounded-full">
+                <button className="btn btn-primary btn-lg gap-2 shadow-lg hover:shadow-xl rounded-lg">
                   Get Started Free
                   <FaArrowRight />
                 </button>
-                <button className="btn btn-outline btn-lg gap-2 rounded-full">
+                <button className="btn btn-outline btn-lg gap-2 rounded-lg">
                   <BiBook />
                   Browse Collection
                 </button>
@@ -236,10 +236,10 @@ const Home: FC = () => {
               {features.map((feature) => (
                 <div
                   key={crypto.randomUUID()}
-                  className="card bg-base-100 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 rounded-3xl"
+                  className="card bg-base-100 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 rounded-lg"
                 >
-                  <div className="card-body items-center text-center">
-                    <div className="bg-primary/10 p-4 rounded-full text-primary mb-4">
+                  <div className="card-body items-center text-center rounded-lg">
+                    <div className="bg-primary/10 p-4 rounded-lg text-primary mb-4">
                       {feature.icon}
                     </div>
                     <h3 className="card-title text-xl mb-2">{feature.title}</h3>
@@ -256,7 +256,7 @@ const Home: FC = () => {
         {/* CTA Section */}
         <div className="py-20">
           <div className="max-w-4xl mx-auto px-4">
-            <div className="card bg-linear-to-r from-primary to-secondary text-primary-content shadow-2xl rounded-3xl">
+            <div className="card bg-linear-to-r from-primary to-secondary text-primary-content shadow-2xl rounded-lg">
               <div className="card-body items-center text-center py-12">
                 <h2 className="card-title text-3xl lg:text-5xl font-bold mb-4">
                   Ready to Start Reading?
@@ -267,7 +267,7 @@ const Home: FC = () => {
                 </p>
                 <div className="card-actions">
                   <button
-                    className="btn btn-lg bg-base-100 text-primary hover:bg-base-200 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
+                    className="btn btn-lg bg-base-100 text-primary hover:bg-base-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
                     onClick={() => navigate({ to: "/signup" })}
                   >
                     <FaUserPlus className="w-5 h-5" />

@@ -1,4 +1,3 @@
-// ErrorPage.tsx
 import { MdError } from "react-icons/md";
 import { BiErrorCircle } from "react-icons/bi";
 import { FaBug, FaRedo, FaHome } from "react-icons/fa";
@@ -24,14 +23,14 @@ const ErrorPage = (props: ErrorComponentProps) => {
             {props.info?.componentStack || "no info"}
           </p>
 
-          <div className="alert alert-error shadow-lg mb-8 max-w-md rounded-full">
+          <div className="alert alert-error shadow-lg mb-8 max-w-md rounded-md">
             <MdError className="w-6 h-6" />
             <span>Unable to process your request</span>
           </div>
 
           <div className="card-actions flex-col sm:flex-row gap-3">
             <button
-              className="btn btn-error btn-lg gap-2 rounded-full"
+              className="btn btn-error btn-lg gap-2 rounded-md"
               onClick={() => {
                 props.reset();
               }}
@@ -39,7 +38,7 @@ const ErrorPage = (props: ErrorComponentProps) => {
               <FaRedo className="w-5 h-5" />
               Try Again
             </button>
-            <button className="btn btn-outline btn-lg gap-2 rounded-full">
+            <button className="btn btn-outline btn-lg gap-2 rounded-md">
               <FaHome className="w-5 h-5" />
               Go Home
             </button>

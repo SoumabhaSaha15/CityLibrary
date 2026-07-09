@@ -84,7 +84,7 @@ function RouteComponent() {
                 </Link>
               </p>
             </div>
-            <div className="card bg-base-100 w-full max-w-sm lg:max-w-md shrink-0 shadow-2xl rounded-2xl hover:scale-110 transition-transform">
+            <div className="card bg-base-100 w-full max-w-sm lg:max-w-md shrink-0 shadow-lg rounded-lg hover:scale-110 transition-transform">
               <div className="card-body p-4 sm:p-8">
                 <form
                   className="fieldset space-y-4"
@@ -103,7 +103,7 @@ function RouteComponent() {
                       <input
                         type="text"
                         className={cn(
-                          "validator input input-bordered w-full focus:outline-none focus:ring-0 rounded-full focus:ring-accent",
+                          "validator input input-bordered w-full focus:outline-none focus:ring-0 rounded-lg focus:ring-accent",
                           errors.username && "focus:ring-error",
                         )}
                         id="NameInput"
@@ -129,7 +129,7 @@ function RouteComponent() {
                       <input
                         type={passwordType}
                         className={cn(
-                          "validator input input-bordered w-full focus:outline-none focus:ring-0 focus:ring-accent rounded-full",
+                          "validator input input-bordered w-full focus:outline-none focus:ring-0 focus:ring-accent rounded-lg",
                           errors.password && "focus:ring-error",
                         )}
                         id="PasswordInput"
@@ -160,7 +160,7 @@ function RouteComponent() {
                     type="submit"
                     disabled={isSubmitting}
                     onPointerDown={event}
-                    className="btn btn-primary w-full hover:btn-secondary rounded-full"
+                    className="btn btn-primary w-full hover:btn-secondary rounded-lg"
                   >
                     {isSubmitting ? (
                       <>

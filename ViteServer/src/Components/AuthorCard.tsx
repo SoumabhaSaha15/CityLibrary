@@ -32,7 +32,7 @@ const AuthorCard = ({ author }: AuthorCardProps) => {
       <button
         type="button"
         aria-label="View author details"
-        className="btn btn-circle btn-lg absolute top-3 right-3 z-1 border-none bg-base-100/90 text-primary shadow backdrop-blur-sm hover:bg-primary hover:text-primary-content"
+        className="btn btn-circle btn-md absolute top-3 right-3 z-1 border-none bg-base-100/90 text-primary shadow backdrop-blur-sm hover:bg-primary hover:text-primary-content"
       >
         <BiSolidUserDetail className="h-6 w-6" />
       </button>
@@ -51,19 +51,18 @@ const AuthorCard = ({ author }: AuthorCardProps) => {
             <FaGlobe className="h-4 w-4 shrink-0" />
             {author.nationality}
           </span>
-          {/* <span className="truncate">{author.nationality}</span> */}
         </div>
 
         <div className="card-actions justify-end pt-1">
           <button
             type="button"
-            className="btn btn-primary rounded-full btn-md gap-1"
+            className="btn btn-primary rounded-lg btn-md gap-1"
           >
             View Author
           </button>
           <button
             type="button"
-            className="btn btn-accent rounded-full btn-md gap-1"
+            className="btn btn-accent rounded-lg btn-md gap-1"
           >
             Books
           </button>
