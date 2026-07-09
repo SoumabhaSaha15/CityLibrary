@@ -1,6 +1,4 @@
-import { cn } from "@/util/cn";
-import { useState } from "react";
-import { FaGlobe } from "react-icons/fa";
+import { useRipple } from "use-ripple-hook";
 import { BiSolidUserDetail } from "react-icons/bi";
 import { type PartialAuthor } from "@/validators/author";
 
@@ -9,62 +7,30 @@ interface AuthorCardProps {
 }
 
 const AuthorCard = ({ author }: AuthorCardProps) => {
-  const [imageFailed, setImageFailed] = useState(false);
-
+  const [viewRipple, viewEvent] = useRipple({ color: "currentColor" });
   return (
-    <div
-      className={cn(
-        "card h-full w-full shadow-sm hover:shadow-lg transition-shadow duration-300",
-        imageFailed ? "bg-base-200" : "image-full",
-      )}
-    >
-      <figure>
-        {!imageFailed && (
-          <img
-            src={author.author_image}
-            alt={author.author_name}
-            onError={() => setImageFailed(true)}
-            className="h-full w-full object-cover bg-base-200"
-          />
-        )}
+    <div className="card bg-base-100 w-full max-w-sm h-full hover:shadow-2xl hover:shadow-accent-content">
+      <figure className="h-3/4">
+        <img
+          src={author.author_image}
+          alt={author.author_name}
+          className="h-full w-full object-cover object-top"
+        />
       </figure>
-
-      <button
-        type="button"
-        aria-label="View author details"
-        className="btn btn-circle btn-md absolute top-3 right-3 z-1 border-none bg-base-100/90 text-primary shadow backdrop-blur-sm hover:bg-primary hover:text-primary-content"
-      >
-        <BiSolidUserDetail className="h-6 w-6" />
-      </button>
-
-      <div className="card-body justify-end gap-1.5 overflow-hidden p-4">
-        <h1
-          className="card-title text-xl leading-snug text-neutral-content line-clamp-2 font-black"
-          title={author.author_name}
-        >
+      <div className="card-body">
+        <h2 className="card-title" title={author.author_name}>
           {author.author_name}
-        </h1>
-
-        <div className="flex flex-wrap gap-1"></div>
-        <div className="flex min-w-0 items-center gap-1.5 text-lg text-neutral-content/80">
-          <span className="badge badge-secondary badge-lg border-none px-1.5 py-2">
-            <FaGlobe className="h-4 w-4 shrink-0" />
-            {author.nationality}
-          </span>
-        </div>
-
-        <div className="card-actions justify-end pt-1">
+          <div className="badge badge-secondary">{author.nationality}</div>
+        </h2>
+        <div className="card-actions justify-end">
           <button
             type="button"
-            className="btn btn-primary rounded-lg btn-md gap-1"
+            className="btn btn-primary w-full"
+            ref={viewRipple}
+            onPointerDown={viewEvent}
           >
+            <BiSolidUserDetail className="h-4 w-4" />
             View Author
-          </button>
-          <button
-            type="button"
-            className="btn btn-accent rounded-lg btn-md gap-1"
-          >
-            Books
           </button>
         </div>
       </div>

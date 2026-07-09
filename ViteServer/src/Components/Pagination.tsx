@@ -22,7 +22,7 @@ const Pagination = ({
     <div className="join p-2 justify-center gap-0.5">
       {/* Previous Button */}
       <button
-        className="join-item btn rounded-l-lg rounded-r-sm"
+        className="join-item btn btn-square rounded-l-lg rounded-r-sm"
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
       >
@@ -44,7 +44,7 @@ const Pagination = ({
 
       {/* Next Button */}
       <button
-        className="join-item btn rounded-r-lg rounded-l-sm"
+        className="join-item btn btn-square rounded-r-lg rounded-l-sm"
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
       >
