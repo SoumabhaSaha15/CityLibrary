@@ -2,15 +2,9 @@
 @plugin "daisyui" {
   themes: all;
 }
+
 * {
   scroll-behavior: smooth;
-}
-
-html[data-theme] {
-  --radius-selector: 0.5rem;
-  --radius-field: 0.5rem;
-  --radius-box: 0.5rem;
-  --depth: 0;
 }
 
 html,
@@ -20,6 +14,12 @@ body {
   transition-duration: 0.25s;
   transition-timing-function: linear;
   scroll-behavior: smooth;
+}
+html[data-theme] {
+  --radius-selector: 0.5rem;
+  --radius-field: 0.5rem;
+  --radius-box: 0.5rem;
+  --depth: 0;
 }
 
 .page-height {

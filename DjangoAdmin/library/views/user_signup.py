@@ -1,4 +1,5 @@
 from django.contrib.auth import login
+from django.contrib.auth.models import AbstractUser
 from rest_framework.views import APIView
 from rest_framework.request import Request
 from rest_framework.response import Response
@@ -16,7 +17,8 @@ class UserSignupView(APIView):
     permission_classes = [permissions.AllowAny]
 
     def post(self, request: Request):
-        serializer = UserCreateSerializer(data=request.data)
+        serializer = UserCreateSerializer(
+            data=request.data, context={'request': request})
         serializer.is_valid(raise_exception=True)
         user: AbstractUser = serializer.save()  # type: ignore
         login(request._request, user)

@@ -1,8 +1,8 @@
 import { cn } from "@/util/cn";
 import LoadingPage from "@/Loader";
 import base from "@/util/axios-base";
-import { useRipple } from "use-ripple-hook";
 import { useEffect, useState } from "react";
+import RippleButton from "@/Components/RippleButton";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, type SubmitHandler, useWatch } from "react-hook-form";
 import { useToast, DefaultOptions } from "@/Contexts/Toast/ToastContext";
@@ -14,7 +14,6 @@ export const Route = createFileRoute("/signup")({
 });
 
 function RouteComponent() {
-  const [ripple, event] = useRipple({ color: "currentColor" });
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const defaultImage = import.meta.env.VITE_DEFAULT_USER_IMAGE;
   const [passwordType, setPasswordType] = useState<"text" | "password">(
@@ -218,11 +217,9 @@ function RouteComponent() {
                     />
                   </label>
 
-                  <button
-                    ref={ripple}
+                  <RippleButton
                     type="submit"
                     disabled={isSubmitting}
-                    onPointerDown={event}
                     className="btn btn-primary w-full hover:btn-secondary rounded-full"
                   >
                     {isSubmitting ? (
@@ -233,7 +230,7 @@ function RouteComponent() {
                     ) : (
                       <>Submit</>
                     )}
-                  </button>
+                  </RippleButton>
                 </form>
               </div>
             </div>

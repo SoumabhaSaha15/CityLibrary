@@ -10,7 +10,7 @@ const AuthorCard = ({ author }: AuthorCardProps) => {
   const [viewRipple, viewEvent] = useRipple({ color: "currentColor" });
   return (
     <div className="card bg-base-100 w-full max-w-sm h-full hover:shadow-2xl hover:shadow-accent-content">
-      <figure className="h-3/4">
+      <figure className="aspect-3/4 w-full overflow-hidden">
         <img
           src={author.author_image}
           alt={author.author_name}

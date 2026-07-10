@@ -1,14 +1,17 @@
 import "./index.css";
+import ErrorPage from "./Error";
+import LoadingPage from "./Loader";
+import NotFoundPage from "./NotFound";
 import ReactDOM from "react-dom/client";
+import { authStore } from "./store/auth";
 import { routeTree } from "./routeTree.gen";
+import { useSelector } from "@tanstack/react-store";
 import { QueryClient } from "@tanstack/react-query";
 import DaisyUIProvider from "@/Contexts/DaisyUIProvider";
 import { RouterProvider, createRouter } from "@tanstack/react-router";
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
 import { createAsyncStoragePersister } from "@tanstack/query-async-storage-persister";
-import LoadingPage from "./Loader";
-import NotFoundPage from "./NotFound";
-import ErrorPage from "./Error";
+
 const persister = createAsyncStoragePersister({ storage: window.localStorage });
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -22,6 +25,7 @@ const router = createRouter({
   routeTree,
   context: {
     queryClient,
+    auth: undefined,
   },
   defaultPendingComponent: LoadingPage,
   defaultNotFoundComponent: NotFoundPage,
@@ -37,6 +41,10 @@ declare module "@tanstack/react-router" {
     router: typeof router;
   }
 }
+function AuthApp() {
+  const auth = useSelector(authStore, (state) => state);
+  return <RouterProvider router={router} context={{ auth }} />;
+}
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <DaisyUIProvider>
@@ -44,7 +52,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       client={queryClient}
       persistOptions={{ persister }}
     >
-      <RouterProvider router={router} />
+      <AuthApp />
     </PersistQueryClientProvider>
   </DaisyUIProvider>,
 );

@@ -1,30 +1,29 @@
 import { ImQuill } from "react-icons/im";
+import { MdHistory } from "react-icons/md";
 import { IoLogOut } from "react-icons/io5";
 import { useEffect, type FC } from "react";
 import { useRipple } from "use-ripple-hook";
 import { GoHomeFill } from "react-icons/go";
 import { BiSolidBookAlt } from "react-icons/bi";
 import { GiHamburgerMenu } from "react-icons/gi";
+import Button from "@/Components/RippleButton";
+import { IoMdSunny, IoMdMoon } from "react-icons/io";
 import { createFileRoute } from "@tanstack/react-router";
 import { useTheme } from "@/Contexts/Theme/ThemeContext";
 import { Outlet, useNavigate } from "@tanstack/react-router";
 import { useUserAuth } from "@/Contexts/UserAuth/AuthContext";
 import UserAuthProvider from "@/Contexts/UserAuth/AuthProvider";
 import { TbLayoutSidebarRightExpandFilled } from "react-icons/tb";
-import { IoMdSunny, IoMdMoon, IoMdSettings } from "react-icons/io";
 
 const User: FC = () => {
   const user = useUserAuth();
-  const [homeRipple, homeEvent] = useRipple({ color: "currentColor" });
   const [openRipple, openEvent] = useRipple({ color: "currentColor" });
-  const [bookRipple, bookEvent] = useRipple({ color: "currentColor" });
   const [closeRipple, closeEvent] = useRipple({ color: "currentColor" });
   const [themeRipple, themeEvent] = useRipple({ color: "currentColor" });
-  const [authorRipple, authorEvent] = useRipple({ color: "currentColor" });
-  const [settingsRipple, settingsEvent] = useRipple({ color: "currentColor" });
 
   const navigate = useNavigate();
   const { theme, applyTheme } = useTheme();
+
   useEffect(() => {
     if (user.userDetails === null) {
       user.login(
@@ -33,6 +32,7 @@ const User: FC = () => {
       );
     }
   }, []);
+
   return (
     <div className="drawer lg:drawer-open">
       <input id="side-rails" type="checkbox" className="drawer-toggle" />
@@ -52,33 +52,16 @@ const User: FC = () => {
             <div className="p-2 font-black text-lg">CityLibrary</div>
           </div>
           <div className="flex gap-2">
-            <div className="dropdown dropdown-bottom dropdown-left">
-              <div tabIndex={0} role="button" className="avatar aspect-square">
-                <div className="w-10 rounded-full">
-                  <img
-                    alt="Tailwind CSS Navbar component"
-                    src={
-                      user.userDetails?.profile ||
-                      import.meta.env.VITE_DEFAULT_USER_IMAGE
-                    }
-                  />
-                </div>
+            <div tabIndex={0} role="button" className="avatar aspect-square">
+              <div className="w-10 rounded-full">
+                <img
+                  alt="Tailwind CSS Navbar component"
+                  src={
+                    user.userDetails?.profile ||
+                    import.meta.env.VITE_DEFAULT_USER_IMAGE
+                  }
+                />
               </div>
-              <ul
-                tabIndex={-1}
-                className="menu menu-md dropdown-content bg-base-300 rounded-box z-2 mt-4 w-64 p-4 shadow"
-              >
-                <li className="mb-2">
-                  <span className="font-bold w-56 text-sm block overflow-hidden text-ellipsis whitespace-nowrap">
-                    {user.userDetails?.username}
-                  </span>
-                </li>
-                <li className="mb-2">
-                  <span className="text-sm w-56 block overflow-hidden text-ellipsis whitespace-nowrap">
-                    {user.userDetails?.email}
-                  </span>
-                </li>
-              </ul>
             </div>
           </div>
         </nav>
@@ -95,61 +78,53 @@ const User: FC = () => {
           <ul className="menu w-full grow gap-0.5 bg-base-100">
             {/* List item */}
             <li>
-              <button
+              <Button
                 className="bg-base-300 hover:bg-primary p-2 is-drawer-close:tooltip is-drawer-close:tooltip-right is-drawer-open:h-10 max-h-10 rounded-b-sm rounded-t-lg is-drawer-close:justify-center is-drawer-close:aspect-square"
                 data-tip="Homepage"
                 onClick={() => {
                   navigate({ to: "/user" });
                 }}
-                ref={homeRipple}
-                onPointerDown={homeEvent}
               >
                 {/* Home icon */}
                 <GoHomeFill className="size-6 text-accent" />
                 <span className="is-drawer-close:hidden">Homepage</span>
-              </button>
+              </Button>
             </li>
 
             <li>
-              <button
+              <Button
                 className="bg-base-300 hover:bg-primary p-2 is-drawer-close:tooltip is-drawer-close:tooltip-right is-drawer-open:h-10 max-h-10 rounded-sm is-drawer-close:justify-center is-drawer-close:aspect-square"
                 data-tip="Book"
-                ref={bookRipple}
-                onPointerDown={bookEvent}
                 onClick={() => {
                   navigate({ to: "/user/books", params: { page: 1 } });
                 }}
               >
                 <BiSolidBookAlt className="size-6 text-accent" />
                 <span className="is-drawer-close:hidden">Book</span>
-              </button>
+              </Button>
             </li>
 
             <li>
-              <button
+              <Button
                 className="bg-base-300 hover:bg-primary p-2 is-drawer-close:tooltip is-drawer-close:tooltip-right is-drawer-open:h-10 max-h-10 rounded-sm is-drawer-close:justify-center is-drawer-close:aspect-square"
                 data-tip="Author"
-                ref={authorRipple}
-                onPointerDown={authorEvent}
                 onClick={() => {
                   navigate({ to: "/user/authors", params: { page: 1 } });
                 }}
               >
                 <ImQuill className="size-6 text-accent" />
                 <span className="is-drawer-close:hidden">Author</span>
-              </button>
+              </Button>
             </li>
 
             <li>
-              <button
+              <Button
                 className="bg-base-300 hover:bg-primary p-2 is-drawer-close:tooltip is-drawer-close:tooltip-right is-drawer-open:h-10 max-h-10 rounded-t-sm rounded-b-lg is-drawer-close:justify-center is-drawer-close:aspect-square"
-                data-tip="Settings"
-                onPointerDown={settingsEvent}
-                ref={settingsRipple}
+                data-tip="History"
               >
-                <IoMdSettings className="size-6 text-accent" />
-                <span className="is-drawer-close:hidden">Settings</span>
-              </button>
+                <MdHistory className="size-6 text-accent" />
+                <span className="is-drawer-close:hidden">History</span>
+              </Button>
             </li>
           </ul>
 

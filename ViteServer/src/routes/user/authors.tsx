@@ -50,7 +50,7 @@ function RouteComponent() {
 
       <div className="fab">
         <button
-          className="btn btn-lg btn-square btn-primary"
+          className="btn btn-lg btn-circle btn-primary"
           ref={searchFABRef}
           onPointerDown={searchFABEvent}
           onClick={openModal}

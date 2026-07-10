@@ -15,7 +15,11 @@ export const Route = createFileRoute("/login")({
 
 function RouteComponent() {
   const navigate = useNavigate();
-  const [ripple, event] = useRipple({ timingFunction: "ease-in-out" });
+  const [ripple, event] = useRipple({
+    timingFunction: "ease-in-out",
+    color: "currentColor",
+  });
+
   const [passwordType, setPasswordType] = useState<"text" | "password">(
     "password",
   );
