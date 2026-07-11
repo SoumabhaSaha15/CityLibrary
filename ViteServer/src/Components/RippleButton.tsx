@@ -7,6 +7,7 @@ const RippleButton = forwardRef<HTMLButtonElement, RippleButtonProps>(
   ({ children, onPointerDown, ...props }, forwardedRef) => {
     const [rippleRef, rippleHandler] = useRipple({
       color: "currentColor",
+      timingFunction: "ease-in-out",
     });
 
     const setRef = (node: HTMLButtonElement | null) => {

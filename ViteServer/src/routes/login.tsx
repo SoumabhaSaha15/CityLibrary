@@ -1,54 +1,31 @@
 import { cn } from "@/util/cn";
-import LoadingPage from "@/Loader";
-import base from "@/util/axios-base";
-import { useRipple } from "use-ripple-hook";
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { authActions } from "@/store/auth";
+import RippleButton from "@/Components/RippleButton";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { loginSchema, type LoginSchema } from "@/validators/user-auth";
 import { useToast, DefaultOptions } from "@/Contexts/Toast/ToastContext";
-import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
-import { type ResponseSchema, responseSchema } from "@/validators/user-auth";
+import {
+  createFileRoute,
+  useNavigate,
+  Link,
+  redirect,
+} from "@tanstack/react-router";
+
 export const Route = createFileRoute("/login")({
   component: RouteComponent,
+  beforeLoad: async ({ context: { auth } }) => {
+    const res = await authActions.isSessionActive();
+    if (auth && res) throw redirect({ to: "/user" });
+  },
 });
 
 function RouteComponent() {
   const navigate = useNavigate();
-  const [ripple, event] = useRipple({
-    timingFunction: "ease-in-out",
-    color: "currentColor",
-  });
-
   const [passwordType, setPasswordType] = useState<"text" | "password">(
     "password",
   );
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  useEffect(() => {
-    let cancelled = false;
-
-    const checkSession = async () => {
-      try {
-        const res = await base.get<ResponseSchema>("/user/login", {
-          schema: responseSchema,
-        });
-        if (cancelled) return;
-        if (res.status === 200) {
-          window.localStorage.setItem("loginData", JSON.stringify(res.data));
-          navigate({ to: "/user" });
-        } else setIsLoading(false);
-      } catch {
-        if (!cancelled) setIsLoading(false);
-      }
-    };
-
-    checkSession();
-
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
   const {
     handleSubmit,
     register,
@@ -57,24 +34,20 @@ function RouteComponent() {
   } = useForm<LoginSchema>({ resolver: zodResolver(loginSchema) });
   const toast = useToast();
 
-  const signup: SubmitHandler<LoginSchema> = async (data) => {
-    const response = await base.post<ResponseSchema>("/user/login", data, {
-      schema: responseSchema,
-    });
-    if (response.status === 200) {
+  const login: SubmitHandler<LoginSchema> = async (data) => {
+    try {
+      await authActions.loginWithCred(data);
       reset();
-      window.localStorage.setItem("loginData", JSON.stringify(response.data));
+      toast.open("login successfull", true, 1000, DefaultOptions.success);
       navigate({ to: "/user" });
-    } else {
-      toast.open("Failed to login", true, 5000, DefaultOptions.error);
+    } catch (error) {
+      toast.open((error as Error).message, true, 1000, DefaultOptions.error);
     }
   };
 
-  return isLoading ? (
-    <LoadingPage />
-  ) : (
+  return (
     <>
-      <div className="hero min-h-dvh scroll-smooth transition-all snap-y snap-mandatory">
+      <div className="min-h-dvh scroll-smooth transition-all snap-y snap-mandatory">
         <div className="hero min-h-screen px-4 py-8">
           <div className="hero-content flex-col lg:flex-row w-full max-w-6xl gap-8">
             <div className="text-center lg:text-left lg:flex-1">
@@ -92,7 +65,7 @@ function RouteComponent() {
               <div className="card-body p-4 sm:p-8">
                 <form
                   className="fieldset space-y-4"
-                  onSubmit={handleSubmit(signup)}
+                  onSubmit={handleSubmit(login)}
                 >
                   <div>
                     <label className="floating-label" htmlFor="NameInput">
@@ -121,7 +94,7 @@ function RouteComponent() {
                   </div>
 
                   <div>
-                    <label className="floating-label" htmlFor="EmailInput">
+                    <label className="floating-label" htmlFor="PasswordInput">
                       <span
                         className={cn(
                           "transition-colors duration-300",
@@ -159,11 +132,9 @@ function RouteComponent() {
                     />
                   </label>
 
-                  <button
-                    ref={ripple}
+                  <RippleButton
                     type="submit"
                     disabled={isSubmitting}
-                    onPointerDown={event}
                     className="btn btn-primary w-full hover:btn-secondary rounded-lg"
                   >
                     {isSubmitting ? (
@@ -174,7 +145,7 @@ function RouteComponent() {
                     ) : (
                       <>Submit</>
                     )}
-                  </button>
+                  </RippleButton>
                 </form>
               </div>
             </div>

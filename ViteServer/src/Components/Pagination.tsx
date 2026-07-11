@@ -1,5 +1,6 @@
 import { useId } from "react";
 import { cn } from "@/util/cn";
+import RippleButton from "./RippleButton";
 import * as pagination from "@zag-js/pagination";
 import { useMachine, normalizeProps } from "@zag-js/react";
 import {
@@ -39,40 +40,40 @@ const Pagination = ({
       className="join p-2 justify-center gap-0.5 bg-base-300"
     >
       {/* Previous Button */}
-      <button
+      <RippleButton
         {...api.getPrevTriggerProps()}
-        className="join-item btn btn-square bg-base-100"
+        className="join-item btn btn-square bg-base-100 rounded-r-sm"
       >
         <MdOutlineKeyboardDoubleArrowLeft className="size-4" />
-      </button>
+      </RippleButton>
 
       {/* Dynamic Page Numbers & Ellipses */}
       {api.pages.map((page, index) => {
         if (page.type === "page") {
           return (
-            <button
+            <RippleButton
               key={page.value}
               {...api.getItemProps({ type: "page", value: page.value })}
               className={cn(
-                "join-item btn btn-square",
+                "join-item btn rounded-sm",
                 api.page === page.value &&
                   "btn-active btn-primary pointer-events-none",
               )}
             >
               {page.value}
-            </button>
+            </RippleButton>
           );
         }
 
         if (page.type === "ellipsis") {
           return (
-            <button
+            <RippleButton
               key={`ellipsis-${index}`}
               {...api.getEllipsisProps({ index })}
-              className="join-item btn btn-square btn-disabled bg-base-200 pointer-events-none"
+              className="join-item btn btn-disabled bg-base-200 pointer-events-none rounded-sm"
             >
               ...
-            </button>
+            </RippleButton>
           );
         }
 
@@ -80,12 +81,12 @@ const Pagination = ({
       })}
 
       {/* Next Button */}
-      <button
+      <RippleButton
         {...api.getNextTriggerProps()}
-        className="join-item btn btn-square bg-base-200"
+        className="join-item btn btn-square bg-base-200 rounded-l-sm"
       >
         <MdOutlineKeyboardDoubleArrowRight className="size-4" />
-      </button>
+      </RippleButton>
     </div>
   );
 };

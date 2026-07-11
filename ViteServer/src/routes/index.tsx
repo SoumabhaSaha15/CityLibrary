@@ -68,7 +68,7 @@ const Home: FC = () => {
             <div className="dropdown lg:hidden">
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="btn btn-circle btn-ghost rounded-lg"
+                className="btn btn-square btn-ghost rounded-lg"
               >
                 <FaBars className="w-5 h-5" />
               </button>
@@ -320,9 +320,6 @@ const Home: FC = () => {
   );
 };
 
-const ModalWrapper = () => {
-  return <Home />;
-};
 export const Route = createFileRoute("/")({
-  component: ModalWrapper,
+  component: Home,
 });

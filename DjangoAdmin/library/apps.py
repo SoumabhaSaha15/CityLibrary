@@ -7,3 +7,5 @@ class LibraryConfig(AppConfig):
 
     def ready(self):
         import library.signals.book
+        import library.signals.author
+        import library.signals.user_profile

@@ -1,23 +1,25 @@
+import { useAuth } from "@/store/auth";
 import { FaIdBadge } from "react-icons/fa";
 import { MdAlternateEmail } from "react-icons/md";
+import RippleButton from "@/Components/RippleButton";
 import { createFileRoute } from "@tanstack/react-router";
-import { useUserAuth } from "@/Contexts/UserAuth/AuthContext";
-import { useRipple } from "use-ripple-hook";
+import { useToast, DefaultOptions } from "@/Contexts/Toast/ToastContext";
+
 export const Route = createFileRoute("/user/")({
   component: RouteComponent,
 });
 
 function RouteComponent() {
-  const [mailRipple, mailEvent] = useRipple();
-  const { userDetails } = useUserAuth();
-  if (userDetails == null) return <></>;
+  const { user } = useAuth();
+  const toast = useToast();
+  if (user === null) return <></>;
   return (
     <div className="page-height min-h-[calc(100dvh-64px)] grid place-items-center bg-base-200 p-4">
       <div className="card bg-base-100 shadow-sm sm:card-side max-w-72 sm:max-w-xl">
         <figure className="px-10 pt-10 sm:px-6 sm:py-6">
           <img
-            src={userDetails.profile}
-            alt={userDetails.username}
+            src={user.profile}
+            alt={user.username}
             className="rounded-lg sm:h-40 sm:w-40 sm:object-cover"
           />
         </figure>
@@ -31,23 +33,22 @@ function RouteComponent() {
 
           <h2
             className="card-title justify-center sm:justify-start"
-            title={userDetails.username}
+            title={user.username}
           >
-            {userDetails.username}
+            {user.username}
           </h2>
-          <p className="overflow-hidden text-ellipsis">{userDetails.email}</p>
+          <p className="overflow-hidden text-ellipsis">{user.email}</p>
           <div className="card-actions justify-center sm:justify-end">
-            <button
+            <RippleButton
               className="btn btn-primary"
-              ref={mailRipple}
-              onPointerDown={mailEvent}
               onClick={() => {
-                navigator.clipboard.writeText(userDetails.email);
+                navigator.clipboard.writeText(user.email);
+                toast.open("copied", true, 1000, DefaultOptions.success);
               }}
             >
               <MdAlternateEmail className="h-4 w-4 shrink-0" />
               copy mail
-            </button>
+            </RippleButton>
           </div>
         </div>
       </div>

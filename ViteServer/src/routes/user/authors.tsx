@@ -1,9 +1,10 @@
-import { useRipple } from "use-ripple-hook";
 import { useForm } from "react-hook-form";
 import { MdSearch } from "react-icons/md";
+// import { useRipple } from "use-ripple-hook";
 import { useQuery } from "@tanstack/react-query";
 import Pagination from "@/Components/Pagination";
 import AuthorCard from "@/Components/AuthorCard";
+import RippleButton from "@/Components/RippleButton";
 import authorQueryoptions from "@/hooks/fetchAuthors";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useModal } from "@/Contexts/Modal/ModalContext";
@@ -15,8 +16,9 @@ import {
 } from "@/validators/author";
 
 function RouteComponent() {
-  const [searchFABRef, searchFABEvent] = useRipple({ color: "currentColor" });
-  const [filterBtnRef, filterBtnEvent] = useRipple({ color: "currentColor" });
+  // const [searchFABRef, searchFABEvent] = useRipple({ color: "currentColor" });
+  // const [filterBtnRef, filterBtnEvent] = useRipple({ color: "currentColor" });
+
   const search = Route.useSearch();
   const { data } = useQuery(authorQueryoptions(search));
   const navigate = useNavigate({ from: Route.fullPath });
@@ -49,14 +51,14 @@ function RouteComponent() {
       </div>
 
       <div className="fab">
-        <button
+        <RippleButton
           className="btn btn-lg btn-circle btn-primary"
-          ref={searchFABRef}
-          onPointerDown={searchFABEvent}
+          // ref={searchFABRef}
+          // onPointerDown={searchFABEvent}
           onClick={openModal}
         >
           <MdSearch className="size-8" />
-        </button>
+        </RippleButton>
       </div>
 
       <dialog className="modal" ref={modalRef}>
@@ -136,14 +138,12 @@ function RouteComponent() {
                 </select>
               </div>
               <div className="form-control mt-2 flex justify-center">
-                <button
+                <RippleButton
                   type="submit"
-                  ref={filterBtnRef}
-                  onPointerDown={filterBtnEvent}
                   className="btn btn-primary rounded-lg w-full"
                 >
                   filter author
-                </button>
+                </RippleButton>
               </div>
             </form>
           </div>

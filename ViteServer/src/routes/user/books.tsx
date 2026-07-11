@@ -3,7 +3,23 @@ import BookCard from "@/Components/BookCard";
 import Pagination from "@/Components/Pagination";
 import { useQuery } from "@tanstack/react-query";
 import booksQueryOptions from "@/hooks/fetchBook";
+import RippleButton from "@/Components/RippleButton";
 import { createFileRoute, useNavigate, redirect } from "@tanstack/react-router";
+export const Route = createFileRoute("/user/books")({
+  component: Book,
+  beforeLoad: ({ search }) => {
+    console.log(search);
+    if (!(search as any).page) {
+      throw redirect({
+        to: "/user/books",
+        search: { page: 1 },
+        replace: true, // Replaces history so hitting 'back' works properly
+      });
+    }
+  },
+  loader: ({ params, context: { queryClient } }) =>
+    queryClient.ensureQueryData(booksQueryOptions(params)),
+});
 
 function Book() {
   const search = Route.useSearch();
@@ -27,25 +43,10 @@ function Book() {
         />
       </div>
       <div className="fab">
-        <button className="btn btn-lg btn-circle btn-primary">
+        <RippleButton className="btn btn-lg btn-circle btn-primary">
           <MdSearch className="size-8" />
-        </button>
+        </RippleButton>
       </div>
     </>
   );
 }
-export const Route = createFileRoute("/user/books")({
-  component: Book,
-  beforeLoad: ({ search }) => {
-    console.log(search);
-    if (!(search as any).page) {
-      throw redirect({
-        to: "/user/books",
-        search: { page: 1 },
-        replace: true, // Replaces history so hitting 'back' works properly
-      });
-    }
-  },
-  loader: ({ params, context: { queryClient } }) =>
-    queryClient.ensureQueryData(booksQueryOptions(params)),
-});

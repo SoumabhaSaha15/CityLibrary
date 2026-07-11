@@ -1,37 +1,32 @@
 import { ImQuill } from "react-icons/im";
 import { MdHistory } from "react-icons/md";
 import { IoLogOut } from "react-icons/io5";
-import { useEffect, type FC } from "react";
 import { useRipple } from "use-ripple-hook";
 import { GoHomeFill } from "react-icons/go";
-import { BiSolidBookAlt } from "react-icons/bi";
+import { BiSolidBookAlt, BiBook } from "react-icons/bi";
 import { GiHamburgerMenu } from "react-icons/gi";
-import Button from "@/Components/RippleButton";
+import { authActions, useAuth } from "@/store/auth";
+import RippleButton from "@/Components/RippleButton";
 import { IoMdSunny, IoMdMoon } from "react-icons/io";
 import { createFileRoute } from "@tanstack/react-router";
 import { useTheme } from "@/Contexts/Theme/ThemeContext";
-import { Outlet, useNavigate } from "@tanstack/react-router";
-import { useUserAuth } from "@/Contexts/UserAuth/AuthContext";
-import UserAuthProvider from "@/Contexts/UserAuth/AuthProvider";
 import { TbLayoutSidebarRightExpandFilled } from "react-icons/tb";
+import { Outlet, useNavigate, redirect, Link } from "@tanstack/react-router";
 
-const User: FC = () => {
-  const user = useUserAuth();
-  const [openRipple, openEvent] = useRipple({ color: "currentColor" });
-  const [closeRipple, closeEvent] = useRipple({ color: "currentColor" });
-  const [themeRipple, themeEvent] = useRipple({ color: "currentColor" });
+export const Route = createFileRoute("/user")({
+  component: User,
+  beforeLoad: async (_) => {
+    const res = await authActions.isSessionActive();
+    if (!res) throw redirect({ to: "/login" });
+  },
+});
 
+function User() {
+  const auth = useAuth();
   const navigate = useNavigate();
   const { theme, applyTheme } = useTheme();
-
-  useEffect(() => {
-    if (user.userDetails === null) {
-      user.login(
-        () => {},
-        () => navigate({ to: "/login" }),
-      );
-    }
-  }, []);
+  const [openRipple, openEvent] = useRipple({ color: "currentColor" });
+  const [closeRipple, closeEvent] = useRipple({ color: "currentColor" });
 
   return (
     <div className="drawer lg:drawer-open">
@@ -49,7 +44,12 @@ const User: FC = () => {
             >
               <GiHamburgerMenu className="size-6" />
             </label>
-            <div className="p-2 font-black text-lg">CityLibrary</div>
+            <Link to="/" className="btn btn-ghost text-xl gap-2 rounded-lg">
+              <BiBook className="w-6 h-6 text-primary" />
+              <span className="font-bold bg-gradient-to-right from-primary to-secondary bg-clip-text">
+                CityLibrary
+              </span>
+            </Link>
           </div>
           <div className="flex gap-2">
             <div tabIndex={0} role="button" className="avatar aspect-square">
@@ -57,7 +57,7 @@ const User: FC = () => {
                 <img
                   alt="Tailwind CSS Navbar component"
                   src={
-                    user.userDetails?.profile ||
+                    auth.user?.profile ||
                     import.meta.env.VITE_DEFAULT_USER_IMAGE
                   }
                 />
@@ -78,7 +78,7 @@ const User: FC = () => {
           <ul className="menu w-full grow gap-0.5 bg-base-100">
             {/* List item */}
             <li>
-              <Button
+              <RippleButton
                 className="bg-base-300 hover:bg-primary p-2 is-drawer-close:tooltip is-drawer-close:tooltip-right is-drawer-open:h-10 max-h-10 rounded-b-sm rounded-t-lg is-drawer-close:justify-center is-drawer-close:aspect-square"
                 data-tip="Homepage"
                 onClick={() => {
@@ -88,11 +88,11 @@ const User: FC = () => {
                 {/* Home icon */}
                 <GoHomeFill className="size-6 text-accent" />
                 <span className="is-drawer-close:hidden">Homepage</span>
-              </Button>
+              </RippleButton>
             </li>
 
             <li>
-              <Button
+              <RippleButton
                 className="bg-base-300 hover:bg-primary p-2 is-drawer-close:tooltip is-drawer-close:tooltip-right is-drawer-open:h-10 max-h-10 rounded-sm is-drawer-close:justify-center is-drawer-close:aspect-square"
                 data-tip="Book"
                 onClick={() => {
@@ -101,11 +101,11 @@ const User: FC = () => {
               >
                 <BiSolidBookAlt className="size-6 text-accent" />
                 <span className="is-drawer-close:hidden">Book</span>
-              </Button>
+              </RippleButton>
             </li>
 
             <li>
-              <Button
+              <RippleButton
                 className="bg-base-300 hover:bg-primary p-2 is-drawer-close:tooltip is-drawer-close:tooltip-right is-drawer-open:h-10 max-h-10 rounded-sm is-drawer-close:justify-center is-drawer-close:aspect-square"
                 data-tip="Author"
                 onClick={() => {
@@ -114,37 +114,40 @@ const User: FC = () => {
               >
                 <ImQuill className="size-6 text-accent" />
                 <span className="is-drawer-close:hidden">Author</span>
-              </Button>
+              </RippleButton>
             </li>
 
             <li>
-              <Button
+              <RippleButton
                 className="bg-base-300 hover:bg-primary p-2 is-drawer-close:tooltip is-drawer-close:tooltip-right is-drawer-open:h-10 max-h-10 rounded-t-sm rounded-b-lg is-drawer-close:justify-center is-drawer-close:aspect-square"
                 data-tip="History"
               >
                 <MdHistory className="size-6 text-accent" />
                 <span className="is-drawer-close:hidden">History</span>
-              </Button>
+              </RippleButton>
             </li>
           </ul>
 
           <ul className="drawer-end menu w-full grow flex-col-reverse gap-0.5 bg-base-100">
             <li>
-              <label
+              <RippleButton
                 aria-label="logout buttton"
                 className="bg-error p-2 is-drawer-close:tooltip is-drawer-close:tooltip-right is-drawer-open:h-10 max-h-10 rounded-t-sm rounded-b-lg is-drawer-close:justify-center is-drawer-close:aspect-square"
                 data-tip="Logout"
                 onClick={() => {
-                  if (user.userDetails !== null) {
-                    user.logout(() => {
-                      navigate({ to: "/login" });
-                    });
+                  if (auth.isAuthenticated) {
+                    auth
+                      .logout()
+                      .then(() => {
+                        navigate({ to: "/login" });
+                      })
+                      .catch(console.error);
                   }
                 }}
               >
                 <IoLogOut className="size-6 rotate-180" />
                 <span className="is-drawer-close:hidden">Logout</span>
-              </label>
+              </RippleButton>
             </li>
 
             <li>
@@ -162,13 +165,13 @@ const User: FC = () => {
             </li>
 
             <li>
-              <label
+              <RippleButton
                 aria-label="change theme"
                 className="bg-base-300 hover:bg-primary p-2 is-drawer-close:tooltip is-drawer-close:tooltip-right is-drawer-open:h-10 max-h-10 rounded-b-sm rounded-t-lg is-drawer-close:justify-center is-drawer-close:aspect-square"
                 data-tip="Toggle Theme"
                 onClick={() => applyTheme(theme === "dark" ? "light" : "dark")}
-                onPointerDown={themeEvent}
-                ref={themeRipple}
+                // onPointerDown={themeEvent}
+                // ref={themeRipple}
               >
                 {theme == "light" ? (
                   <IoMdSunny className="size-6 text-accent" />
@@ -176,18 +179,11 @@ const User: FC = () => {
                   <IoMdMoon className="size-6 text-accent" />
                 )}
                 <span className="is-drawer-close:hidden">{theme}</span>
-              </label>
+              </RippleButton>
             </li>
           </ul>
         </div>
       </div>
     </div>
   );
-};
-export const Route = createFileRoute("/user")({
-  component: () => (
-    <UserAuthProvider>
-      <User />
-    </UserAuthProvider>
-  ),
-});
+}

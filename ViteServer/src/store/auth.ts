@@ -1,5 +1,5 @@
 import base from "@/util/axios-base";
-import { type AxiosResponse } from "axios";
+// import { type AxiosResponse } from "axios";
 import { Store } from "@tanstack/react-store";
 import { useSelector } from "@tanstack/react-store";
 import {
@@ -10,12 +10,13 @@ import {
 } from "@/validators/user-auth";
 
 export type AuthActions = {
-  verifySession: () => Promise<void>;
-  login: (data: {
-    username: string;
-    password: string;
-  }) => Promise<AxiosResponse<ResponseSchema, any, {}>>;
-  signup: (data: SignupSchema) => Promise<AxiosResponse<any, any, {}>>;
+  isSessionActive: () => Promise<boolean>;
+  loginWithCred: (data: LoginSchema) => Promise<void>;
+  /**
+   * @throws Error
+   * @param data
+   */
+  signup: (data: SignupSchema) => Promise<void>;
   logout: () => Promise<void>;
 };
 
@@ -31,47 +32,12 @@ export const authStore = new Store<AuthState>({
   error: null,
 });
 
-let sessionCheckPromise: Promise<void> | null = null;
+// let sessionCheckPromise: Promise<void> | null = null;
 
 export const authActions: AuthActions = {
-  verifySession: async () => {
-    if (!sessionCheckPromise) {
-      sessionCheckPromise = base
-        .get<ResponseSchema>("/user/login", { schema: responseSchema })
-        .then((res) => {
-          // Explicitly check status because Axios won't throw on 401/403
-          if (res.status === 200) {
-            authStore.setState((state) => ({
-              ...state,
-              isAuthenticated: true,
-              user: res.data,
-              error: null,
-            }));
-          } else {
-            authStore.setState((state) => ({
-              ...state,
-              isAuthenticated: false,
-              user: null,
-              error: res.statusText,
-            }));
-          }
-        })
-        .catch(() => {
-          // This catch now only triggers on complete network failure or Zod schema rejection
-          authStore.setState((state) => ({
-            ...state,
-            isAuthenticated: false,
-            user: null,
-            error: "Network error",
-          }));
-        });
-    }
-    return sessionCheckPromise;
-  },
-
-  login: async (data: LoginSchema) => {
+  isSessionActive: async () => {
     try {
-      const res = await base.post<ResponseSchema>("/user/login", data, {
+      const res = await base.get<ResponseSchema>("/user/login", {
         schema: responseSchema,
       });
 
@@ -82,49 +48,71 @@ export const authActions: AuthActions = {
           user: res.data,
           error: null,
         }));
-        return res;
+        return true;
       } else {
-        // Handle 400/401 manually
-        const errorMsg = res.statusText;
-        authStore.setState((state) => ({ ...state, error: errorMsg }));
-        throw new Error(errorMsg);
-      }
-    } catch (err: any) {
-      // Catch Zod rejections or network issues
-      if (!authStore.state.error) {
         authStore.setState((state) => ({
           ...state,
-          error: "Network or validation error",
+          isAuthenticated: false,
+          user: null,
+          error: res.statusText,
         }));
       }
-      throw err;
+    } catch (err) {
+      authStore.setState((state) => ({
+        ...state,
+        isAuthenticated: false,
+        user: null,
+        error: "network_error",
+      }));
     }
+    return false;
   },
 
+  loginWithCred: async (data: LoginSchema) => {
+    const res = await base.post<ResponseSchema>("/user/login", data, {
+      schema: responseSchema,
+    });
+
+    if (res.status === 200)
+      authStore.setState((state) => ({
+        ...state,
+        isAuthenticated: true,
+        user: res.data,
+        error: null,
+      }));
+    else {
+      authStore.setState((state) => ({ ...state, error: res.statusText }));
+      throw new Error(res.statusText, { cause: res.data });
+    }
+  },
   signup: async (data: SignupSchema) => {
-    try {
-      const res = await base.postForm<SignupSchema>("/user/signup", data);
-      if (res.status === 201) {
-        return res;
-      } else {
-        const errorMsg = res.statusText;
-        authStore.setState((state) => ({ ...state, error: errorMsg }));
-        throw new Error(errorMsg);
-      }
-    } catch (err: any) {
-      throw err;
+    const res = await base.postForm<ResponseSchema>("/user/signup", data, {
+      schema: responseSchema,
+    });
+
+    if (res.status === 201 || res.status === 200)
+      authStore.setState((state) => ({
+        ...state,
+        isAuthenticated: true,
+        user: res.data,
+        error: null,
+      }));
+    else {
+      authStore.setState((state) => ({ ...state, error: res.statusText }));
+      throw new Error(res.statusText, { cause: res.data });
     }
   },
 
   logout: async () => {
-    await base.get("/user/logout");
-    sessionCheckPromise = null;
-    authStore.setState((state) => ({
-      ...state,
-      isAuthenticated: false,
-      user: null,
-      error: null,
-    }));
+    const res = await base.get("/user/logout");
+    if (res.status === 204)
+      authStore.setState((state) => ({
+        ...state,
+        isAuthenticated: false,
+        user: null,
+        error: null,
+      }));
+    else throw new Error(res.statusText, { cause: res.data });
   },
 };
 

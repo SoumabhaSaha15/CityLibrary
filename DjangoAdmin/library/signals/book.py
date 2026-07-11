@@ -1,9 +1,7 @@
-from django.db.models.signals import pre_save, post_delete
-from django.dispatch import receiver
-import cloudinary.uploader
 from ..models import Book  # Adjust import based on where this file lives
-
-# Trigger 1: Delete image from Cloudinary when the Book model is deleted
+import cloudinary.uploader
+from django.dispatch import receiver
+from django.db.models.signals import pre_save, post_delete
 
 
 @receiver(post_delete, sender=Book)
@@ -14,11 +12,9 @@ def auto_delete_image_on_delete(sender, instance, **kwargs):
     if instance.book_cover:
         cloudinary.uploader.destroy(instance.book_cover.public_id)
 
-# Trigger 2: Delete old image when the Book cover is updated
-
 
 @receiver(pre_save, sender=Book)
-def auto_delete_image_on_change(sender, instance, **kwargs):
+def auto_delete_image_on_update(sender, instance, **kwargs):
     """
     Deletes old file from Cloudinary when corresponding `Book` object is updated
     with a new file.

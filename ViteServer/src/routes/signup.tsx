@@ -1,20 +1,27 @@
 import { cn } from "@/util/cn";
-import LoadingPage from "@/Loader";
-import base from "@/util/axios-base";
 import { useEffect, useState } from "react";
+import { authActions } from "@/store/auth";
 import RippleButton from "@/Components/RippleButton";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, type SubmitHandler, useWatch } from "react-hook-form";
 import { useToast, DefaultOptions } from "@/Contexts/Toast/ToastContext";
 import { signupSchema, type SignupSchema } from "@/validators/user-auth";
-import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
-import { type ResponseSchema, responseSchema } from "@/validators/user-auth";
+import {
+  createFileRoute,
+  useNavigate,
+  Link,
+  redirect,
+} from "@tanstack/react-router";
+
 export const Route = createFileRoute("/signup")({
   component: RouteComponent,
+  beforeLoad: async ({ context: { auth } }) => {
+    const res = await authActions.isSessionActive();
+    if (auth && res) throw redirect({ to: "/user" });
+  },
 });
 
 function RouteComponent() {
-  const [isLoading, setIsLoading] = useState<boolean>(true);
   const defaultImage = import.meta.env.VITE_DEFAULT_USER_IMAGE;
   const [passwordType, setPasswordType] = useState<"text" | "password">(
     "password",
@@ -32,29 +39,6 @@ function RouteComponent() {
   const watchedImage = useWatch({ name: "profile", control });
 
   useEffect(() => {
-    let cancelled = false;
-    const checkSession = async () => {
-      try {
-        const res = await base.get<ResponseSchema>("/user/login", {
-          schema: responseSchema,
-        });
-        if (cancelled) return;
-        if (res.status === 200) {
-          window.localStorage.setItem("loginData", JSON.stringify(res.data));
-          navigate({ to: "/user" });
-        } else setIsLoading(false);
-      } catch {
-        if (!cancelled) setIsLoading(false);
-      }
-    };
-
-    checkSession();
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
-  useEffect(() => {
     if (watchedImage?.[0]) {
       const objectUrl = URL.createObjectURL(watchedImage[0]);
       setDisplayImage(objectUrl);
@@ -66,27 +50,19 @@ function RouteComponent() {
   }, [watchedImage]);
 
   const signup: SubmitHandler<SignupSchema> = async (data) => {
-    const response = await base.postForm("/user/signup", data);
-    console.log(response.data, data);
-    if (response.status === 201) {
+    try {
+      await authActions.signup(data);
       reset();
+      toast.open("signup successfull", true, 1000, DefaultOptions.success);
       navigate({ to: "/user" });
-      toast.open(
-        "User created successfully",
-        true,
-        1000,
-        DefaultOptions.success,
-      );
-    } else {
-      toast.open("Failed to create user", true, 1000, DefaultOptions.error);
+    } catch (error) {
+      toast.open((error as Error).message, true, 1000, DefaultOptions.error);
     }
   };
 
-  return isLoading ? (
-    <LoadingPage />
-  ) : (
+  return (
     <>
-      <div className="hero min-h-dvh scroll-smooth transition-all snap-y snap-mandatory">
+      <div className="min-h-dvh scroll-smooth transition-all snap-y snap-mandatory">
         <div className="hero min-h-screen px-4 py-8">
           <div className="hero-content flex-col lg:flex-row-reverse w-full max-w-6xl gap-8">
             <div className="text-center lg:text-left lg:flex-1">
@@ -100,7 +76,7 @@ function RouteComponent() {
                 </Link>
               </p>
             </div>
-            <div className="card bg-base-100 w-full max-w-sm lg:max-w-md shrink-0 shadow-2xl rounded-2xl hover:scale-110 transition-transform">
+            <div className="card bg-base-200 w-full max-w-sm lg:max-w-md shrink-0 shadow-md hover:scale-110 transition-transform">
               <div className="card-body p-4 sm:p-8">
                 <form
                   className="fieldset space-y-4"
@@ -109,8 +85,12 @@ function RouteComponent() {
                 >
                   <label htmlFor="profile" aria-label="Upload profile picture">
                     <div className="avatar grid place-items-center">
-                      <div className="w-32 rounded-full">
-                        <img src={displayImage} alt="profile-pic" />
+                      <div className="w-32">
+                        <img
+                          src={displayImage}
+                          alt="profile-pic"
+                          className="rounded-lg"
+                        />
                       </div>
                     </div>
                   </label>
@@ -119,7 +99,7 @@ function RouteComponent() {
                     type="file"
                     id="profile"
                     className={cn(
-                      "validator file-input file-input-bordered w-full focus:outline-none focus:ring-0 rounded-full focus:ring-accent",
+                      "validator file-input file-input-bordered w-full focus:outline-none focus:ring-0 focus:ring-accent",
                       errors.profile && "focus:ring-error",
                     )}
                     {...register("profile")}
@@ -140,7 +120,7 @@ function RouteComponent() {
                       <input
                         type="text"
                         className={cn(
-                          "validator input input-bordered w-full focus:outline-none focus:ring-0 rounded-full focus:ring-accent",
+                          "validator input input-bordered w-full focus:outline-none focus:ring-0 focus:ring-accent",
                           errors.username && "focus:ring-error",
                         )}
                         id="NameInput"
@@ -166,7 +146,7 @@ function RouteComponent() {
                       <input
                         type="email"
                         className={cn(
-                          "validator input input-bordered w-full focus:outline-none focus:ring-0 focus:ring-accent rounded-full",
+                          "validator input input-bordered w-full focus:outline-none focus:ring-0 focus:ring-accent",
                           errors.email && "focus:ring-error",
                         )}
                         id="EmailInput"
@@ -179,7 +159,7 @@ function RouteComponent() {
                   </div>
 
                   <div>
-                    <label className="floating-label" htmlFor="EmailInput">
+                    <label className="floating-label" htmlFor="PasswordInput">
                       <span
                         className={cn(
                           "transition-colors duration-300",
@@ -191,7 +171,7 @@ function RouteComponent() {
                       <input
                         type={passwordType}
                         className={cn(
-                          "validator input input-bordered w-full focus:outline-none focus:ring-0 focus:ring-accent rounded-full",
+                          "validator input input-bordered w-full focus:outline-none focus:ring-0 focus:ring-accent",
                           errors.password && "focus:ring-error",
                         )}
                         id="PasswordInput"
@@ -209,7 +189,7 @@ function RouteComponent() {
                     <input
                       type="checkbox"
                       className="checkbox"
-                      onInput={() =>
+                      onChange={() =>
                         setPasswordType((prev) =>
                           prev == "password" ? "text" : "password",
                         )
@@ -220,7 +200,7 @@ function RouteComponent() {
                   <RippleButton
                     type="submit"
                     disabled={isSubmitting}
-                    className="btn btn-primary w-full hover:btn-secondary rounded-full"
+                    className="btn btn-primary w-full hover:btn-secondary"
                   >
                     {isSubmitting ? (
                       <>

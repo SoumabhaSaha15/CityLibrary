@@ -12,7 +12,7 @@ body {
   font-family: "IBM Plex Serif", serif;
   transition-property: all;
   transition-duration: 0.25s;
-  transition-timing-function: linear;
+  /* transition-timing-function: linear; */
   scroll-behavior: smooth;
 }
 html[data-theme] {
