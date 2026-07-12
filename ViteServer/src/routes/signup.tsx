@@ -26,9 +26,9 @@ function RouteComponent() {
   const [passwordType, setPasswordType] = useState<"text" | "password">(
     "password",
   );
-  const [displayImage, setDisplayImage] = useState<string>(defaultImage);
-  const navigate = useNavigate();
   const toast = useToast();
+  const navigate = useNavigate();
+  const [displayImage, setDisplayImage] = useState<string>(defaultImage);
   const {
     handleSubmit,
     register,

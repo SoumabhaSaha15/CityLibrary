@@ -1,6 +1,9 @@
-import ScrollReveal from "scrollreveal";
+import { cn } from "@/util/cn";
+import { type FC } from "react";
 import { BiBook } from "react-icons/bi";
-import { type FC, useState, useEffect } from "react";
+import { GiHamburgerMenu } from "react-icons/gi";
+import RippleButton from "@/Components/RippleButton";
+import { useInView } from "react-intersection-observer";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import {
   FaSearch,
@@ -8,26 +11,22 @@ import {
   FaClock,
   FaUsers,
   FaChartLine,
-  FaBars,
   FaArrowRight,
   FaCheckCircle,
 } from "react-icons/fa";
 
 const Home: FC = () => {
-  useEffect(
-    () =>
-      ["About", "Features", "Contacts"].forEach((ids, index) =>
-        ScrollReveal().reveal(`#${ids}`, {
-          delay: (index + 1) * 100,
-          reset: true,
-          easing: "ease-in-out",
-        }),
-      ),
-    [],
-  );
   const navigate = useNavigate();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
+  const { ref: aboutRef, inView: aboutInView } = useInView({ threshold: 0.1 });
+  const { ref: featuresRef, inView: featuresInView } = useInView({
+    threshold: 0.1,
+  });
+  const { ref: contactsRef, inView: contactsInView } = useInView({
+    threshold: 0.1,
+  });
+  const { ref: callToActionRef, inView: callToActionInView } = useInView({
+    threshold: 0.1,
+  });
   const features = [
     {
       icon: <BiBook className="w-8 h-8" />,
@@ -66,27 +65,27 @@ const Home: FC = () => {
         <nav className="navbar bg-base-100 shadow-lg sticky top-0 z-50">
           <div className="navbar-start">
             <div className="dropdown lg:hidden">
-              <button
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="btn btn-square btn-ghost rounded-lg"
+              <RippleButton
+                // onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                className="btn btn-circle btn-ghost"
               >
-                <FaBars className="w-5 h-5" />
-              </button>
-              {mobileMenuOpen && (
-                <ul className="menu menu-sm dropdown-content mt-3 z-1 p-2 shadow-xl bg-base-100 rounded-box w-52">
-                  <li>
-                    <a href="#About">About</a>
-                  </li>
-                  <li>
-                    <a href="#Features">Features</a>
-                  </li>
-                  <li>
-                    <a href="#Contacts">Contacts</a>
-                  </li>
-                </ul>
-              )}
+                <GiHamburgerMenu className="w-5 h-5" />
+              </RippleButton>
+              {/* {mobileMenuOpen && ( */}
+              <ul className="menu menu-sm dropdown-content mt-3 z-1 p-2 shadow-xl bg-base-100 rounded-box w-52">
+                <li>
+                  <a href="#About">About</a>
+                </li>
+                <li>
+                  <a href="#Features">Features</a>
+                </li>
+                <li>
+                  <a href="#Contacts">Contacts</a>
+                </li>
+              </ul>
+              {/* )} */}
             </div>
-            <Link to="/" className="btn btn-ghost text-xl gap-2 rounded-lg">
+            <Link to="/" className="btn btn-ghost text-xl gap-2">
               <BiBook className="w-6 h-6 text-primary" />
               <span className="font-bold bg-gradient-to-right from-primary to-secondary bg-clip-text">
                 CityLibrary
@@ -99,7 +98,7 @@ const Home: FC = () => {
               <li>
                 <a
                   href="#About"
-                  className="hover:text-primary transition-colors rounded-lg"
+                  className="hover:text-primary transition-colors"
                 >
                   About
                 </a>
@@ -107,7 +106,7 @@ const Home: FC = () => {
               <li>
                 <a
                   href="#Features"
-                  className="hover:text-primary transition-colors rounded-lg"
+                  className="hover:text-primary transition-colors"
                 >
                   Features
                 </a>
@@ -115,7 +114,7 @@ const Home: FC = () => {
               <li>
                 <a
                   href="#Contacts"
-                  className="hover:text-primary transition-colors rounded-lg"
+                  className="hover:text-primary transition-colors"
                 >
                   Contacts
                 </a>
@@ -124,19 +123,26 @@ const Home: FC = () => {
           </div>
 
           <div className="navbar-end gap-2">
-            <button
-              className="btn btn-ghost btn-sm sm:btn-md rounded-lg"
+            <RippleButton
+              className="btn btn-ghost btn-sm sm:btn-md"
               onClick={() => {
                 navigate({ to: "/login" });
               }}
             >
               Sign In
-            </button>
+            </RippleButton>
           </div>
         </nav>
 
-        {/* Hero Section */}
-        <div className="hero min-h-[calc(100vh-4rem)] py-12 lg:py-0" id="About">
+        {/* About Section */}
+        <div
+          ref={aboutRef}
+          id="About"
+          className={cn(
+            "hero min-h-[calc(100vh-4rem)] py-12 lg:py-0 transition-all duration-1000 ease-in-out delay-100",
+            aboutInView ? "opacity-100 scale-100" : "opacity-0 scale-95",
+          )}
+        >
           <div className="hero-content flex-col lg:flex-row-reverse max-w-7xl px-4 gap-8 lg:gap-12">
             {/* Hero Image */}
             <div className="flex-1 relative">
@@ -164,13 +170,13 @@ const Home: FC = () => {
                 </div>
               </div>
               {/* Decorative elements */}
-              <div className="absolute top-10 -right-10 w-32 h-32 bg-primary/10 rounded-lg blur-3xl"></div>
-              <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-secondary/10 rounded-lg blur-3xl"></div>
+              <div className="absolute top-10 -right-10 w-32 h-32 bg-primary/10 blur-3xl"></div>
+              <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-secondary/10 blur-3xl"></div>
             </div>
 
             {/* Hero Content */}
             <div className="flex-1 text-center lg:text-left">
-              <div className="badge badge-primary badge-lg mb-4 gap-2 rounded-lg">
+              <div className="badge badge-primary badge-lg mb-4 gap-2">
                 <FaCheckCircle /> Trusted by 50,000+ Readers
               </div>
 
@@ -189,14 +195,10 @@ const Home: FC = () => {
 
               {/* CTA Buttons */}
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-12">
-                <button className="btn btn-primary btn-lg gap-2 shadow-lg hover:shadow-xl rounded-lg">
+                <RippleButton className="btn btn-primary btn-lg gap-2 shadow-lg hover:shadow-xl">
                   Get Started Free
                   <FaArrowRight />
-                </button>
-                <button className="btn btn-outline btn-lg gap-2 rounded-lg">
-                  <BiBook />
-                  Browse Collection
-                </button>
+                </RippleButton>
               </div>
 
               {/* Quick Stats */}
@@ -220,7 +222,14 @@ const Home: FC = () => {
         </div>
 
         {/* Features Section */}
-        <div className="bg-base-200/50 py-20" id="Features">
+        <div
+          ref={featuresRef}
+          id="Features"
+          className={cn(
+            "bg-base-200/50 py-20 transition-all duration-1000 ease-in-out delay-200",
+            featuresInView ? "opacity-100 scale-100" : "opacity-0 scale-95",
+          )}
+        >
           <div className="max-w-7xl mx-auto px-4">
             <div className="text-center mb-16">
               <h2 className="text-4xl lg:text-5xl font-bold mb-4">
@@ -236,10 +245,10 @@ const Home: FC = () => {
               {features.map((feature) => (
                 <div
                   key={crypto.randomUUID()}
-                  className="card bg-base-100 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 rounded-lg"
+                  className="card bg-base-100 shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-2"
                 >
-                  <div className="card-body items-center text-center rounded-lg">
-                    <div className="bg-primary/10 p-4 rounded-lg text-primary mb-4">
+                  <div className="card-body items-center text-center">
+                    <div className="bg-primary/10 p-4 rounded-box text-primary mb-4">
                       {feature.icon}
                     </div>
                     <h3 className="card-title text-xl mb-2">{feature.title}</h3>
@@ -254,9 +263,15 @@ const Home: FC = () => {
         </div>
 
         {/* CTA Section */}
-        <div className="py-20">
+        <div
+          className={cn(
+            "py-20 transition-all duration-1000 ease-in-out delay-200",
+            callToActionInView ? "opacity-100 scale-100" : "opacity-0 scale-95",
+          )}
+          ref={callToActionRef}
+        >
           <div className="max-w-4xl mx-auto px-4">
-            <div className="card bg-linear-to-r from-primary to-secondary text-primary-content shadow-2xl rounded-lg">
+            <div className="card bg-linear-to-r from-primary to-secondary text-primary-content hover:shadow-lg">
               <div className="card-body items-center text-center py-12">
                 <h2 className="card-title text-3xl lg:text-5xl font-bold mb-4">
                   Ready to Start Reading?
@@ -266,23 +281,27 @@ const Home: FC = () => {
                   entire collection
                 </p>
                 <div className="card-actions">
-                  <button
-                    className="btn btn-lg bg-base-100 text-primary hover:bg-base-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
+                  <RippleButton
+                    className="btn btn-lg bg-base-100 text-primary hover:bg-base-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
                     onClick={() => navigate({ to: "/signup" })}
                   >
                     <FaUserPlus className="w-5 h-5" />
                     Create Free Account
-                  </button>
+                  </RippleButton>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Footer */}
+        {/* Contacts */}
         <footer
-          className="footer footer-center p-6 sm:p-10 bg-base-200 text-base-content"
+          ref={contactsRef}
           id="Contacts"
+          className={cn(
+            "footer footer-center p-6 sm:p-10 bg-base-200 text-base-content transition-all duration-1000 ease-in-out delay-300",
+            contactsInView ? "opacity-100 scale-100" : "opacity-0 scale-95",
+          )}
         >
           <div className="w-full max-w-7xl">
             <div className="flex items-center justify-center gap-2 text-xl sm:text-2xl font-bold">

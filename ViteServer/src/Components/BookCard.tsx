@@ -14,7 +14,7 @@ const BookCard = ({ book }: BookCardProps) => {
   const authorNames = book.authors.map((a) => a.author_name).join(", ");
 
   return (
-    <div className="card bg-base-100 w-full max-w-sm h-full hover:shadow-2xl hover:shadow-accent-content">
+    <div className="card bg-base-100 w-full max-w-sm h-full hover:shadow-2xl hover:shadow-accent-content scale-95 hover:scale-100">
       <figure className="aspect-3/4 w-full overflow-hidden">
         <img
           src={book.book_cover}

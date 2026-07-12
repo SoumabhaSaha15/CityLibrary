@@ -22,6 +22,7 @@ export const Route = createFileRoute("/login")({
 });
 
 function RouteComponent() {
+  const toast = useToast();
   const navigate = useNavigate();
   const [passwordType, setPasswordType] = useState<"text" | "password">(
     "password",
@@ -32,7 +33,6 @@ function RouteComponent() {
     reset,
     formState: { errors, isSubmitting },
   } = useForm<LoginSchema>({ resolver: zodResolver(loginSchema) });
-  const toast = useToast();
 
   const login: SubmitHandler<LoginSchema> = async (data) => {
     try {

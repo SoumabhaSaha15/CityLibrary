@@ -27,6 +27,7 @@ const router = createRouter({
     queryClient,
     auth: undefined,
   },
+  defaultViewTransition: true,
   defaultPendingComponent: LoadingPage,
   defaultNotFoundComponent: NotFoundPage,
   defaultErrorComponent: ErrorPage,

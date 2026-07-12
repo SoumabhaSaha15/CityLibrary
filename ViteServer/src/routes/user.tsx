@@ -1,13 +1,14 @@
+import { cn } from "@/util/cn";
 import { ImQuill } from "react-icons/im";
 import { MdHistory } from "react-icons/md";
 import { IoLogOut } from "react-icons/io5";
 import { useRipple } from "use-ripple-hook";
 import { GoHomeFill } from "react-icons/go";
-import { BiSolidBookAlt, BiBook } from "react-icons/bi";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { authActions, useAuth } from "@/store/auth";
 import RippleButton from "@/Components/RippleButton";
 import { IoMdSunny, IoMdMoon } from "react-icons/io";
+import { BiSolidBookAlt, BiBook } from "react-icons/bi";
 import { createFileRoute } from "@tanstack/react-router";
 import { useTheme } from "@/Contexts/Theme/ThemeContext";
 import { TbLayoutSidebarRightExpandFilled } from "react-icons/tb";
@@ -40,7 +41,7 @@ function User() {
               aria-label="open sidebar"
               onPointerDown={openEvent}
               ref={openRipple}
-              className="p-2 hover:bg-primary btn btn-square btn-ghost bg-base-100 rounded-lg lg:hidden"
+              className="p-2 hover:bg-primary btn btn-circle btn-ghost lg:hidden"
             >
               <GiHamburgerMenu className="size-6" />
             </label>
@@ -73,7 +74,12 @@ function User() {
           aria-label="close sidebar"
           className="drawer-overlay"
         />
-        <div className="flex min-h-full flex-col items-start bg-base-200 is-drawer-close:w-14 is-drawer-open:w-64">
+        <div
+          className={cn(
+            "flex min-h-full flex-col items-start bg-base-200 is-drawer-close:w-14 is-drawer-open:w-64",
+            // drawerInView ? "opacity-100 scale-100" : "opacity-0 scale-95",
+          )}
+        >
           {/* Sidebar content here */}
           <ul className="menu w-full grow gap-0.5 bg-base-100">
             {/* List item */}
@@ -170,8 +176,6 @@ function User() {
                 className="bg-base-300 hover:bg-primary p-2 is-drawer-close:tooltip is-drawer-close:tooltip-right is-drawer-open:h-10 max-h-10 rounded-b-sm rounded-t-lg is-drawer-close:justify-center is-drawer-close:aspect-square"
                 data-tip="Toggle Theme"
                 onClick={() => applyTheme(theme === "dark" ? "light" : "dark")}
-                // onPointerDown={themeEvent}
-                // ref={themeRipple}
               >
                 {theme == "light" ? (
                   <IoMdSunny className="size-6 text-accent" />
