@@ -3,6 +3,7 @@ import { ImQuill } from "react-icons/im";
 import { MdHistory } from "react-icons/md";
 import { IoLogOut } from "react-icons/io5";
 import { useRipple } from "use-ripple-hook";
+import { useTheme } from "@/store/theme";
 import { GoHomeFill } from "react-icons/go";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { authActions, useAuth } from "@/store/auth";
@@ -10,7 +11,6 @@ import RippleButton from "@/Components/RippleButton";
 import { IoMdSunny, IoMdMoon } from "react-icons/io";
 import { BiSolidBookAlt, BiBook } from "react-icons/bi";
 import { createFileRoute } from "@tanstack/react-router";
-import { useTheme } from "@/Contexts/Theme/ThemeContext";
 import { TbLayoutSidebarRightExpandFilled } from "react-icons/tb";
 import { Outlet, useNavigate, redirect, Link } from "@tanstack/react-router";
 
@@ -165,7 +165,7 @@ function User() {
                 onPointerDown={closeEvent}
                 ref={closeRipple}
               >
-                <TbLayoutSidebarRightExpandFilled className="is-drawer-close:rotate-180 size-6 text-accent" />
+                <TbLayoutSidebarRightExpandFilled className="is-drawer-close:rotate-180 transition-transform size-6 text-accent" />
                 <span className="is-drawer-close:hidden">Close</span>
               </label>
             </li>
@@ -178,9 +178,9 @@ function User() {
                 onClick={() => applyTheme(theme === "dark" ? "light" : "dark")}
               >
                 {theme == "light" ? (
-                  <IoMdSunny className="size-6 text-accent" />
+                  <IoMdSunny className="size-6 text-accent hover:rotate-180 transition-transform" />
                 ) : (
-                  <IoMdMoon className="size-6 text-accent" />
+                  <IoMdMoon className="size-6 text-accent hover:rotate-360 transition-transform" />
                 )}
                 <span className="is-drawer-close:hidden">{theme}</span>
               </RippleButton>

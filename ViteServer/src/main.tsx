@@ -4,6 +4,7 @@ import LoadingPage from "./Loader";
 import NotFoundPage from "./NotFound";
 import ReactDOM from "react-dom/client";
 import { authStore } from "./store/auth";
+import { themeStore } from "./store/theme";
 import { routeTree } from "./routeTree.gen";
 import { useSelector } from "@tanstack/react-store";
 import { QueryClient } from "@tanstack/react-query";
@@ -26,6 +27,7 @@ const router = createRouter({
   context: {
     queryClient,
     auth: undefined,
+    theme: undefined,
   },
   defaultViewTransition: true,
   defaultPendingComponent: LoadingPage,
@@ -42,9 +44,10 @@ declare module "@tanstack/react-router" {
     router: typeof router;
   }
 }
-function AuthApp() {
+function App() {
   const auth = useSelector(authStore, (state) => state);
-  return <RouterProvider router={router} context={{ auth }} />;
+  const { theme } = useSelector(themeStore, (state) => state);
+  return <RouterProvider router={router} context={{ auth, theme }} />;
 }
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
@@ -53,7 +56,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       client={queryClient}
       persistOptions={{ persister }}
     >
-      <AuthApp />
+      <App />
     </PersistQueryClientProvider>
   </DaisyUIProvider>,
 );

@@ -9,7 +9,7 @@ interface AuthorCardProps {
 const AuthorCard = ({ author }: AuthorCardProps) => {
   const [viewRipple, viewEvent] = useRipple({ color: "currentColor" });
   return (
-    <div className="card bg-base-100 w-full max-w-sm h-full hover:shadow-2xl hover:shadow-accent-content">
+    <div className="card bg-base-100 w-full max-w-sm h-full hover:shadow-2xl hover:shadow-accent-content scale-95 hover:scale-100 transition-transform">
       <figure className="aspect-3/4 w-full overflow-hidden">
         <img
           src={author.author_image}
