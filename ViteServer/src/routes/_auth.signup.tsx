@@ -1,44 +1,50 @@
 import { cn } from "@/util/cn";
-import { useState } from "react";
 import { authActions } from "@/store/auth";
+import { useEffect, useState } from "react";
 import RippleButton from "@/Components/RippleButton";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm, type SubmitHandler } from "react-hook-form";
-import { loginSchema, type LoginSchema } from "@/validators/user-auth";
+import { useForm, type SubmitHandler, useWatch } from "react-hook-form";
 import { useToast, DefaultOptions } from "@/Contexts/Toast/ToastContext";
-import {
-  createFileRoute,
-  useNavigate,
-  Link,
-  redirect,
-} from "@tanstack/react-router";
+import { signupSchema, type SignupSchema } from "@/validators/user-auth";
+import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 
-export const Route = createFileRoute("/login")({
+export const Route = createFileRoute("/_auth/signup")({
   component: RouteComponent,
-  beforeLoad: async ({ context: { auth } }) => {
-    const res = await authActions.isSessionActive();
-    if (auth && res) throw redirect({ to: "/user" });
-  },
 });
 
 function RouteComponent() {
-  const toast = useToast();
-  const navigate = useNavigate();
+  const defaultImage = import.meta.env.VITE_DEFAULT_USER_IMAGE;
   const [passwordType, setPasswordType] = useState<"text" | "password">(
     "password",
   );
+  const toast = useToast();
+  const navigate = useNavigate();
+  const [displayImage, setDisplayImage] = useState<string>(defaultImage);
   const {
     handleSubmit,
     register,
     reset,
+    control,
     formState: { errors, isSubmitting },
-  } = useForm<LoginSchema>({ resolver: zodResolver(loginSchema) });
+  } = useForm<SignupSchema>({ resolver: zodResolver(signupSchema) });
+  const watchedImage = useWatch({ name: "profile", control });
 
-  const login: SubmitHandler<LoginSchema> = async (data) => {
+  useEffect(() => {
+    if (watchedImage?.[0]) {
+      const objectUrl = URL.createObjectURL(watchedImage[0]);
+      setDisplayImage(objectUrl);
+      return () => {
+        URL.revokeObjectURL(objectUrl);
+        setDisplayImage(defaultImage);
+      };
+    }
+  }, [watchedImage]);
+
+  const signup: SubmitHandler<SignupSchema> = async (data) => {
     try {
-      await authActions.loginWithCred(data);
+      await authActions.signup(data);
       reset();
-      toast.open("login successfull", true, 1000, DefaultOptions.success);
+      toast.open("signup successfull", true, 1000, DefaultOptions.success);
       navigate({ to: "/user" });
     } catch (error) {
       toast.open((error as Error).message, true, 1000, DefaultOptions.error);
@@ -49,24 +55,49 @@ function RouteComponent() {
     <>
       <div className="min-h-dvh scroll-smooth transition-all snap-y snap-mandatory">
         <div className="hero min-h-screen px-4 py-8">
-          <div className="hero-content flex-col lg:flex-row w-full max-w-6xl gap-8">
+          <div className="hero-content flex-col lg:flex-row-reverse w-full max-w-6xl gap-8">
             <div className="text-center lg:text-left lg:flex-1">
               <h1 className="text-4xl sm:text-5xl font-bold text-secondary text-shadow-lg transition">
-                Login to your account
+                Signup to our service
               </h1>
               <p className="py-6 px-2 sm:px-6">
-                Donot have an account&nbsp;
-                <Link to="/signup" className="link link-accent">
-                  signup
+                Already have an account&nbsp;
+                <Link to="/login" className="link link-accent" preload={false}>
+                  login
                 </Link>
               </p>
             </div>
-            <div className="card bg-base-100 w-full max-w-sm lg:max-w-md shrink-0 shadow-lg rounded-lg hover:scale-110 transition-transform">
+            <div className="card bg-base-200 w-full max-w-sm lg:max-w-md shrink-0 shadow-md hover:scale-110 transition-transform">
               <div className="card-body p-4 sm:p-8">
                 <form
                   className="fieldset space-y-4"
-                  onSubmit={handleSubmit(login)}
+                  onSubmit={handleSubmit(signup)}
+                  aria-label=""
                 >
+                  <label htmlFor="profile" aria-label="Upload profile picture">
+                    <div className="avatar grid place-items-center">
+                      <div className="w-32">
+                        <img
+                          src={displayImage}
+                          alt="profile-pic"
+                          className="rounded-lg"
+                        />
+                      </div>
+                    </div>
+                  </label>
+
+                  <input
+                    type="file"
+                    id="profile"
+                    className={cn(
+                      "validator file-input file-input-bordered w-full focus:outline-none focus:ring-0 focus:ring-accent",
+                      errors.profile && "focus:ring-error",
+                    )}
+                    {...register("profile")}
+                    disabled={isSubmitting}
+                    required
+                  />
+
                   <div>
                     <label className="floating-label" htmlFor="NameInput">
                       <span
@@ -80,13 +111,38 @@ function RouteComponent() {
                       <input
                         type="text"
                         className={cn(
-                          "validator input input-bordered w-full focus:outline-none focus:ring-0 rounded-lg focus:ring-accent",
+                          "validator input input-bordered w-full focus:outline-none focus:ring-0 focus:ring-accent",
                           errors.username && "focus:ring-error",
                         )}
                         id="NameInput"
                         {...register("username")}
                         placeholder="Your name"
                         autoComplete="name"
+                        disabled={isSubmitting}
+                        required
+                      />
+                    </label>
+                  </div>
+
+                  <div>
+                    <label className="floating-label" htmlFor="EmailInput">
+                      <span
+                        className={cn(
+                          "transition-colors duration-300",
+                          errors.email && "text-error text-sm ml-2",
+                        )}
+                      >
+                        {errors.email ? errors.email.message : "Email"}
+                      </span>
+                      <input
+                        type="email"
+                        className={cn(
+                          "validator input input-bordered w-full focus:outline-none focus:ring-0 focus:ring-accent",
+                          errors.email && "focus:ring-error",
+                        )}
+                        id="EmailInput"
+                        {...register("email")}
+                        placeholder="your.email@example.com"
                         disabled={isSubmitting}
                         required
                       />
@@ -106,7 +162,7 @@ function RouteComponent() {
                       <input
                         type={passwordType}
                         className={cn(
-                          "validator input input-bordered w-full focus:outline-none focus:ring-0 focus:ring-accent rounded-lg",
+                          "validator input input-bordered w-full focus:outline-none focus:ring-0 focus:ring-accent",
                           errors.password && "focus:ring-error",
                         )}
                         id="PasswordInput"
@@ -124,7 +180,7 @@ function RouteComponent() {
                     <input
                       type="checkbox"
                       className="checkbox"
-                      onInput={() =>
+                      onChange={() =>
                         setPasswordType((prev) =>
                           prev == "password" ? "text" : "password",
                         )
@@ -135,7 +191,7 @@ function RouteComponent() {
                   <RippleButton
                     type="submit"
                     disabled={isSubmitting}
-                    className="btn btn-primary w-full hover:btn-secondary rounded-lg"
+                    className="btn btn-primary w-full hover:btn-secondary"
                   >
                     {isSubmitting ? (
                       <>
