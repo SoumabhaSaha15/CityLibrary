@@ -1,6 +1,6 @@
 import { useId } from "react";
 import { cn } from "@/util/cn";
-import RippleButton from "./RippleButton";
+import RippleButton from "@/components/RippleButton";
 import * as pagination from "@zag-js/pagination";
 import { useMachine, normalizeProps } from "@zag-js/react";
 import {
@@ -42,7 +42,7 @@ const Pagination = ({
       {/* Previous Button */}
       <RippleButton
         {...api.getPrevTriggerProps()}
-        className="join-item btn btn-square bg-base-100 rounded-r-sm"
+        className="join-item btn btn-square bg-base-200 rounded-r-sm"
       >
         <MdOutlineKeyboardDoubleArrowLeft className="size-4" />
       </RippleButton>

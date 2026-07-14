@@ -2,7 +2,7 @@ import { cn } from "@/util/cn";
 import { type FC } from "react";
 import { BiBook } from "react-icons/bi";
 import { GiHamburgerMenu } from "react-icons/gi";
-import RippleButton from "@/Components/RippleButton";
+import RippleButton from "@/components/RippleButton";
 import { useInView } from "react-intersection-observer";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import {
@@ -60,18 +60,14 @@ const Home: FC = () => {
 
   return (
     <>
-      <div className="min-h-screen bg-linear-to-br from-primary/5 via-secondary/5 to-accent/5">
+      <div className="min-h-screen bg-linear-to-bl from-primary via-secondary to-accent dark:from-primary/10 dark:via-secondary/10 dark:to-accent/10">
         {/* Navbar */}
         <nav className="navbar bg-base-100 shadow-lg sticky top-0 z-50">
           <div className="navbar-start">
             <div className="dropdown lg:hidden">
-              <RippleButton
-                // onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="btn btn-circle btn-ghost"
-              >
+              <RippleButton className="btn btn-circle btn-ghost">
                 <GiHamburgerMenu className="w-5 h-5" />
               </RippleButton>
-              {/* {mobileMenuOpen && ( */}
               <ul className="menu menu-sm dropdown-content mt-3 z-1 p-2 shadow-xl bg-base-100 rounded-box w-52">
                 <li>
                   <a href="#About">About</a>
@@ -83,7 +79,6 @@ const Home: FC = () => {
                   <a href="#Contacts">Contacts</a>
                 </li>
               </ul>
-              {/* )} */}
             </div>
             <Link to="/" className="btn btn-ghost text-xl gap-2">
               <BiBook className="w-6 h-6 text-primary" />

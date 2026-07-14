@@ -7,17 +7,17 @@ minimumReleaseAgeExclude:
   - qs@6.15.3
   - daisyui@5.6.2 || 5.6.14 || 5.6.15 || 5.6.16 || 5.6.17 || 5.6.18
   - react-hook-form@7.81.0
-  - '@typescript-eslint/eslint-plugin@8.63.0'
-  - '@typescript-eslint/parser@8.63.0'
-  - '@typescript-eslint/project-service@8.63.0'
-  - '@typescript-eslint/scope-manager@8.63.0'
-  - '@typescript-eslint/tsconfig-utils@8.63.0'
-  - '@typescript-eslint/type-utils@8.63.0'
-  - '@typescript-eslint/types@8.63.0'
-  - '@typescript-eslint/typescript-estree@8.63.0'
-  - '@typescript-eslint/utils@8.63.0'
-  - '@typescript-eslint/visitor-keys@8.63.0'
-  - typescript-eslint@8.63.0
+  - '@typescript-eslint/eslint-plugin@8.63.0 || 8.64.0'
+  - '@typescript-eslint/parser@8.63.0 || 8.64.0'
+  - '@typescript-eslint/project-service@8.63.0 || 8.64.0'
+  - '@typescript-eslint/scope-manager@8.63.0 || 8.64.0'
+  - '@typescript-eslint/tsconfig-utils@8.63.0 || 8.64.0'
+  - '@typescript-eslint/type-utils@8.63.0 || 8.64.0'
+  - '@typescript-eslint/types@8.63.0 || 8.64.0'
+  - '@typescript-eslint/typescript-estree@8.63.0 || 8.64.0'
+  - '@typescript-eslint/utils@8.63.0 || 8.64.0'
+  - '@typescript-eslint/visitor-keys@8.63.0 || 8.64.0'
+  - typescript-eslint@8.63.0 || 8.64.0
   - '@typescript/typescript-aix-ppc64@7.0.2'
   - '@typescript/typescript-darwin-arm64@7.0.2'
   - '@typescript/typescript-darwin-x64@7.0.2'
@@ -41,6 +41,10 @@ minimumReleaseAgeExclude:
   - typescript@7.0.2
   - vite@8.1.4
   - eslint@10.7.0
+  - '@tanstack/react-router@1.170.18'
+  - '@tanstack/router-core@1.171.15'
+  - '@tanstack/router-generator@1.167.19'
+  - '@tanstack/router-plugin@1.168.20'
 onlyBuiltDependencies:
   - esbuild
   - scrollreveal

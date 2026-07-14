@@ -1,13 +1,14 @@
+import { useRef } from "react";
+import Modal, { type ModalHandle } from "@/components/Modal";
 import { useForm } from "react-hook-form";
 import { MdSearch } from "react-icons/md";
-// import { useRipple } from "use-ripple-hook";
 import { useQuery } from "@tanstack/react-query";
-import Pagination from "@/Components/Pagination";
-import AuthorCard from "@/Components/AuthorCard";
-import RippleButton from "@/Components/RippleButton";
+import Pagination from "@/components/Pagination";
+import AuthorCard from "@/components/AuthorCard";
+import RippleButton from "@/components/RippleButton";
 import authorQueryoptions from "@/hooks/fetchAuthors";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useModal } from "@/Contexts/Modal/ModalContext";
+// import { useModal } from "@/contexts/Modal/ModalContext";
 import { createFileRoute, useNavigate, redirect } from "@tanstack/react-router";
 import {
   AuthorQuerySchema,
@@ -16,13 +17,11 @@ import {
 } from "@/validators/author";
 
 function RouteComponent() {
-  // const [searchFABRef, searchFABEvent] = useRipple({ color: "currentColor" });
-  // const [filterBtnRef, filterBtnEvent] = useRipple({ color: "currentColor" });
-
   const search = Route.useSearch();
   const { data } = useQuery(authorQueryoptions(search));
   const navigate = useNavigate({ from: Route.fullPath });
-  const { modalRef, openModal, closeModal } = useModal();
+  // const { openModal, closeModal, modalRef } = useModal();
+  const filterModalRef = useRef<ModalHandle>(null);
   const {
     handleSubmit,
     register,
@@ -52,28 +51,27 @@ function RouteComponent() {
 
       <div className="fab">
         <RippleButton
-          className="btn btn-lg btn-circle btn-primary"
-          // ref={searchFABRef}
-          // onPointerDown={searchFABEvent}
-          onClick={openModal}
+          className="btn btn-lg btn-circle btn-primary focus-visible:outline-0"
+          onClick={filterModalRef.current?.open}
         >
           <MdSearch className="size-8" />
         </RippleButton>
       </div>
 
-      <dialog className="modal" ref={modalRef}>
+      <Modal ref={filterModalRef}>
         <div className="modal-box">
           <div className="card w-full shrink-0 mx-auto border-base-300 p-2">
             <form
               className="card-body"
               // method="dialog"
               onSubmit={handleSubmit((data) => {
-                closeModal();
+                filterModalRef.current?.close();
                 navigate({
                   search: () => ({ ...filter.parse(data), page: 1 }),
                 });
               })}
             >
+              {/* Author name */}
               <div className="form-control mb-3">
                 <label className="label rounded-lg" htmlFor="author_name">
                   {errors.author_name ? (
@@ -137,6 +135,7 @@ function RouteComponent() {
                   ))}
                 </select>
               </div>
+              {/* Submit */}
               <div className="form-control mt-2 flex justify-center">
                 <RippleButton
                   type="submit"
@@ -149,7 +148,7 @@ function RouteComponent() {
           </div>
           {/* <div className="modal-action place-items-center"></div> */}
         </div>
-      </dialog>
+      </Modal>
     </>
   );
 }

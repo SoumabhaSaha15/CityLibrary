@@ -1,35 +1,40 @@
-import { cloneElement, type ReactElement, type FC } from "react";
-import { useModal } from "@/Contexts/Modal/ModalContext";
-
-const Modal: FC<{ children: React.ReactNode; className?: string }> = (
-  { children, className } = { className: "", children: "" }
-) => {
-  const { modalRef } = useModal();
-
-  return (
-    <dialog className={`modal ${className}`} ref={modalRef}>
-      {children}
-    </dialog>
-  );
-};
-
-type ClickableChildProps = {
-  onClick: React.MouseEventHandler;
-  style?: React.CSSProperties;
-};
-
-interface ModalTriggerProps {
-  children: ReactElement<ClickableChildProps>;
+import React, { forwardRef, useRef, useImperativeHandle } from "react";
+import { cn } from "@/util/cn";
+// import ModalProvider from "@/contexts/Modal/ModalProvider";
+// import { useModal } from "@/contexts/Modal/ModalContext";
+export interface ModalHandle {
+  open(): void;
+  close(): void;
+  toggle(): void;
 }
+export type ModalProps = React.ComponentPropsWithoutRef<"dialog">;
+const Modal = forwardRef<ModalHandle, ModalProps>(
+  ({ children, className, ...props }, ref) => {
+    const dialogRef = useRef<HTMLDialogElement>(null);
 
-export const ModalTrigger: FC<ModalTriggerProps> = ({
-  children,
-}: ModalTriggerProps) => {
-  const { openModal } = useModal();
-  return cloneElement(children, {
-    onClick: openModal,
-    style: { cursor: "pointer", ...children.props.style },
-  });
-};
+    useImperativeHandle(ref, () => ({
+      open() {
+        dialogRef.current?.showModal();
+      },
 
+      close() {
+        dialogRef.current?.close();
+      },
+
+      toggle() {
+        const dialog = dialogRef.current;
+
+        if (!dialog) return;
+
+        dialog.open ? dialog.close() : dialog.showModal();
+      },
+    }));
+
+    return (
+      <dialog ref={dialogRef} className={cn("modal", className)} {...props}>
+        {children}
+      </dialog>
+    );
+  },
+);
 export default Modal;

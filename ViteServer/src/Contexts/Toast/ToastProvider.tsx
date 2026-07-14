@@ -4,7 +4,7 @@ import {
   ToastOptionsValidator,
   type ToastOptionsType,
   DefaultToastPosition,
-} from "./ToastContext";
+} from "@/contexts/Toast/ToastContext";
 
 interface Toast {
   id: string;

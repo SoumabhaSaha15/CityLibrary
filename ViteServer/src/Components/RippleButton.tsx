@@ -1,28 +1,39 @@
-import React, { forwardRef } from "react";
+import React, { forwardRef, useCallback } from "react";
 import { useRipple } from "use-ripple-hook";
 
 type RippleButtonProps = React.ComponentPropsWithoutRef<"button">;
 
 const RippleButton = forwardRef<HTMLButtonElement, RippleButtonProps>(
   ({ children, onPointerDown, ...props }, forwardedRef) => {
-    const [rippleRef, rippleHandler] = useRipple({
+    // 1. Pass the generic to the hook if supported by your version
+    const [rippleRef, rippleHandler] = useRipple<HTMLButtonElement>({
       color: "currentColor",
       timingFunction: "ease-in-out",
     });
 
-    const setRef = (node: HTMLButtonElement | null) => {
-      (rippleRef as React.RefObject<HTMLButtonElement | null>).current = node; // Attach the node to the ripple hook
-      if (typeof forwardedRef === "function") {
-        forwardedRef(node); // Forward the ref to the parent
-      } else if (forwardedRef) {
-        forwardedRef.current = node;
-      }
-    };
+    // 2. Wrap in useCallback so the ref doesn't bounce (detach/attach) on every render
+    const mergedRef = useCallback(
+      (node: HTMLButtonElement | null) => {
+        // Safely update the hook's ref (cast to MutableRefObject to bypass TS readonly strictness)
+        if (rippleRef) {
+          (rippleRef as React.RefObject<HTMLButtonElement | null>).current =
+            node;
+        }
+
+        // Forward the ref to the parent
+        if (typeof forwardedRef === "function") {
+          forwardedRef(node);
+        } else if (forwardedRef) {
+          forwardedRef.current = node;
+        }
+      },
+      [rippleRef, forwardedRef],
+    );
 
     return (
       <button
         {...props}
-        ref={setRef}
+        ref={mergedRef}
         onPointerDown={(e) => {
           rippleHandler(e);
           onPointerDown?.(e);

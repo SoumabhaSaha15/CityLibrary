@@ -1,4 +1,4 @@
-import { cn } from "@/util/cn";
+// import { cn } from "@/util/cn";
 import { useTheme } from "@/store/theme";
 import { ImQuill } from "react-icons/im";
 import { MdHistory } from "react-icons/md";
@@ -7,7 +7,7 @@ import { useRipple } from "use-ripple-hook";
 import { GoHomeFill } from "react-icons/go";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { authActions, useAuth } from "@/store/auth";
-import RippleButton from "@/Components/RippleButton";
+import RippleButton from "@/components/RippleButton";
 import { IoMdSunny, IoMdMoon } from "react-icons/io";
 import { BiSolidBookAlt, BiBook } from "react-icons/bi";
 import { createFileRoute } from "@tanstack/react-router";
@@ -26,8 +26,12 @@ function User() {
   const auth = useAuth();
   const navigate = useNavigate();
   const { theme, applyTheme } = useTheme();
-  const [openRipple, openEvent] = useRipple({ color: "currentColor" });
-  const [closeRipple, closeEvent] = useRipple({ color: "currentColor" });
+  const [openRipple, openEvent] = useRipple<HTMLLabelElement>({
+    color: "currentColor",
+  });
+  const [closeRipple, closeEvent] = useRipple<HTMLLabelElement>({
+    color: "currentColor",
+  });
 
   return (
     <div className="drawer lg:drawer-open">
@@ -45,7 +49,10 @@ function User() {
             >
               <GiHamburgerMenu className="size-6" />
             </label>
-            <Link to="/" className="btn btn-ghost text-xl gap-2 rounded-lg">
+            <Link
+              to="/"
+              className="btn btn-ghost text-xl gap-2 rounded-lg hover:bg-base-100"
+            >
               <BiBook className="w-6 h-6 text-primary" />
               <span className="font-bold bg-gradient-to-right from-primary to-secondary bg-clip-text">
                 CityLibrary
@@ -74,12 +81,7 @@ function User() {
           aria-label="close sidebar"
           className="drawer-overlay"
         />
-        <div
-          className={cn(
-            "flex min-h-full flex-col items-start bg-base-200 is-drawer-close:w-14 is-drawer-open:w-64",
-            // drawerInView ? "opacity-100 scale-100" : "opacity-0 scale-95",
-          )}
-        >
+        <div className="flex min-h-full flex-col items-start bg-base-200 is-drawer-close:w-14 is-drawer-open:w-64">
           {/* Sidebar content here */}
           <ul className="menu w-full grow gap-0.5 bg-base-100">
             {/* List item */}

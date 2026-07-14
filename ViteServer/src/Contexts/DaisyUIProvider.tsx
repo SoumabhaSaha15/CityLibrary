@@ -1,12 +1,7 @@
-import ToastProvider from "./Toast/ToastProvider";
-import ModalProvider from "./Modal/ModalProvider";
+import ToastProvider from "@/contexts/Toast/ToastProvider";
 const DaisyUIProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  return (
-    <ModalProvider>
-      <ToastProvider>{children}</ToastProvider>
-    </ModalProvider>
-  );
+  return <ToastProvider>{children}</ToastProvider>;
 };
 export default DaisyUIProvider;

@@ -1,4 +1,4 @@
-import { useRipple } from "use-ripple-hook";
+import RippleButton from "@/components/RippleButton";
 import { BiSolidUserDetail } from "react-icons/bi";
 import { type PartialAuthor } from "@/validators/author";
 
@@ -7,9 +7,8 @@ interface AuthorCardProps {
 }
 
 const AuthorCard = ({ author }: AuthorCardProps) => {
-  const [viewRipple, viewEvent] = useRipple({ color: "currentColor" });
   return (
-    <div className="card bg-base-100 w-full max-w-sm h-full hover:shadow-2xl hover:shadow-accent-content scale-95 hover:scale-100 transition-transform">
+    <div className="card bg-base-100 w-full max-w-sm h-full hover:shadow-lg hover:shadow-accent-content scale-95 hover:scale-100 transition-transform">
       <figure className="aspect-3/4 w-full overflow-hidden">
         <img
           src={author.author_image}
@@ -23,15 +22,10 @@ const AuthorCard = ({ author }: AuthorCardProps) => {
           <div className="badge badge-secondary">{author.nationality}</div>
         </h2>
         <div className="card-actions justify-end">
-          <button
-            type="button"
-            className="btn btn-primary w-full"
-            ref={viewRipple}
-            onPointerDown={viewEvent}
-          >
+          <RippleButton type="button" className="btn btn-primary w-full">
             <BiSolidUserDetail className="h-4 w-4" />
             View Author
-          </button>
+          </RippleButton>
         </div>
       </div>
     </div>

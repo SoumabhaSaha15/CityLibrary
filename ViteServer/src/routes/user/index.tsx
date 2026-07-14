@@ -1,9 +1,9 @@
 import { useAuth } from "@/store/auth";
 import { FaIdBadge } from "react-icons/fa";
 import { MdAlternateEmail } from "react-icons/md";
-import RippleButton from "@/Components/RippleButton";
+import RippleButton from "@/components/RippleButton";
 import { createFileRoute } from "@tanstack/react-router";
-import { useToast, DefaultOptions } from "@/Contexts/Toast/ToastContext";
+import { useToast, DefaultOptions } from "@/contexts/Toast/ToastContext";
 
 export const Route = createFileRoute("/user/")({
   component: RouteComponent,

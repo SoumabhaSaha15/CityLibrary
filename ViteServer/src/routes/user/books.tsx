@@ -1,14 +1,15 @@
 import { MdSearch } from "react-icons/md";
-import BookCard from "@/Components/BookCard";
-import Pagination from "@/Components/Pagination";
+import BookCard from "@/components/BookCard";
+import Pagination from "@/components/Pagination";
 import { useQuery } from "@tanstack/react-query";
 import booksQueryOptions from "@/hooks/fetchBook";
-import RippleButton from "@/Components/RippleButton";
+import RippleButton from "@/components/RippleButton";
 import { createFileRoute, useNavigate, redirect } from "@tanstack/react-router";
+
 export const Route = createFileRoute("/user/books")({
   component: Book,
   beforeLoad: ({ search }) => {
-    console.log(search);
+    // console.log(search);
     if (!(search as any).page) {
       throw redirect({
         to: "/user/books",
@@ -42,8 +43,9 @@ function Book() {
           }
         />
       </div>
+
       <div className="fab">
-        <RippleButton className="btn btn-lg btn-circle btn-primary">
+        <RippleButton className="btn btn-primary btn-lg btn-circle">
           <MdSearch className="size-8" />
         </RippleButton>
       </div>

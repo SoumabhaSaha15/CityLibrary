@@ -1,20 +1,16 @@
 import { ImQuill } from "react-icons/im";
-import { useRipple } from "use-ripple-hook";
 import { IoLanguageSharp } from "react-icons/io5";
 import { type PartialBook } from "@/validators/book";
-
+import RippleButton from "@/components/RippleButton";
 interface BookCardProps {
   book: PartialBook;
 }
 
 const BookCard = ({ book }: BookCardProps) => {
-  const [detailsRipple, detailsEvent] = useRipple({ color: "currentColor" });
-  const [borrowRipple, borrowEvent] = useRipple({ color: "currentColor" });
-
   const authorNames = book.authors.map((a) => a.author_name).join(", ");
 
   return (
-    <div className="card bg-base-100 w-full max-w-sm h-full hover:shadow-2xl hover:shadow-accent-content scale-95 hover:scale-100 transition-transform">
+    <div className="card bg-base-100 w-full max-w-sm h-full hover:shadow-lg hover:shadow-accent-content scale-95 hover:scale-100 transition-transform">
       <figure className="aspect-3/4 w-full overflow-hidden">
         <img
           src={book.book_cover}
@@ -41,22 +37,12 @@ const BookCard = ({ book }: BookCardProps) => {
         </div>
 
         <div className="card-actions justify-end">
-          <button
-            type="button"
-            className="btn btn-primary flex-1"
-            ref={detailsRipple}
-            onPointerDown={detailsEvent}
-          >
+          <RippleButton type="button" className="btn btn-primary flex-1">
             Details
-          </button>
-          <button
-            type="button"
-            className="btn btn-accent flex-1"
-            ref={borrowRipple}
-            onPointerDown={borrowEvent}
-          >
+          </RippleButton>
+          <RippleButton type="button" className="btn btn-accent flex-1">
             Borrow
-          </button>
+          </RippleButton>
         </div>
       </div>
     </div>

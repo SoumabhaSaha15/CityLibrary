@@ -1,11 +1,11 @@
 import { cn } from "@/util/cn";
 import { useState } from "react";
 import { authActions } from "@/store/auth";
-import RippleButton from "@/Components/RippleButton";
+import RippleButton from "@/components/RippleButton";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { loginSchema, type LoginSchema } from "@/validators/user-auth";
-import { useToast, DefaultOptions } from "@/Contexts/Toast/ToastContext";
+import { useToast, DefaultOptions } from "@/contexts/Toast/ToastContext";
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_auth/login")({
