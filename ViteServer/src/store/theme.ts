@@ -40,11 +40,12 @@ export type ThemeOptionsType = z.infer<typeof ThemeOptionsValidator>;
 
 // Runs once outside React to get initial state and prevent theme flashing
 const getDefaultTheme = (): ThemeOptionsType => {
-  if (typeof window === "undefined") return "dark";
+  const dark: ThemeOptionsType = "dark";
+  if (typeof window === "undefined") return dark;
   const { success, data } = ThemeOptionsValidator.safeParse(
     localStorage.getItem("theme"),
   );
-  const theme = success ? data : "dark";
+  const theme = success ? data : dark;
   document.documentElement.setAttribute("data-theme", theme);
   return theme;
 };

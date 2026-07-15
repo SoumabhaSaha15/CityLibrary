@@ -56,7 +56,7 @@ export default function ToastProvider({ children }: { children: ReactNode }) {
   return (
     <ToastContext.Provider value={{ open, close }}>
       {children}
-      <div className="toast toast-end toast-bottom">
+      <div className="toast toast-middle toast-start">
         {toasts.map(({ id, component, options }) => (
           <button
             key={id}

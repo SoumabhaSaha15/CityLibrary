@@ -1,4 +1,3 @@
-// import { cn } from "@/util/cn";
 import { useTheme } from "@/store/theme";
 import { ImQuill } from "react-icons/im";
 import { MdHistory } from "react-icons/md";
@@ -16,9 +15,11 @@ import { Outlet, useNavigate, redirect, Link } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/user")({
   component: User,
-  beforeLoad: async (_) => {
-    const res = await authActions.isSessionActive();
-    if (!res) throw redirect({ to: "/login" });
+  beforeLoad: async ({ context: { auth } }) => {
+    if (!auth?.isAuthenticated) {
+      const res = await authActions.isSessionActive();
+      if (!res) throw redirect({ to: "/login" });
+    }
   },
 });
 
@@ -95,7 +96,9 @@ function User() {
               >
                 {/* Home icon */}
                 <GoHomeFill className="size-6 text-accent" />
-                <span className="is-drawer-close:hidden">Homepage</span>
+                <span className="is-drawer-close:hidden text-accent font-bold">
+                  Homepage
+                </span>
               </RippleButton>
             </li>
 
@@ -108,7 +111,9 @@ function User() {
                 }}
               >
                 <BiSolidBookAlt className="size-6 text-accent" />
-                <span className="is-drawer-close:hidden">Book</span>
+                <span className="is-drawer-close:hidden text-accent font-bold">
+                  Book
+                </span>
               </RippleButton>
             </li>
 
@@ -121,7 +126,9 @@ function User() {
                 }}
               >
                 <ImQuill className="size-6 text-accent" />
-                <span className="is-drawer-close:hidden">Author</span>
+                <span className="is-drawer-close:hidden text-accent font-bold">
+                  Author
+                </span>
               </RippleButton>
             </li>
 
@@ -131,7 +138,9 @@ function User() {
                 data-tip="History"
               >
                 <MdHistory className="size-6 text-accent" />
-                <span className="is-drawer-close:hidden">History</span>
+                <span className="is-drawer-close:hidden text-accent font-bold">
+                  History
+                </span>
               </RippleButton>
             </li>
           </ul>
@@ -153,8 +162,10 @@ function User() {
                   }
                 }}
               >
-                <IoLogOut className="size-6 rotate-180" />
-                <span className="is-drawer-close:hidden">Logout</span>
+                <IoLogOut className="size-6 rotate-180 text-error-content" />
+                <span className="is-drawer-close:hidden text-error-content font-black">
+                  Logout
+                </span>
               </RippleButton>
             </li>
 
@@ -167,8 +178,10 @@ function User() {
                 onPointerDown={closeEvent}
                 ref={closeRipple}
               >
-                <TbLayoutSidebarRightExpandFilled className="is-drawer-close:rotate-180 transition-transform size-6 text-accent" />
-                <span className="is-drawer-close:hidden">Close</span>
+                <TbLayoutSidebarRightExpandFilled className="is-drawer-close:rotate-180 transition-transform size-6 text-accent-content dark:text-accent" />
+                <span className="is-drawer-close:hidden text-accent font-bold">
+                  Close
+                </span>
               </label>
             </li>
 
@@ -184,7 +197,9 @@ function User() {
                 ) : (
                   <IoMdMoon className="size-6 text-accent hover:rotate-360 transition-transform" />
                 )}
-                <span className="is-drawer-close:hidden">{theme}</span>
+                <span className="is-drawer-close:hidden text-accent font-bold">
+                  {theme}
+                </span>
               </RippleButton>
             </li>
           </ul>

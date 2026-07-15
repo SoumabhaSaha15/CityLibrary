@@ -17,7 +17,7 @@ export const ToastOptionsValidator = z.strictObject({
       (v) => (v[0] === "" && v[1] === "") || (v[0] !== "" && v[1] !== ""),
       {
         message: "Both position values must be empty or both must be defined.",
-      }
+      },
     ),
 });
 
@@ -35,7 +35,7 @@ export type ToastContextProps = {
     component: ReactNode,
     autoClose?: boolean,
     timeout?: number,
-    toastOptions?: ToastOptionsType
+    toastOptions?: ToastOptionsType,
   ) => string;
   close: (id: string) => void;
 };
@@ -56,7 +56,7 @@ export const useToast = () => useContext(ToastContext);
 export const DefaultToastPosition: [
   "" | "toast-start" | "toast-end" | "toast-center",
   "" | "toast-top" | "toast-bottom" | "toast-middle",
-] = ["toast-end", "toast-bottom"];
+] = ["toast-start", "toast-middle"];
 
 export type DefaultOptionsType = Record<
   "error" | "success" | "info" | "warning",

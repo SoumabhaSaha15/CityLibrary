@@ -20,7 +20,6 @@ function RouteComponent() {
   const search = Route.useSearch();
   const { data } = useQuery(authorQueryoptions(search));
   const navigate = useNavigate({ from: Route.fullPath });
-  // const { openModal, closeModal, modalRef } = useModal();
   const filterModalRef = useRef<ModalHandle>(null);
   const {
     handleSubmit,

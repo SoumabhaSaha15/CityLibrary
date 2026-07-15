@@ -1,5 +1,4 @@
 import base from "@/util/axios-base";
-// import { type AxiosResponse } from "axios";
 import { Store } from "@tanstack/react-store";
 import { useSelector } from "@tanstack/react-store";
 import {
@@ -31,8 +30,6 @@ export const authStore = new Store<AuthState>({
   user: null,
   error: null,
 });
-
-// let sessionCheckPromise: Promise<void> | null = null;
 
 export const authActions: AuthActions = {
   isSessionActive: async () => {
@@ -105,14 +102,15 @@ export const authActions: AuthActions = {
 
   logout: async () => {
     const res = await base.get("/user/logout");
-    if (res.status === 204)
+    if (res.status === 204) {
+      window.localStorage.removeItem("REACT_QUERY_OFFLINE_CACHE");
       authStore.setState((state) => ({
         ...state,
         isAuthenticated: false,
         user: null,
         error: null,
       }));
-    else throw new Error(res.statusText, { cause: res.data });
+    } else throw new Error(res.statusText, { cause: res.data });
   },
 };
 

@@ -26,6 +26,7 @@ function Book() {
   const search = Route.useSearch();
   const { data } = useQuery(booksQueryOptions(search));
   const navigate = useNavigate({ from: Route.fullPath });
+  if (data instanceof Error) return <>{data.message}</>;
 
   return (
     <>
