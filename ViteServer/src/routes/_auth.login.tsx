@@ -3,9 +3,9 @@ import { useState } from "react";
 import { authActions } from "@/store/auth";
 import RippleButton from "@/components/RippleButton";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useToast } from "@/contexts/Toast/ToastContext";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { loginSchema, type LoginSchema } from "@/validators/user-auth";
-import { useToast, DefaultOptions } from "@/contexts/Toast/ToastContext";
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_auth/login")({
@@ -29,10 +29,10 @@ function RouteComponent() {
     try {
       await authActions.loginWithCred(data);
       reset();
-      toast.open("login successfull", true, 1000, DefaultOptions.success);
+      toast.open("login successfull", "alert-success");
       navigate({ to: "/user" });
     } catch (error) {
-      toast.open((error as Error).message, true, 1000, DefaultOptions.error);
+      toast.open((error as Error).message, "alert-error");
     }
   };
 

@@ -3,12 +3,14 @@ import {
   ToastContext,
   ToastOptionsValidator,
   type ToastOptionsType,
-  DefaultToastPosition,
-} from "@/contexts/Toast/ToastContext";
+  type ToastVariantType,
+  type ToastPositionTuple,
+} from "./ToastContext";
+import { cn } from "@/util/cn";
 
 interface Toast {
   id: string;
-  component: ReactNode;
+  content: string;
   options: ToastOptionsType;
 }
 
@@ -25,25 +27,29 @@ export default function ToastProvider({ children }: { children: ReactNode }) {
     setToasts((prev) => prev.filter((toast) => toast.id !== id));
   };
 
-  const open = (
-    component: ReactNode,
-    autoClose = true,
-    timeout = 3000,
-    toastOptions: ToastOptionsType = {
-      toastPosition: DefaultToastPosition,
-      toastVariant: "alert-info",
-    },
+  const openGlobal = (
+    content: string,
+    variant: ToastVariantType,
+    autoClose: boolean,
+    timeout: number,
+    position: ToastPositionTuple,
   ): string => {
+    const toastOptions = {
+      toastPosition: position,
+      toastVariant: variant,
+    };
+
     const validated = ToastOptionsValidator.safeParse(toastOptions);
     const options = validated.success
       ? validated.data
       : {
-          toastPosition: DefaultToastPosition,
-          toastVariant: "alert-info" as const,
+          toastPosition: ["toast-start", "toast-middle"] as ToastPositionTuple,
+          toastVariant: "alert-info" as ToastVariantType,
         };
 
     const id = crypto.randomUUID();
-    setToasts((prev) => [...prev, { id, component, options }]);
+    setToasts((prev) => [...prev, { id, content, options }]);
+
     if (autoClose) {
       const timer = window.setTimeout(() => close(id), timeout);
       timeoutsRef.current.set(id, timer);
@@ -51,22 +57,30 @@ export default function ToastProvider({ children }: { children: ReactNode }) {
     return id;
   };
 
-  useEffect(() => () => timeoutsRef.current.forEach(clearTimeout), []); // Cleanup on unmount
+  useEffect(() => () => timeoutsRef.current.forEach(clearTimeout), []);
+
+  const groupedToasts = toasts.reduce(
+    (acc, toast) => {
+      const posKey = `${toast.options.toastPosition[1]} ${toast.options.toastPosition[0]}`;
+      if (!acc[posKey]) acc[posKey] = [];
+      acc[posKey].push(toast);
+      return acc;
+    },
+    {} as Record<string, Toast[]>,
+  );
 
   return (
-    <ToastContext.Provider value={{ open, close }}>
+    <ToastContext.Provider value={{ openGlobal, close }}>
       {children}
-      <div className="toast toast-middle toast-start">
-        {toasts.map(({ id, component, options }) => (
-          <button
-            key={id}
-            className={`alert ${options.toastVariant}`}
-            onClick={() => close(id)}
-          >
-            {component}
-          </button>
-        ))}
-      </div>
+      {Object.entries(groupedToasts).map(([positionClasses, toastList]) => (
+        <div key={positionClasses} className={cn("toast", positionClasses)}>
+          {toastList.map(({ id, content, options }) => (
+            <div key={id} className={cn("alert", options.toastVariant)}>
+              {content}
+            </div>
+          ))}
+        </div>
+      ))}
     </ToastContext.Provider>
   );
 }

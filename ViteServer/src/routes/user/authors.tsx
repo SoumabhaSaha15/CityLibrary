@@ -1,5 +1,4 @@
 import { useRef } from "react";
-import Modal, { type ModalHandle } from "@/components/Modal";
 import { useForm } from "react-hook-form";
 import { MdSearch } from "react-icons/md";
 import { useQuery } from "@tanstack/react-query";
@@ -8,7 +7,7 @@ import AuthorCard from "@/components/AuthorCard";
 import RippleButton from "@/components/RippleButton";
 import authorQueryoptions from "@/hooks/fetchAuthors";
 import { zodResolver } from "@hookform/resolvers/zod";
-// import { useModal } from "@/contexts/Modal/ModalContext";
+import Modal, { type ModalHandle } from "@/components/Modal";
 import { createFileRoute, useNavigate, redirect } from "@tanstack/react-router";
 import {
   AuthorQuerySchema,

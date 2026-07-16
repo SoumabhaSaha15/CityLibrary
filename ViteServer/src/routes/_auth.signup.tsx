@@ -3,8 +3,8 @@ import { authActions } from "@/store/auth";
 import { useEffect, useState } from "react";
 import RippleButton from "@/components/RippleButton";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useToast } from "@/contexts/Toast/ToastContext";
 import { useForm, type SubmitHandler, useWatch } from "react-hook-form";
-import { useToast, DefaultOptions } from "@/contexts/Toast/ToastContext";
 import { signupSchema, type SignupSchema } from "@/validators/user-auth";
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 
@@ -44,10 +44,10 @@ function RouteComponent() {
     try {
       await authActions.signup(data);
       reset();
-      toast.open("signup successfull", true, 1000, DefaultOptions.success);
+      toast.open("signup successfull", "alert-success");
       navigate({ to: "/user" });
     } catch (error) {
-      toast.open((error as Error).message, true, 1000, DefaultOptions.error);
+      toast.open((error as Error).message, "alert-error");
     }
   };
 

@@ -1,4 +1,4 @@
-import { createContext, useContext, type Context, type ReactNode } from "react";
+import { createContext, useContext, type Context } from "react";
 import { z } from "zod";
 
 export const ToastOptionsValidator = z.strictObject({
@@ -22,28 +22,29 @@ export const ToastOptionsValidator = z.strictObject({
 });
 
 export type ToastOptionsType = z.infer<typeof ToastOptionsValidator>;
+export type ToastVariantType = ToastOptionsType["toastVariant"];
+export type ToastPositionTuple = ToastOptionsType["toastPosition"];
+
+export type ToastPositionParam = {
+  vertical?: "toast-top" | "toast-middle" | "toast-bottom" | "";
+  horizontal?: "toast-start" | "toast-end" | "toast-center" | "";
+};
 
 export type ToastContextProps = {
-  /**
-   * @param component ReactNode message or component to be displayed in the toast
-   * @param autoClose? boolean if true, the toast will close automatically after the timeout
-   * @param timeout? number the time in ms after which the toast will close default is 3000ms
-   * @param toastOptions? ToastOptionsType the options for the toast customization alert-info is the default variant
-   * @returns string - toast ID that can be used to manually close the toast
-   */
-  open: (
-    component: ReactNode,
-    autoClose?: boolean,
-    timeout?: number,
-    toastOptions?: ToastOptionsType,
+  openGlobal: (
+    content: string,
+    variant: ToastVariantType,
+    autoClose: boolean,
+    timeout: number,
+    position: ToastPositionTuple,
   ) => string;
   close: (id: string) => void;
 };
 
 export const ToastContext: Context<ToastContextProps> =
   createContext<ToastContextProps>({
-    open: () => {
-      console.warn("ToastContext.open called outside of ToastProvider");
+    openGlobal: () => {
+      console.warn("ToastContext.openGlobal called outside of ToastProvider");
       return "";
     },
     close: () => {
@@ -51,27 +52,29 @@ export const ToastContext: Context<ToastContextProps> =
     },
   });
 
-export const useToast = () => useContext(ToastContext);
-
-export const DefaultToastPosition: [
-  "" | "toast-start" | "toast-end" | "toast-center",
-  "" | "toast-top" | "toast-bottom" | "toast-middle",
-] = ["toast-start", "toast-middle"];
-
-export type DefaultOptionsType = Record<
-  "error" | "success" | "info" | "warning",
-  ToastOptionsType
->;
-
-export const DefaultOptions: DefaultOptionsType = {
-  error: { toastPosition: DefaultToastPosition, toastVariant: "alert-error" },
-  success: {
-    toastPosition: DefaultToastPosition,
-    toastVariant: "alert-success",
+export const useToast = (
+  config: ToastPositionParam = {
+    vertical: "toast-bottom",
+    horizontal: "toast-end",
   },
-  info: { toastPosition: DefaultToastPosition, toastVariant: "alert-info" },
-  warning: {
-    toastPosition: DefaultToastPosition,
-    toastVariant: "alert-warning",
-  },
+) => {
+  const context = useContext(ToastContext);
+
+  const vertical = (config.vertical ?? "toast-bottom") as ToastPositionTuple[1];
+  const horizontal = (config.horizontal ??
+    "toast-end") as ToastPositionTuple[0];
+
+  const open = (
+    content: string,
+    variant: ToastVariantType = "alert-info",
+    autoClose = true,
+    timeout = 3000,
+  ): string => {
+    return context.openGlobal(content, variant, autoClose, timeout, [
+      horizontal,
+      vertical,
+    ]);
+  };
+
+  return { open, close: context.close };
 };
