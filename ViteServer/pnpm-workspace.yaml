@@ -39,12 +39,28 @@ minimumReleaseAgeExclude:
   - '@typescript/typescript-win32-arm64@7.0.2'
   - '@typescript/typescript-win32-x64@7.0.2'
   - typescript@7.0.2
-  - vite@8.1.4
+  - vite@8.1.4 || 8.1.5
   - eslint@10.7.0
   - '@tanstack/react-router@1.170.18'
   - '@tanstack/router-core@1.171.15'
   - '@tanstack/router-generator@1.167.19'
   - '@tanstack/router-plugin@1.168.20'
+  - '@tailwindcss/node@4.3.3'
+  - '@tailwindcss/oxide-android-arm64@4.3.3'
+  - '@tailwindcss/oxide-darwin-arm64@4.3.3'
+  - '@tailwindcss/oxide-darwin-x64@4.3.3'
+  - '@tailwindcss/oxide-freebsd-x64@4.3.3'
+  - '@tailwindcss/oxide-linux-arm-gnueabihf@4.3.3'
+  - '@tailwindcss/oxide-linux-arm64-gnu@4.3.3'
+  - '@tailwindcss/oxide-linux-arm64-musl@4.3.3'
+  - '@tailwindcss/oxide-linux-x64-gnu@4.3.3'
+  - '@tailwindcss/oxide-linux-x64-musl@4.3.3'
+  - '@tailwindcss/oxide-wasm32-wasi@4.3.3'
+  - '@tailwindcss/oxide-win32-arm64-msvc@4.3.3'
+  - '@tailwindcss/oxide-win32-x64-msvc@4.3.3'
+  - '@tailwindcss/oxide@4.3.3'
+  - '@tailwindcss/vite@4.3.3'
+  - tailwindcss@4.3.3
 onlyBuiltDependencies:
   - esbuild
   - scrollreveal

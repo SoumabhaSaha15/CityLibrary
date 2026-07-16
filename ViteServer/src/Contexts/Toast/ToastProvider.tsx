@@ -1,3 +1,4 @@
+import { cn } from "@/util/cn";
 import { useState, useRef, useEffect, type ReactNode } from "react";
 import {
   ToastContext,
@@ -6,7 +7,6 @@ import {
   type ToastVariantType,
   type ToastPositionTuple,
 } from "./ToastContext";
-import { cn } from "@/util/cn";
 
 interface Toast {
   id: string;
@@ -14,7 +14,7 @@ interface Toast {
   options: ToastOptionsType;
 }
 
-export default function ToastProvider({ children }: { children: ReactNode }) {
+function ToastProvider({ children }: { children: ReactNode }) {
   const [toasts, setToasts] = useState<Toast[]>([]);
   const timeoutsRef = useRef<Map<string, number>>(new Map());
 
@@ -84,3 +84,5 @@ export default function ToastProvider({ children }: { children: ReactNode }) {
     </ToastContext.Provider>
   );
 }
+
+export default ToastProvider;

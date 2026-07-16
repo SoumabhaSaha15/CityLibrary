@@ -1,7 +1,5 @@
-import React, { forwardRef, useRef, useImperativeHandle } from "react";
 import { cn } from "@/util/cn";
-// import ModalProvider from "@/contexts/Modal/ModalProvider";
-// import { useModal } from "@/contexts/Modal/ModalContext";
+import React, { forwardRef, useRef, useImperativeHandle } from "react";
 export interface ModalHandle {
   open(): void;
   close(): void;

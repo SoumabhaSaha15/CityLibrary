@@ -2,16 +2,16 @@ import base from "@/util/axios-base";
 import type { AxiosResponse } from "axios";
 import { queryOptions } from "@tanstack/react-query";
 import {
-  type AuthorPaginated,
-  AuthorPaginatedSchema,
+  type PartialAuthorPaginated,
+  PartialAuthorPaginatedSchema,
   type AuthorQuery,
 } from "@/validators/author";
 
 const authorQuery = async (query: AuthorQuery) => {
-  const response: AxiosResponse<AuthorPaginated> =
-    await base.get<AuthorPaginated>("/authors", {
+  const response: AxiosResponse<PartialAuthorPaginated> =
+    await base.get<PartialAuthorPaginated>("/authors", {
       params: query,
-      schema: AuthorPaginatedSchema,
+      schema: PartialAuthorPaginatedSchema,
     });
   return response.data;
 };

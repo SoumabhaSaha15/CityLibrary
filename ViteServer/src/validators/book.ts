@@ -1,7 +1,9 @@
 import { z } from "zod";
-import { pageSchema } from "./page";
 import { date } from "./date";
+import { pageQuerySchema, pageSchema } from "./page";
 import { AuthorSchema } from "./author";
+import { cleanEmptyString } from "./clean-empty-strings";
+
 export const BookSchema = z.strictObject({
   book_id: z.coerce.number().positive(),
   book_cover: z.url(),
@@ -23,15 +25,19 @@ export const PartialBookSchema = BookSchema.pick({
   authors: true,
   book_language: true,
 });
-export type PartialBook = z.infer<typeof PartialBookSchema>;
 
-export const BookPaginatedSchema = pageSchema.extend({
-  results: z.array(BookSchema).max(10),
+export const BookQuerySchema = pageQuerySchema.extend({
+  book_name: z.string().optional(),
+  book_language: z.string().optional(),
+  genre_name: z.string().optional(),
+  author_name: z.string().optional(),
 });
+export type BookQuery = z.infer<typeof BookQuerySchema>;
+export const BookQueryFilter = cleanEmptyString(BookQuerySchema);
+export type PartialBook = z.infer<typeof PartialBookSchema>;
 
 export const PartialBookPaginatedSchema = pageSchema.extend({
   results: z.array(PartialBookSchema).max(10),
 });
 
-export type BookPaginated = z.infer<typeof BookPaginatedSchema>;
 export type PartialBookPaginated = z.infer<typeof PartialBookPaginatedSchema>;

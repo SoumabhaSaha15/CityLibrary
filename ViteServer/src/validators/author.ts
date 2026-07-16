@@ -18,10 +18,12 @@ export const PartialAuthorSchema = AuthorSchema.pick({
   author_name: true,
   nationality: true,
 });
-export const AuthorPaginatedSchema = pageSchema.extend({
+export const PartialAuthorPaginatedSchema = pageSchema.extend({
   results: z.array(PartialAuthorSchema).max(10),
 });
-export type AuthorPaginated = z.infer<typeof AuthorPaginatedSchema>;
+export type PartialAuthorPaginated = z.infer<
+  typeof PartialAuthorPaginatedSchema
+>;
 export type Author = z.infer<typeof AuthorSchema>;
 export type PartialAuthor = z.infer<typeof PartialAuthorSchema>;
 
@@ -30,7 +32,7 @@ export const AuthorQuerySchema = pageQuerySchema.extend({
   nationality: z.string().optional(),
   gender: z.enum(["m", "f", "t", "unknown", ""]).optional(),
 });
-cleanEmptyString;
-export const filter = cleanEmptyString(AuthorQuerySchema);
+
+export const AuthorQueryFilter = cleanEmptyString(AuthorQuerySchema);
 
 export type AuthorQuery = z.infer<typeof AuthorQuerySchema>;

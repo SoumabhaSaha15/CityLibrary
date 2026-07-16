@@ -4,6 +4,7 @@ import { MdSearch } from "react-icons/md";
 import { useQuery } from "@tanstack/react-query";
 import Pagination from "@/components/Pagination";
 import AuthorCard from "@/components/AuthorCard";
+import { useHotkey } from "@tanstack/react-hotkeys";
 import RippleButton from "@/components/RippleButton";
 import authorQueryoptions from "@/hooks/fetchAuthors";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -11,9 +12,27 @@ import Modal, { type ModalHandle } from "@/components/Modal";
 import { createFileRoute, useNavigate, redirect } from "@tanstack/react-router";
 import {
   AuthorQuerySchema,
-  filter,
+  AuthorQueryFilter,
   type AuthorQuery,
 } from "@/validators/author";
+export const Route = createFileRoute("/user/authors")({
+  component: RouteComponent,
+  beforeLoad: ({ search }) => {
+    // console.log(search);
+    if (!search.page) {
+      throw redirect({
+        to: "/user/authors",
+        search: { page: 1 },
+        replace: true, // Replaces history so hitting 'back' works properly
+      });
+    }
+  },
+  loader: ({ params, context: { queryClient } }) =>
+    queryClient.ensureQueryData(
+      authorQueryoptions({ ...params, page: (params as any).page || 1 }),
+    ),
+  validateSearch: AuthorQuerySchema,
+});
 
 function RouteComponent() {
   const search = Route.useSearch();
@@ -28,6 +47,7 @@ function RouteComponent() {
     resolver: zodResolver(AuthorQuerySchema.omit({ page: true })),
   });
 
+  useHotkey("Mod+K", (_e, _ctx) => filterModalRef.current?.open());
   const genders = AuthorQuerySchema.shape.gender.unwrap().options;
 
   return (
@@ -65,7 +85,7 @@ function RouteComponent() {
               onSubmit={handleSubmit((data) => {
                 filterModalRef.current?.close();
                 navigate({
-                  search: () => ({ ...filter.parse(data), page: 1 }),
+                  search: () => ({ ...AuthorQueryFilter.parse(data), page: 1 }),
                 });
               })}
             >
@@ -150,21 +170,3 @@ function RouteComponent() {
     </>
   );
 }
-export const Route = createFileRoute("/user/authors")({
-  component: RouteComponent,
-  beforeLoad: ({ search }) => {
-    console.log(search);
-    if (!search.page) {
-      throw redirect({
-        to: "/user/authors",
-        search: { page: 1 },
-        replace: true, // Replaces history so hitting 'back' works properly
-      });
-    }
-  },
-  loader: ({ params, context: { queryClient } }) =>
-    queryClient.ensureQueryData(
-      authorQueryoptions({ ...params, page: (params as any).page || 1 }),
-    ),
-  validateSearch: AuthorQuerySchema,
-});
