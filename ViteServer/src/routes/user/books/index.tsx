@@ -16,10 +16,11 @@ import {
 } from "@/validators/book";
 import { createFileRoute, useNavigate, redirect } from "@tanstack/react-router";
 
-export const Route = createFileRoute("/user/books")({
+export const Route = createFileRoute("/user/books/")({
   component: RouteComponent,
-  beforeLoad: ({ search }) => {
-    if (!(search as any).page) {
+  beforeLoad: ({ search, params }) => {
+    if (!search.page) {
+      console.log(params);
       throw redirect({
         to: "/user/books",
         search: { page: 1 },
@@ -47,23 +48,27 @@ function RouteComponent() {
     resolver: zodResolver(BookQuerySchema.omit({ page: true })),
   });
 
-  useHotkey("Mod+K", (_e, _ctx) => filterModalRef.current?.open());
+  useHotkey("Mod+K", (_e, _ctx) => filterModalRef.current?.open(), {
+    conflictBehavior: "error",
+  });
 
   return (
     <>
       <div className="page-height w-full flex flex-col bg-base-200">
-        <div className="min-h-[calc(100dvh-120px)] overflow-y-auto overflow-x-clip grid place-items-center grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 auto-rows-[60vh] sm:auto-rows-[50vh] gap-2 p-2">
+        <div className="min-h-[calc(100dvh-4rem)] overflow-y-auto overflow-x-clip grid place-items-center grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 auto-rows-[60vh] sm:auto-rows-[50vh] gap-2 p-2">
           {data?.results.map((item) => (
             <BookCard book={item} key={`book[${item.book_id}]`} />
           ))}
         </div>
-        <Pagination
-          currentPage={data?.current_page || 0}
-          totalPages={data?.page_count || 0}
-          onPageChange={(newPage) =>
-            navigate({ search: (prev) => ({ ...prev, page: newPage }) })
-          }
-        />
+        <div className="fixed bottom-0 min-w-full bg-linear-to-br from-base-100/20 via-base-200/20 to-base-300/20 backdrop-blur-xs grid place-items-center">
+          <Pagination
+            currentPage={data?.current_page || 0}
+            totalPages={data?.page_count || 0}
+            onPageChange={(newPage) =>
+              navigate({ search: (prev) => ({ ...prev, page: newPage }) })
+            }
+          />
+        </div>
       </div>
 
       <div className="fab">
@@ -79,7 +84,7 @@ function RouteComponent() {
         <div className="modal-box">
           <div className="card w-full shrink-0 mx-auto border-base-300 p-2">
             <form
-              className="card-body"
+              className="card-body p-0"
               // method="dialog"
               onSubmit={handleSubmit((data) => {
                 filterModalRef.current?.close();

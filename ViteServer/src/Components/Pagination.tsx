@@ -35,10 +35,7 @@ const Pagination = ({
   if (api.totalPages <= 1) return null;
 
   return (
-    <div
-      {...api.getRootProps()}
-      className="join p-2 justify-center gap-0.5 bg-base-300"
-    >
+    <div {...api.getRootProps()} className="join p-2 justify-center gap-0.5">
       {/* Previous Button */}
       <RippleButton
         {...api.getPrevTriggerProps()}

@@ -16,7 +16,7 @@ export default defineConfig(({ mode }) => {
       },
     },
     plugins: [
-      devtools({ enhancedLogs: { enabled: true } }),
+      devtools({ enhancedLogs: { enabled: true }, logging: true }),
       tanstackRouter({ target: "react", autoCodeSplitting: true }),
       react(),
       babel({
