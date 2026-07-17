@@ -55,7 +55,7 @@ function RouteComponent() {
   return (
     <>
       <div className="page-height w-full flex flex-col bg-base-200">
-        <div className="min-h-[calc(100dvh-4rem)] overflow-y-auto overflow-x-clip grid place-items-center grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 auto-rows-[60vh] sm:auto-rows-[50vh] gap-2 p-2">
+        <div className="min-h-[calc(100dvh-4rem)] overflow-y-auto overflow-x-clip grid place-items-center grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 auto-rows-[64vh] sm:auto-rows-[56vh] gap-2 p-2">
           {data?.results.map((item) => (
             <BookCard book={item} key={`book[${item.book_id}]`} />
           ))}
