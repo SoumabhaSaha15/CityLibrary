@@ -7,6 +7,7 @@ import booksQueryOptions from "@/hooks/fetchBook";
 import { useHotkey } from "@tanstack/react-hotkeys";
 import RippleButton from "@/components/RippleButton";
 import { zodResolver } from "@hookform/resolvers/zod";
+import NoRecordFound from "@/components/NoRecordFound";
 import Modal, { type ModalHandle } from "@/components/Modal";
 import {
   BookQuerySchema,
@@ -54,11 +55,17 @@ function RouteComponent() {
   return (
     <>
       <div className="page-height w-full flex flex-col bg-base-200">
-        <div className="min-h-[calc(100dvh-4rem)] overflow-y-auto overflow-x-clip grid place-items-center grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 auto-rows-[64vh] sm:auto-rows-[56vh] gap-2 p-2">
-          {data?.results.map((item) => (
-            <BookCard book={item} key={`book[${item.book_id}]`} />
-          ))}
-        </div>
+        {data.results.length == 0 ? (
+          <div className="min-h-[calc(100dvh-4rem)] overflow-y-auto overflow-x-clip grid place-items-center gap-2 p-2">
+            <NoRecordFound className="bg-base-300 hover:scale-105 transition-transform hover:shadow-accent-content shadow-lg" />
+          </div>
+        ) : (
+          <div className="min-h-[calc(100dvh-4rem)] overflow-y-auto overflow-x-clip grid place-items-center grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 auto-rows-[64vh] sm:auto-rows-[56vh] gap-2 p-2">
+            {data?.results.map((item) => (
+              <BookCard book={item} key={`book[${item.book_id}]`} />
+            ))}
+          </div>
+        )}
         <div className="fixed bottom-0 min-w-full bg-linear-to-br from-base-100/20 via-base-200/20 to-base-300/20 backdrop-blur-xs grid place-items-center">
           <Pagination
             currentPage={data?.current_page || 0}

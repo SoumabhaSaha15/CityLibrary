@@ -14,6 +14,7 @@ import {
   AuthorQueryFilter,
   type AuthorQuery,
 } from "@/validators/author";
+import NoRecordFound from "@/components/NoRecordFound";
 export const Route = createFileRoute("/user/authors/")({
   component: RouteComponent,
   loaderDeps: ({ search }) => ({ ...search }),
@@ -56,11 +57,17 @@ function RouteComponent() {
   return (
     <>
       <div className="page-height w-full flex flex-col bg-base-200">
-        <div className="min-h-[calc(100dvh-4rem)] overflow-y-auto overflow-x-clip grid place-items-center grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 auto-rows-[60vh] sm:auto-rows-[50vh] gap-2 p-2">
-          {data?.results.map((item) => (
-            <AuthorCard author={item} key={`author[${item.author_id}]`} />
-          ))}
-        </div>
+        {data.results.length == 0 ? (
+          <div className="min-h-[calc(100dvh-4rem)] overflow-y-auto overflow-x-clip grid place-items-center gap-2 p-2">
+            <NoRecordFound className="bg-base-300 scale-90 hover:scale-100 transition-transform hover:shadow-accent-content shadow-lg" />
+          </div>
+        ) : (
+          <div className="min-h-[calc(100dvh-4rem)] overflow-y-auto overflow-x-clip grid place-items-center grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 auto-rows-[60vh] sm:auto-rows-[50vh] gap-2 p-2">
+            {data.results.map((item) => (
+              <AuthorCard author={item} key={`author[${item.author_id}]`} />
+            ))}
+          </div>
+        )}
         <div className="fixed bottom-0 min-w-full bg-linear-to-br from-base-100/20 via-base-200/20 to-base-300/20 backdrop-blur-xs grid place-items-center">
           <Pagination
             currentPage={data?.current_page || 0}
