@@ -9,50 +9,45 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as UserRouteImport } from './routes/user'
-import { Route as AuthRouteImport } from './routes/_auth'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as UserIndexRouteImport } from './routes/user/index'
-import { Route as AuthSignupRouteImport } from './routes/_auth.signup'
+import { Route as AuthRouteImport } from './routes/_auth'
+import { Route as UserRouteImport } from './routes/user'
 import { Route as AuthLoginRouteImport } from './routes/_auth.login'
-import { Route as UserBooksIndexRouteImport } from './routes/user/books/index'
+import { Route as AuthSignupRouteImport } from './routes/_auth.signup'
+import { Route as UserIndexRouteImport } from './routes/user/index'
 import { Route as UserAuthorsIndexRouteImport } from './routes/user/authors/index'
 import { Route as UserAuthorsIdRouteImport } from './routes/user/authors/$id'
+import { Route as UserBooksIndexRouteImport } from './routes/user/books/index'
 import { Route as UserBooksIdIndexRouteImport } from './routes/user/books/$id/index'
 import { Route as UserBooksIdBorrowRouteImport } from './routes/user/books/$id/borrow'
 
-const UserRoute = UserRouteImport.update({
-  id: '/user',
-  path: '/user',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRoute = AuthRouteImport.update({
   id: '/_auth',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const UserRoute = UserRouteImport.update({
+  id: '/user',
+  path: '/user',
   getParentRoute: () => rootRouteImport,
-} as any)
-const UserIndexRoute = UserIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => UserRoute,
-} as any)
-const AuthSignupRoute = AuthSignupRouteImport.update({
-  id: '/signup',
-  path: '/signup',
-  getParentRoute: () => AuthRoute,
 } as any)
 const AuthLoginRoute = AuthLoginRouteImport.update({
   id: '/login',
   path: '/login',
   getParentRoute: () => AuthRoute,
 } as any)
-const UserBooksIndexRoute = UserBooksIndexRouteImport.update({
-  id: '/books/',
-  path: '/books/',
+const AuthSignupRoute = AuthSignupRouteImport.update({
+  id: '/signup',
+  path: '/signup',
+  getParentRoute: () => AuthRoute,
+} as any)
+const UserIndexRoute = UserIndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => UserRoute,
 } as any)
 const UserAuthorsIndexRoute = UserAuthorsIndexRouteImport.update({
@@ -63,6 +58,11 @@ const UserAuthorsIndexRoute = UserAuthorsIndexRouteImport.update({
 const UserAuthorsIdRoute = UserAuthorsIdRouteImport.update({
   id: '/authors/$id',
   path: '/authors/$id',
+  getParentRoute: () => UserRoute,
+} as any)
+const UserBooksIndexRoute = UserBooksIndexRouteImport.update({
+  id: '/books/',
+  path: '/books/',
   getParentRoute: () => UserRoute,
 } as any)
 const UserBooksIdIndexRoute = UserBooksIdIndexRouteImport.update({
@@ -160,11 +160,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/user': {
-      id: '/user'
-      path: '/user'
-      fullPath: '/user'
-      preLoaderRoute: typeof UserRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_auth': {
@@ -174,26 +174,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/user': {
+      id: '/user'
+      path: '/user'
+      fullPath: '/user'
+      preLoaderRoute: typeof UserRouteImport
       parentRoute: typeof rootRouteImport
-    }
-    '/user/': {
-      id: '/user/'
-      path: '/'
-      fullPath: '/user/'
-      preLoaderRoute: typeof UserIndexRouteImport
-      parentRoute: typeof UserRoute
-    }
-    '/_auth/signup': {
-      id: '/_auth/signup'
-      path: '/signup'
-      fullPath: '/signup'
-      preLoaderRoute: typeof AuthSignupRouteImport
-      parentRoute: typeof AuthRoute
     }
     '/_auth/login': {
       id: '/_auth/login'
@@ -202,11 +188,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthLoginRouteImport
       parentRoute: typeof AuthRoute
     }
-    '/user/books/': {
-      id: '/user/books/'
-      path: '/books'
-      fullPath: '/user/books/'
-      preLoaderRoute: typeof UserBooksIndexRouteImport
+    '/_auth/signup': {
+      id: '/_auth/signup'
+      path: '/signup'
+      fullPath: '/signup'
+      preLoaderRoute: typeof AuthSignupRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/user/': {
+      id: '/user/'
+      path: '/'
+      fullPath: '/user/'
+      preLoaderRoute: typeof UserIndexRouteImport
       parentRoute: typeof UserRoute
     }
     '/user/authors/': {
@@ -221,6 +214,13 @@ declare module '@tanstack/react-router' {
       path: '/authors/$id'
       fullPath: '/user/authors/$id'
       preLoaderRoute: typeof UserAuthorsIdRouteImport
+      parentRoute: typeof UserRoute
+    }
+    '/user/books/': {
+      id: '/user/books/'
+      path: '/books'
+      fullPath: '/user/books/'
+      preLoaderRoute: typeof UserBooksIndexRouteImport
       parentRoute: typeof UserRoute
     }
     '/user/books/$id/': {

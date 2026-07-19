@@ -15,10 +15,10 @@ const authorQuery = async (query: AuthorQuery) => {
     });
   return response.data;
 };
-const authorQueryoptions = (query: AuthorQuery) =>
+const authorQueryOptions = (query: AuthorQuery) =>
   queryOptions({
     queryKey: ["authors", JSON.stringify(query)],
-    queryFn: () => authorQuery(query),
+    queryFn: async () => await authorQuery(query),
     retry: 1,
   });
-export default authorQueryoptions;
+export default authorQueryOptions;

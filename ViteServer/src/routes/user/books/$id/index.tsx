@@ -1,14 +1,12 @@
-import { createFileRoute, Outlet } from "@tanstack/react-router";
+import bookQueryOptionsById from "@/hooks/fetchBookById";
+import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/user/books/$id/")({
   component: RouteComponent,
+  loader: async ({ context: { queryClient }, params }) =>
+    await queryClient.ensureQueryData(bookQueryOptionsById(Number(params.id))),
 });
 
 function RouteComponent() {
-  return (
-    <div>
-      Hello "/user/books/$id"!
-      <Outlet />
-    </div>
-  );
+  return <div></div>;
 }

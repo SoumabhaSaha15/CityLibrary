@@ -1,7 +1,6 @@
 import { useRef } from "react";
 import { useForm } from "react-hook-form";
 import { MdSearch } from "react-icons/md";
-import { useQuery } from "@tanstack/react-query";
 import Pagination from "@/components/Pagination";
 import AuthorCard from "@/components/AuthorCard";
 import { useHotkey } from "@tanstack/react-hotkeys";
@@ -9,7 +8,7 @@ import RippleButton from "@/components/RippleButton";
 import authorQueryoptions from "@/hooks/fetchAuthors";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Modal, { type ModalHandle } from "@/components/Modal";
-import { createFileRoute, useNavigate, redirect } from "@tanstack/react-router";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 import {
   AuthorQuerySchema,
   AuthorQueryFilter,
@@ -17,6 +16,7 @@ import {
 } from "@/validators/author";
 export const Route = createFileRoute("/user/authors/")({
   component: RouteComponent,
+  loaderDeps: ({ search }) => ({ ...search }),
   beforeLoad: ({ search }) => {
     if (!search.page) {
       throw redirect({
@@ -26,17 +26,19 @@ export const Route = createFileRoute("/user/authors/")({
       });
     }
   },
-  loader: ({ params, context: { queryClient } }) =>
+  loader: ({ deps, context: { queryClient } }) =>
     queryClient.ensureQueryData(
-      authorQueryoptions({ ...params, page: (params as any).page || 1 }),
+      authorQueryoptions({
+        ...deps,
+        page: deps.page || 1,
+      }),
     ),
   validateSearch: AuthorQuerySchema,
 });
 
 function RouteComponent() {
-  const search = Route.useSearch();
-  const { data } = useQuery(authorQueryoptions(search));
-  const navigate = useNavigate({ from: Route.fullPath });
+  const data = Route.useLoaderData();
+  const navigate = Route.useNavigate();
   const filterModalRef = useRef<ModalHandle>(null);
   const {
     handleSubmit,
@@ -150,7 +152,7 @@ function RouteComponent() {
                     Select Gender
                   </option>
                   {genders.map((item) => (
-                    <option value={item} key={crypto.randomUUID()}>
+                    <option value={item} key={item ?? "unselect"}>
                       {item == "" ? "unselect" : item}
                     </option>
                   ))}

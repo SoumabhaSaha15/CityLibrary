@@ -3,7 +3,6 @@ import { useForm } from "react-hook-form";
 import { MdSearch } from "react-icons/md";
 import BookCard from "@/components/BookCard";
 import Pagination from "@/components/Pagination";
-import { useQuery } from "@tanstack/react-query";
 import booksQueryOptions from "@/hooks/fetchBook";
 import { useHotkey } from "@tanstack/react-hotkeys";
 import RippleButton from "@/components/RippleButton";
@@ -14,9 +13,10 @@ import {
   type BookQuery,
   BookQueryFilter,
 } from "@/validators/book";
-import { createFileRoute, useNavigate, redirect } from "@tanstack/react-router";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/user/books/")({
+  loaderDeps: ({ search }) => ({ ...search }),
   component: RouteComponent,
   beforeLoad: ({ search, params }) => {
     if (!search.page) {
@@ -28,18 +28,17 @@ export const Route = createFileRoute("/user/books/")({
       });
     }
   },
-  loader: ({ params, context: { queryClient } }) =>
+  loader: ({ deps, context: { queryClient } }) =>
     queryClient.ensureQueryData(
-      booksQueryOptions({ ...params, page: (params as any).page || 1 }),
+      booksQueryOptions({ ...deps, page: deps.page || 1 }),
     ),
   validateSearch: BookQuerySchema,
 });
 
 function RouteComponent() {
-  const search = Route.useSearch();
+  const data = Route.useLoaderData();
+  const navigate = Route.useNavigate();
   const filterModalRef = useRef<ModalHandle>(null);
-  const { data } = useQuery(booksQueryOptions(search));
-  const navigate = useNavigate({ from: Route.fullPath });
   const {
     handleSubmit,
     register,

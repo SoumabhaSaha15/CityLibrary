@@ -5,7 +5,6 @@ import {
   type PartialBookPaginated,
   type BookQuery,
   PartialBookPaginatedSchema,
-  type Book,
 } from "@/validators/book";
 
 const bookQuery = async (query: BookQuery) => {
@@ -17,21 +16,10 @@ const bookQuery = async (query: BookQuery) => {
   return response.data;
 };
 
-const bookQueryById = async (id: number) => {
-  const response: AxiosResponse<Book> = await base.get<Book>(`/books/${id}`);
-  return response.data;
-};
-const useBooks = (query: BookQuery) =>
+const booksQueryOptions = (query: BookQuery) =>
   queryOptions({
     queryKey: ["books", JSON.stringify(query)],
-    queryFn: () => bookQuery(query),
+    queryFn: async () => await bookQuery(query),
     retry: 1,
   });
-export default useBooks;
-
-export const useBook = (id: number) =>
-  queryOptions({
-    queryKey: ["books", id.toString()],
-    queryFn: () => bookQueryById(id),
-    retry: 1,
-  });
+export default booksQueryOptions;

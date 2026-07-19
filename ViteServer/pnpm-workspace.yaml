@@ -43,8 +43,8 @@ minimumReleaseAgeExclude:
   - eslint@10.7.0
   - '@tanstack/react-router@1.170.18'
   - '@tanstack/router-core@1.171.15'
-  - '@tanstack/router-generator@1.167.19'
-  - '@tanstack/router-plugin@1.168.20'
+  - '@tanstack/router-generator@1.167.19 || 1.167.21'
+  - '@tanstack/router-plugin@1.168.20 || 1.168.22'
   - '@tailwindcss/node@4.3.3'
   - '@tailwindcss/oxide-android-arm64@4.3.3'
   - '@tailwindcss/oxide-darwin-arm64@4.3.3'
