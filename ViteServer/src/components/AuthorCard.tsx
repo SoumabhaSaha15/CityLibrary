@@ -18,7 +18,7 @@ const AuthorCard = ({ author }: AuthorCardProps) => {
               <img
                 src={author.author_image}
                 alt={author.author_name}
-                className="rounded-lg h-full w-full object-cover object-top"
+                className="rounded-lg h-full w-full object-contain object-center bg-base-content"
               />
             </div>
           </div>

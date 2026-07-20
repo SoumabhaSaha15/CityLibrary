@@ -81,7 +81,7 @@ const Home: FC = () => {
               </ul>
             </div>
             <Link to="/" className="btn btn-ghost text-xl gap-2">
-              <BiBook className="w-6 h-6 text-primary" />
+              <BiBook className="w-6 h-6 text-accent" />
               <span className="font-bold bg-gradient-to-right from-primary to-secondary bg-clip-text">
                 CityLibrary
               </span>
@@ -151,7 +151,7 @@ const Home: FC = () => {
                 <div className="absolute -bottom-6 -left-6 bg-base-100 p-4 rounded-lg shadow-xl hidden sm:block">
                   <div className="flex items-center gap-3">
                     <div className="avatar placeholder">
-                      <div className="bg-primary text-primary-content rounded-lg w-12 items-center justify-center flex">
+                      <div className="bg-accent text-accent-content rounded-lg w-12 items-center justify-center flex">
                         <FaChartLine size="20" />
                       </div>
                     </div>
@@ -171,7 +171,7 @@ const Home: FC = () => {
 
             {/* Hero Content */}
             <div className="flex-1 text-center lg:text-left">
-              <div className="badge badge-primary badge-lg mb-4 gap-2">
+              <div className="badge badge-accent badge-lg mb-4 gap-2">
                 <FaCheckCircle /> Trusted by 50,000+ Readers
               </div>
 
@@ -190,7 +190,7 @@ const Home: FC = () => {
 
               {/* CTA Buttons */}
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-12">
-                <RippleButton className="btn btn-primary btn-lg gap-2 shadow-lg hover:shadow-xl">
+                <RippleButton className="btn btn-accent btn-lg gap-2 shadow-lg hover:shadow-xl">
                   Get Started Free
                   <FaArrowRight />
                 </RippleButton>
@@ -203,7 +203,7 @@ const Home: FC = () => {
                     key={crypto.randomUUID()}
                     className="text-center lg:text-left"
                   >
-                    <div className="text-2xl sm:text-3xl font-bold text-primary">
+                    <div className="text-2xl sm:text-3xl font-bold text-accent">
                       {stat.number}
                     </div>
                     <div className="text-xs sm:text-sm text-base-content/60">
@@ -228,7 +228,7 @@ const Home: FC = () => {
           <div className="max-w-7xl mx-auto px-4">
             <div className="text-center mb-16">
               <h2 className="text-4xl lg:text-5xl font-bold mb-4">
-                Why Choose <span className="text-primary">CityLibrary?</span>
+                Why Choose <span className="text-accent">CityLibrary?</span>
               </h2>
               <p className="text-lg text-base-content/70 max-w-2xl mx-auto">
                 Experience the future of library management with features
@@ -243,7 +243,7 @@ const Home: FC = () => {
                   className="card bg-base-100 shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-2"
                 >
                   <div className="card-body items-center text-center">
-                    <div className="bg-primary/10 p-4 rounded-box text-primary mb-4">
+                    <div className="bg-primary/10 p-4 rounded-box text-accent mb-4">
                       {feature.icon}
                     </div>
                     <h3 className="card-title text-xl mb-2">{feature.title}</h3>
@@ -277,7 +277,7 @@ const Home: FC = () => {
                 </p>
                 <div className="card-actions">
                   <RippleButton
-                    className="btn btn-lg bg-base-100 text-primary hover:bg-base-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
+                    className="btn btn-lg bg-base-100 text-accent hover:bg-base-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
                     onClick={() => navigate({ to: "/signup" })}
                   >
                     <FaUserPlus className="w-5 h-5" />
@@ -300,7 +300,7 @@ const Home: FC = () => {
         >
           <div className="w-full max-w-7xl">
             <div className="flex items-center justify-center gap-2 text-xl sm:text-2xl font-bold">
-              <BiBook className="w-6 h-6 sm:w-8 sm:h-8 text-primary" />
+              <BiBook className="w-6 h-6 sm:w-8 sm:h-8 text-accent" />
               <span>CityLibrary</span>
             </div>
             <p className="max-w-md mt-2 text-sm sm:text-base px-4">

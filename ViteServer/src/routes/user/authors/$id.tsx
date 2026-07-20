@@ -41,7 +41,7 @@ function RouteComponent() {
             <img
               src={data.author_image}
               alt={data.author_name}
-              className="shadow-lg w-full max-w-sm rounded-lg hover:scale-90 transition-transform hover:shadow-accent hover:shadow-lg bg-accent-content"
+              className="shadow-lg w-full max-w-sm rounded-lg hover:scale-90 transition-transform hover:shadow-accent hover:shadow-lg aspect-3/4 object-contain bg-base-content"
             />
           </figure>
 

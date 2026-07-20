@@ -1,11 +1,11 @@
 import "@/index.css";
-import ErrorPage from "@/Error";
-import LoadingPage from "@/Loader";
-import NotFoundPage from "@/NotFound";
+import ErrorPage from "@/shared/Error";
 import ReactDOM from "react-dom/client";
 import { authStore } from "@/store/auth";
+import LoadingPage from "@/shared/Loader";
 import { themeStore } from "@/store/theme";
 import { routeTree } from "@/routeTree.gen";
+import NotFoundPage from "@/shared/NotFound";
 import { useSelector } from "@tanstack/react-store";
 import { QueryClient } from "@tanstack/react-query";
 import ToastProvider from "@/contexts/Toast/ToastProvider";
