@@ -21,7 +21,7 @@ function RouteComponent() {
           <li>id:{data.book_id}</li>
         </ul>
       </div>
-      <div className="hero max-h-[calc(100dvh-6.25rem)] h-full custom-grad max-w-full overflow-y-scroll">
+      <div className="hero max-h-[calc(100dvh-6.25rem)] min-h-[calc(100dvh-6.25rem)] custom-grad max-w-full overflow-y-scroll">
         <div className="hero-content flex-col lg:flex-row gap-8">
           {/* Book Cover */}
           <figure className="lg:w-1/3">

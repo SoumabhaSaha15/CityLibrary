@@ -1,6 +1,5 @@
 @import "tailwindcss";
 @plugin "daisyui" {
-  /* themes: all; */
   themes:
     light --default,
     dark --prefersdark;
@@ -17,36 +16,18 @@ body {
   transition-duration: 0.25s;
   transition-timing-function: linear;
   scroll-behavior: smooth;
-  background-image:
-    linear-gradient(
-      225deg,
-      color-mix(
-        in oklab,
-        var(--color-base-100) /* var(--color-base-100) */ 40%,
-        transparent
-      ),
-      color-mix(
-        in oklab,
-        var(--color-base-200) /* var(--color-base-200) */ 40%,
-        transparent
-      ),
-      color-mix(
-        in oklab,
-        var(--color-base-300) /* var(--color-base-300) */ 40%,
-        transparent
-      )
-    ),
-    url("image.svg");
-  background-size: cover;
-  background-position: center;
-  background-blend-mode: color-burn;
-  background-repeat: no-repeat, no-repeat;
 }
 html[data-theme] {
   --radius-selector: 0.5rem;
   --radius-field: 0.5rem;
   --radius-box: 0.5rem;
   --depth: 0;
+  min-height: 100dvh;
+  background-image: url("image.svg");
+  background-size: cover, cover;
+  background-position: center, center;
+  /* background-blend-mode: color-dodge; */
+  background-repeat: no-repeat, no-repeat;
 }
 
 .page-height {
@@ -54,22 +35,5 @@ html[data-theme] {
 }
 
 .custom-grad {
-  background-image: linear-gradient(
-    225deg,
-    color-mix(
-      in oklab,
-      var(--color-base-100) /* var(--color-base-100) */ 70%,
-      transparent
-    ),
-    color-mix(
-      in oklab,
-      var(--color-base-200) /* var(--color-base-200) */ 70%,
-      transparent
-    ),
-    color-mix(
-      in oklab,
-      var(--color-base-300) /* var(--color-base-300) */ 70%,
-      transparent
-    )
-  );
+  @apply bg-linear-to-br from-base-100/70 to-base-300/70 via-base-200/70 backdrop-blur-md;
 }

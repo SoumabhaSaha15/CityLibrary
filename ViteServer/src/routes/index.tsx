@@ -60,7 +60,7 @@ const Home: FC = () => {
 
   return (
     <>
-      <div className="min-h-screen bg-linear-to-bl from-primary via-secondary to-accent dark:from-primary/10 dark:via-secondary/10 dark:to-accent/10">
+      <div className="min-h-screen bg-linear-to-bl from-primary via-secondary to-accent dark:from-primary/70 dark:via-secondary/70 dark:to-accent/70 backdrop-blur-md">
         {/* Navbar */}
         <nav className="navbar bg-base-100 shadow-lg sticky top-0 z-50">
           <div className="navbar-start">
