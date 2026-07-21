@@ -38,7 +38,7 @@ function RouteComponent() {
 
   return (
     <>
-      <div className="min-h-dvh scroll-smooth transition-all snap-y snap-mandatory">
+      <div className="min-h-dvh scroll-smooth transition-all snap-y snap-mandatory custom-grad">
         <div className="hero min-h-screen px-4 py-8">
           <div className="hero-content flex-col lg:flex-row w-full max-w-6xl gap-8">
             <div className="text-center lg:text-left lg:flex-1">

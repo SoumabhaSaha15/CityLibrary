@@ -30,7 +30,7 @@ function RouteComponent() {
     <></>
   ) : (
     <>
-      <div className="page-height min-h-[calc(100dvh-8rem)] grid place-items-center bg-base-200 p-4">
+      <div className="page-height min-h-[calc(100dvh-8rem)] grid place-items-center custom-grad p-4">
         {/* user id */}
         <div
           className={cn(

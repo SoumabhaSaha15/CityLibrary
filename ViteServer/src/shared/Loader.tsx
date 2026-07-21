@@ -5,7 +5,7 @@ const LoadingPage = () => {
   return (
     <div
       className={cn(
-        "flex items-center justify-center p-6 bg-base-200",
+        "flex items-center justify-center p-6 custom-grad",
         location.pathname.startsWith("/user")
           ? "min-h-[calc(100dvh-4rem)]"
           : "min-h-dvh",

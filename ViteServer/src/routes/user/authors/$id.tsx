@@ -24,7 +24,7 @@ function RouteComponent() {
 
   return (
     <>
-      <div className="breadcrumbs text-sm px-2 bg-linear-210 from-primary/50 to-accent/50 via-secondary/50">
+      <div className="breadcrumbs text-sm px-2 bg-linear-210 from-primary to-accent via-secondary">
         <ul>
           <li>
             <Link to={"/user/authors"} className="link" preload={false}>
@@ -34,7 +34,7 @@ function RouteComponent() {
           <li>id:{data.author_id}</li>
         </ul>
       </div>
-      <div className="hero max-h-[calc(100dvh-6.25rem)] h-full bg-base-200 max-w-full overflow-y-scroll">
+      <div className="hero max-h-[calc(100dvh-6.25rem)] h-full custom-grad max-w-full overflow-y-scroll">
         <div className="hero-content flex-col lg:flex-row gap-8">
           {/* Author Image */}
           <figure className="lg:w-1/3">

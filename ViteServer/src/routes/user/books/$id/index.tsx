@@ -11,7 +11,7 @@ function RouteComponent() {
   const data = Route.useLoaderData();
   return (
     <>
-      <div className="breadcrumbs text-sm px-2 bg-linear-120 from-primary/50 to-accent/50 via-secondary/50">
+      <div className="breadcrumbs text-sm px-2 bg-linear-120 from-primary to-accent via-secondary">
         <ul>
           <li>
             <Link to={"/user/books"} className="link" preload={false}>
@@ -21,14 +21,14 @@ function RouteComponent() {
           <li>id:{data.book_id}</li>
         </ul>
       </div>
-      <div className="hero max-h-[calc(100dvh-6.25rem)] h-full bg-base-200 max-w-full overflow-y-scroll">
+      <div className="hero max-h-[calc(100dvh-6.25rem)] h-full custom-grad max-w-full overflow-y-scroll">
         <div className="hero-content flex-col lg:flex-row gap-8">
           {/* Book Cover */}
           <figure className="lg:w-1/3">
             <img
               src={data.book_cover}
               alt={data.book_name}
-              className="shadow-lg w-full max-w-sm hover:scale-90 transition-transform hover:shadow-accent hover:shadow-lg aspect-3/4 object-contain bg-base-content"
+              className="shadow-lg w-full max-w-sm hover:scale-90 transition-transform hover:shadow-accent hover:shadow-lg aspect-3/4 object-contain bg-base-content rounded-lg"
             />
           </figure>
 
@@ -67,7 +67,7 @@ function RouteComponent() {
             </div>
 
             {/* Description */}
-            <p className="text-lg leading-relaxed mb-8 max-w-full">
+            <p className="text-lg leading-relaxed mb-8 max-w-full text-shadow-2xl">
               {data.book_description}
             </p>
 

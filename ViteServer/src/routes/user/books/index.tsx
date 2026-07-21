@@ -54,7 +54,7 @@ function RouteComponent() {
 
   return (
     <>
-      <div className="page-height w-full flex flex-col bg-base-200">
+      <div className="page-height w-full flex flex-col custom-grad">
         {data.results.length == 0 ? (
           <div className="min-h-[calc(100dvh-4rem)] overflow-y-auto overflow-x-clip grid place-items-center gap-2 p-2">
             <NoRecordFound className="bg-base-300 hover:scale-105 transition-transform hover:shadow-accent-content shadow-lg" />
