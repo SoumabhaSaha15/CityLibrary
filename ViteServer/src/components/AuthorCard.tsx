@@ -9,7 +9,7 @@ interface AuthorCardProps {
 const AuthorCard = ({ author }: AuthorCardProps) => {
   const navigate = useNavigate();
   return (
-    <div className="card bg-base-300 h-full w-full max-w-sm lg:max-w-md shrink-0 shadow-md scale-95 hover:scale-100 hover:shadow-accent-content transition-transform">
+    <div className="card bg-base-300 w-full h-full overflow-y-scroll max-w-sm lg:max-w-md shrink-0 shadow-md scale-95 hover:scale-100 hover:shadow-accent-content transition-transform">
       <div className="card-body p-2">
         <form className="fieldset space-y-2 p-1" aria-label="author-id-card">
           {/* Avatar Area */}

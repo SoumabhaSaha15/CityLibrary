@@ -54,7 +54,7 @@ function User() {
               to="/"
               className="btn btn-ghost text-xl gap-2 rounded-lg hover:bg-base-100"
             >
-              <BiBook className="w-6 h-6 text-primary" />
+              <BiBook className="w-6 h-6 text-accent" />
               <span className="font-bold bg-gradient-to-right from-primary to-secondary bg-clip-text">
                 CityLibrary
               </span>
