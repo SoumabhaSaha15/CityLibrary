@@ -65,7 +65,7 @@ const Pagination = ({
         if (page.type === "ellipsis") {
           return (
             <RippleButton
-              key={`ellipsis-${index}`}
+              key={`ellipsis[${index}]`}
               {...api.getEllipsisProps({ index })}
               className="join-item btn btn-disabled bg-base-200 pointer-events-none rounded-sm"
             >

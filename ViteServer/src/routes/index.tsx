@@ -175,7 +175,7 @@ const Home: FC = () => {
                 <FaCheckCircle /> Trusted by 50,000+ Readers
               </div>
 
-              <h1 className="text-5xl lg:text-5xl font-bold leading-tight mb-6">
+              <h1 className="text-5xl lg:text-5xl font-bold leading-tight mb-6 bg-linear-to-bl from-base-100/50 to-base-300/50 via-base-200/50 p-2 rounded-md">
                 Your Gateway to
                 <span className="block bg-linear-to-r from-primary via-secondary to-accent bg-clip-text text-transparent mt-2">
                   Endless Knowledge
@@ -198,9 +198,9 @@ const Home: FC = () => {
 
               {/* Quick Stats */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-2xl mx-auto lg:mx-0">
-                {stats.map((stat) => (
+                {stats.map((stat, index) => (
                   <div
-                    key={crypto.randomUUID()}
+                    key={`stat[${index}]`}
                     className="text-center lg:text-left"
                   >
                     <div className="text-2xl sm:text-3xl font-bold text-accent">
@@ -237,9 +237,9 @@ const Home: FC = () => {
             </div>
 
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {features.map((feature) => (
+              {features.map((feature, index) => (
                 <div
-                  key={crypto.randomUUID()}
+                  key={`feature[${index}]`}
                   className="card bg-base-100 shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-2"
                 >
                   <div className="card-body items-center text-center">

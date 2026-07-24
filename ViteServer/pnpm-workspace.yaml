@@ -68,8 +68,14 @@ minimumReleaseAgeExclude:
   - '@tanstack/react-query-devtools@5.101.3'
   - '@tanstack/react-query-persist-client@5.101.3'
   - '@tanstack/react-query@5.101.3'
-  - '@vitejs/devtools-kit@0.4.2'
-  - '@vitejs/devtools@0.4.2'
+  - '@vitejs/devtools-kit@0.4.2 || 0.4.5 || 0.4.6'
+  - '@vitejs/devtools@0.4.2 || 0.4.5 || 0.4.6'
+  - '@devframes/hub@0.7.11 || 0.7.12'
+  - '@devframes/json-render@0.7.11 || 0.7.12'
+  - '@devframes/plugin-inspect@0.7.11 || 0.7.12'
+  - '@devframes/plugin-messages@0.7.11 || 0.7.12'
+  - '@devframes/plugin-terminals@0.7.11 || 0.7.12'
+  - devframe@0.7.11 || 0.7.12
 onlyBuiltDependencies:
   - esbuild
   - scrollreveal

@@ -1,12 +1,11 @@
 import { useRef } from "react";
-import { useForm } from "react-hook-form";
+import { useForm } from "@tanstack/react-form";
 import { MdSearch } from "react-icons/md";
 import Pagination from "@/components/Pagination";
 import AuthorCard from "@/components/AuthorCard";
 import { useHotkey } from "@tanstack/react-hotkeys";
 import RippleButton from "@/components/RippleButton";
 import authorQueryoptions from "@/hooks/fetchAuthors";
-import { zodResolver } from "@hookform/resolvers/zod";
 import Modal, { type ModalHandle } from "@/components/Modal";
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import {
@@ -15,6 +14,7 @@ import {
   type AuthorQuery,
 } from "@/validators/author";
 import NoRecordFound from "@/components/NoRecordFound";
+
 export const Route = createFileRoute("/user/authors/")({
   component: RouteComponent,
   loaderDeps: ({ search }) => ({ ...search }),
@@ -41,17 +41,27 @@ function RouteComponent() {
   const data = Route.useLoaderData();
   const navigate = Route.useNavigate();
   const filterModalRef = useRef<ModalHandle>(null);
-  const {
-    handleSubmit,
-    register,
-    formState: { errors },
-  } = useForm<Omit<AuthorQuery, "page">>({
-    resolver: zodResolver(AuthorQuerySchema.omit({ page: true })),
+  const { page: _, ...restDeps } = Route.useLoaderDeps();
+
+  const filterSchema = AuthorQuerySchema.omit({ page: true });
+
+  const form = useForm({
+    defaultValues: restDeps satisfies Omit<AuthorQuery, "page">,
+    validators: {
+      onChange: filterSchema,
+    },
+    onSubmit: ({ value }) => {
+      filterModalRef.current?.close();
+      navigate({
+        search: () => ({ ...AuthorQueryFilter.parse(value), page: 1 }),
+      });
+    },
   });
 
   useHotkey("Mod+K", (_e, _ctx) => filterModalRef.current?.open(), {
     conflictBehavior: "error",
   });
+
   const genders = AuthorQuerySchema.shape.gender.unwrap().options;
 
   return (
@@ -82,7 +92,7 @@ function RouteComponent() {
       <div className="fab">
         <RippleButton
           className="btn btn-lg btn-circle btn-primary focus-visible:outline-0"
-          onClick={filterModalRef.current?.open}
+          onClick={() => filterModalRef.current?.open()}
         >
           <MdSearch className="size-8" />
         </RippleButton>
@@ -93,78 +103,115 @@ function RouteComponent() {
           <div className="card w-full shrink-0 mx-auto border-base-300 py-2">
             <form
               className="card-body p-0"
-              // method="dialog"
-              onSubmit={handleSubmit((data) => {
-                filterModalRef.current?.close();
-                navigate({
-                  search: () => ({ ...AuthorQueryFilter.parse(data), page: 1 }),
-                });
-              })}
+              onSubmit={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                form.handleSubmit();
+              }}
             >
               {/* Author name */}
-              <div className="form-control mb-3">
-                <label className="label rounded-lg" htmlFor="author_name">
-                  {errors.author_name ? (
-                    <span className="label-text text-error">
-                      {errors.author_name.message}
-                    </span>
-                  ) : (
-                    <span className="label-text">Author name</span>
-                  )}
-                </label>
-                <input
-                  id="author_name"
-                  type="text"
-                  {...register("author_name")}
-                  className="input input-bordered w-full rounded-md focus:outline-none focus:ring-0 focus:ring-accent"
-                />
-              </div>
+              <form.Field name="author_name">
+                {(field) => {
+                  const errorMessage = field.state.meta.isTouched
+                    ? field.state.meta.errors[0]?.message
+                    : undefined;
+                  return (
+                    <div className="form-control mb-3">
+                      <label className="label rounded-lg" htmlFor="author_name">
+                        {errorMessage ? (
+                          <span className="label-text text-error">
+                            {errorMessage}
+                          </span>
+                        ) : (
+                          <span className="label-text">Author name</span>
+                        )}
+                      </label>
+                      <input
+                        id="author_name"
+                        type="text"
+                        name={field.name}
+                        value={field.state.value ?? ""}
+                        onChange={(e) => field.handleChange(e.target.value)}
+                        onBlur={field.handleBlur}
+                        className="input input-bordered w-full rounded-md focus:outline-none focus:ring-0 focus:ring-accent"
+                      />
+                    </div>
+                  );
+                }}
+              </form.Field>
 
               {/* Nationality Field */}
-              <div className="form-control mb-3">
-                <label className="label" htmlFor="nationality">
-                  {errors.nationality ? (
-                    <span className="label-text text-error">
-                      {errors.nationality.message}
-                    </span>
-                  ) : (
-                    <span className="label-text">Nationality</span>
-                  )}
-                </label>
-                <input
-                  id="nationality"
-                  type="text"
-                  {...register("nationality")}
-                  className="input input-bordered w-full rounded-md focus:outline-none focus:ring-0 focus:ring-accent"
-                />
-              </div>
+              <form.Field name="nationality">
+                {(field) => {
+                  const errorMessage = field.state.meta.isTouched
+                    ? field.state.meta.errors[0]?.message
+                    : undefined;
+                  return (
+                    <div className="form-control mb-3">
+                      <label className="label" htmlFor="nationality">
+                        {errorMessage ? (
+                          <span className="label-text text-error">
+                            {errorMessage}
+                          </span>
+                        ) : (
+                          <span className="label-text">Nationality</span>
+                        )}
+                      </label>
+                      <input
+                        id="nationality"
+                        type="text"
+                        name={field.name}
+                        value={field.state.value ?? ""}
+                        onChange={(e) => field.handleChange(e.target.value)}
+                        onBlur={field.handleBlur}
+                        className="input input-bordered w-full rounded-md focus:outline-none focus:ring-0 focus:ring-accent"
+                      />
+                    </div>
+                  );
+                }}
+              </form.Field>
 
               {/* Gender Field */}
-              <div className="form-control">
-                <label className="label rounded-full" htmlFor="gender">
-                  {errors.gender ? (
-                    <span className="label-text text-error">
-                      {errors.gender.message}
-                    </span>
-                  ) : (
-                    <span className="label-text">Gender</span>
-                  )}
-                </label>
-                <select
-                  className="select select-bordered w-full rounded-md focus:outline-none focus:ring-0 focus:ring-accent"
-                  {...register("gender")}
-                  id="gender"
-                >
-                  <option value="" defaultChecked>
-                    Select Gender
-                  </option>
-                  {genders.map((item) => (
-                    <option value={item} key={item ?? "unselect"}>
-                      {item == "" ? "unselect" : item}
-                    </option>
-                  ))}
-                </select>
-              </div>
+              <form.Field name="gender">
+                {(field) => {
+                  const errorMessage = field.state.meta.isTouched
+                    ? field.state.meta.errors[0]?.message
+                    : undefined;
+                  return (
+                    <div className="form-control">
+                      <label className="label rounded-full" htmlFor="gender">
+                        {errorMessage ? (
+                          <span className="label-text text-error">
+                            {errorMessage}
+                          </span>
+                        ) : (
+                          <span className="label-text">Gender</span>
+                        )}
+                      </label>
+                      <select
+                        className="select select-bordered w-full rounded-md focus:outline-none focus:ring-0 focus:ring-accent"
+                        id="gender"
+                        name={field.name}
+                        value={field.state.value ?? ""}
+                        onChange={(e) =>
+                          field.handleChange(
+                            e.target.value as AuthorQuery["gender"],
+                          )
+                        }
+                        onBlur={field.handleBlur}
+                      >
+                        <option value="">Select Gender</option>
+                        {genders.map((item) => (
+                          <option value={item} key={item ?? "unselect"}>
+                            {item === "" ? "unselect" : item}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  );
+                }}
+              </form.Field>
+
               {/* Submit */}
               <div className="form-control mt-2 flex justify-center">
                 <RippleButton
@@ -176,7 +223,6 @@ function RouteComponent() {
               </div>
             </form>
           </div>
-          {/* <div className="modal-action place-items-center"></div> */}
         </div>
       </Modal>
     </>

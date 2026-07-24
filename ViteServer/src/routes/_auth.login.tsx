@@ -1,10 +1,9 @@
 import { cn } from "@/util/cn";
 import { useState } from "react";
 import { authActions } from "@/store/auth";
+import { useForm } from "@tanstack/react-form";
 import RippleButton from "@/components/RippleButton";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useToast } from "@/contexts/Toast/ToastContext";
-import { useForm, type SubmitHandler } from "react-hook-form";
 import { loginSchema, type LoginSchema } from "@/validators/user-auth";
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 
@@ -18,23 +17,26 @@ function RouteComponent() {
   const [passwordType, setPasswordType] = useState<"text" | "password">(
     "password",
   );
-  const {
-    handleSubmit,
-    register,
-    reset,
-    formState: { errors, isSubmitting },
-  } = useForm<LoginSchema>({ resolver: zodResolver(loginSchema) });
 
-  const login: SubmitHandler<LoginSchema> = async (data) => {
-    try {
-      await authActions.loginWithCred(data);
-      reset();
-      toast.open("login successfull", "alert-success");
-      navigate({ to: "/user" });
-    } catch (error) {
-      toast.open((error as Error).message, "alert-error");
-    }
-  };
+  const form = useForm({
+    defaultValues: {
+      username: "",
+      password: "",
+    } satisfies LoginSchema,
+    validators: {
+      onChange: loginSchema,
+    },
+    onSubmit: async ({ value }) => {
+      try {
+        await authActions.loginWithCred(value);
+        form.reset();
+        toast.open("login successfull", "alert-success");
+        navigate({ to: "/user" });
+      } catch (error) {
+        toast.open((error as Error).message, "alert-error");
+      }
+    },
+  });
 
   return (
     <>
@@ -56,87 +58,124 @@ function RouteComponent() {
               <div className="card-body p-4 sm:p-8">
                 <form
                   className="fieldset space-y-4"
-                  onSubmit={handleSubmit(login)}
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    form.handleSubmit();
+                  }}
                 >
-                  <div>
-                    <label className="floating-label" htmlFor="NameInput">
-                      <span
-                        className={cn(
-                          "transition-colors duration-300",
-                          errors.username && "text-error text-sm ml-2",
-                        )}
-                      >
-                        {errors.username ? errors.username.message : "Username"}
-                      </span>
-                      <input
-                        type="text"
-                        className={cn(
-                          "validator input input-bordered w-full focus:outline-none focus:ring-0 rounded-lg focus:ring-accent",
-                          errors.username && "focus:ring-error",
-                        )}
-                        id="NameInput"
-                        {...register("username")}
-                        placeholder="Your name"
-                        autoComplete="name"
-                        disabled={isSubmitting}
-                        required
-                      />
-                    </label>
-                  </div>
+                  <form.Field name="username">
+                    {(field) => {
+                      const errorMessage = field.state.meta.isTouched
+                        ? field.state.meta.errors[0]?.message
+                        : undefined;
+                      return (
+                        <div>
+                          <label className="floating-label" htmlFor="NameInput">
+                            <span
+                              className={cn(
+                                "transition-colors duration-300",
+                                errorMessage && "text-error text-sm ml-2",
+                              )}
+                            >
+                              {errorMessage ?? "Username"}
+                            </span>
+                            <input
+                              type="text"
+                              className={cn(
+                                "validator input input-bordered w-full focus:outline-none focus:ring-0 rounded-lg focus:ring-accent",
+                                errorMessage && "focus:ring-error",
+                              )}
+                              id="NameInput"
+                              name={field.name}
+                              value={field.state.value}
+                              onChange={(e) =>
+                                field.handleChange(e.target.value)
+                              }
+                              onBlur={field.handleBlur}
+                              placeholder="Your name"
+                              autoComplete="name"
+                              required
+                            />
+                          </label>
+                        </div>
+                      );
+                    }}
+                  </form.Field>
 
-                  <div>
-                    <label className="floating-label" htmlFor="PasswordInput">
-                      <span
-                        className={cn(
-                          "transition-colors duration-300",
-                          errors.password && "text-error text-sm ml-2",
-                        )}
-                      >
-                        {errors.password ? errors.password.message : "Password"}
-                      </span>
-                      <input
-                        type={passwordType}
-                        className={cn(
-                          "validator input input-bordered w-full focus:outline-none focus:ring-0 focus:ring-accent rounded-lg",
-                          errors.password && "focus:ring-error",
-                        )}
-                        id="PasswordInput"
-                        {...register("password")}
-                        placeholder="****"
-                        autoComplete="new-password"
-                        disabled={isSubmitting}
-                        required
-                      />
-                    </label>
-                  </div>
+                  <form.Field name="password">
+                    {(field) => {
+                      const errorMessage = field.state.meta.isTouched
+                        ? field.state.meta.errors[0]?.message
+                        : undefined;
+                      return (
+                        <div>
+                          <label
+                            className="floating-label"
+                            htmlFor="PasswordInput"
+                          >
+                            <span
+                              className={cn(
+                                "transition-colors duration-300",
+                                errorMessage && "text-error text-sm ml-2",
+                              )}
+                            >
+                              {errorMessage ?? "Password"}
+                            </span>
+                            <input
+                              type={passwordType}
+                              className={cn(
+                                "validator input input-bordered w-full focus:outline-none focus:ring-0 focus:ring-accent rounded-lg",
+                                errorMessage && "focus:ring-error",
+                              )}
+                              id="PasswordInput"
+                              name={field.name}
+                              value={field.state.value}
+                              onChange={(e) =>
+                                field.handleChange(e.target.value)
+                              }
+                              onBlur={field.handleBlur}
+                              placeholder="****"
+                              autoComplete="new-password"
+                              required
+                            />
+                          </label>
+                        </div>
+                      );
+                    }}
+                  </form.Field>
 
                   <label className="label justify-between">
                     Show password
                     <input
                       type="checkbox"
                       className="checkbox"
-                      onInput={() =>
+                      onChange={() =>
                         setPasswordType((prev) =>
-                          prev == "password" ? "text" : "password",
+                          prev === "password" ? "text" : "password",
                         )
                       }
                     />
                   </label>
 
-                  <RippleButton
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="btn btn-primary w-full hover:btn-secondary rounded-lg"
-                  >
-                    {isSubmitting ? (
-                      <>
-                        <span className="loading loading-dots loading-md text-accent" />
-                        Submitting...
-                      </>
-                    ) : (
-                      <>Submit</>
+                  <form.Subscribe selector={(state) => [state.isSubmitting]}>
+                    {([isSubmitting]) => (
+                      <RippleButton
+                        type="submit"
+                        disabled={isSubmitting}
+                        className="btn btn-primary w-full hover:btn-secondary rounded-lg"
+                      >
+                        {isSubmitting ? (
+                          <>
+                            <span className="loading loading-dots loading-md text-accent" />
+                            Submitting...
+                          </>
+                        ) : (
+                          <>Submit</>
+                        )}
+                      </RippleButton>
                     )}
-                  </RippleButton>
+                  </form.Subscribe>
                 </form>
               </div>
             </div>

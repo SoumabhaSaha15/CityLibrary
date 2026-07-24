@@ -1,12 +1,11 @@
 import { useRef } from "react";
-import { useForm } from "react-hook-form";
 import { MdSearch } from "react-icons/md";
 import BookCard from "@/components/BookCard";
+import { useForm } from "@tanstack/react-form";
 import Pagination from "@/components/Pagination";
 import booksQueryOptions from "@/hooks/fetchBook";
 import { useHotkey } from "@tanstack/react-hotkeys";
 import RippleButton from "@/components/RippleButton";
-import { zodResolver } from "@hookform/resolvers/zod";
 import NoRecordFound from "@/components/NoRecordFound";
 import Modal, { type ModalHandle } from "@/components/Modal";
 import {
@@ -40,12 +39,21 @@ function RouteComponent() {
   const data = Route.useLoaderData();
   const navigate = Route.useNavigate();
   const filterModalRef = useRef<ModalHandle>(null);
-  const {
-    handleSubmit,
-    register,
-    formState: { errors },
-  } = useForm<Omit<BookQuery, "page">>({
-    resolver: zodResolver(BookQuerySchema.omit({ page: true })),
+  const { page: _, ...restDeps } = Route.useLoaderDeps();
+
+  const filterSchema = BookQuerySchema.omit({ page: true });
+
+  const form = useForm({
+    defaultValues: restDeps satisfies Omit<BookQuery, "page">,
+    validators: {
+      onChange: filterSchema,
+    },
+    onSubmit: ({ value }) => {
+      filterModalRef.current?.close();
+      navigate({
+        search: () => ({ ...BookQueryFilter.parse(value), page: 1 }),
+      });
+    },
   });
 
   useHotkey("Mod+K", (_e, _ctx) => filterModalRef.current?.open(), {
@@ -80,7 +88,7 @@ function RouteComponent() {
       <div className="fab">
         <RippleButton
           className="btn btn-primary btn-lg btn-circle"
-          onClick={filterModalRef.current?.open}
+          onClick={() => filterModalRef.current?.open()}
         >
           <MdSearch className="size-8" />
         </RippleButton>
@@ -91,89 +99,142 @@ function RouteComponent() {
           <div className="card w-full shrink-0 mx-auto border-base-300 p-2">
             <form
               className="card-body p-0"
-              // method="dialog"
-              onSubmit={handleSubmit((data) => {
-                filterModalRef.current?.close();
-                navigate({
-                  search: () => ({ ...BookQueryFilter.parse(data), page: 1 }),
-                });
-              })}
+              onSubmit={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                form.handleSubmit();
+              }}
             >
               {/* Book name */}
-              <div className="form-control mb-3">
-                <label className="label rounded-lg" htmlFor="book_name">
-                  {errors.book_name ? (
-                    <span className="label-text text-error">
-                      {errors.book_name.message}
-                    </span>
-                  ) : (
-                    <span className="label-text">Book name</span>
-                  )}
-                </label>
-                <input
-                  id="book_name"
-                  type="text"
-                  {...register("book_name")}
-                  className="input input-bordered w-full rounded-md focus:outline-none focus:ring-0 focus:ring-accent"
-                />
-              </div>
+              <form.Field name="book_name">
+                {(field) => {
+                  const errorMessage = field.state.meta.isTouched
+                    ? field.state.meta.errors[0]?.message
+                    : undefined;
+                  return (
+                    <div className="form-control mb-3">
+                      <label className="label rounded-lg" htmlFor="book_name">
+                        {errorMessage ? (
+                          <span className="label-text text-error">
+                            {errorMessage}
+                          </span>
+                        ) : (
+                          <span className="label-text">Book name</span>
+                        )}
+                      </label>
+                      <input
+                        id="book_name"
+                        type="text"
+                        name={field.name}
+                        value={field.state.value ?? ""}
+                        onChange={(e) => field.handleChange(e.target.value)}
+                        onBlur={field.handleBlur}
+                        className="input input-bordered w-full rounded-md focus:outline-none focus:ring-0 focus:ring-accent"
+                      />
+                    </div>
+                  );
+                }}
+              </form.Field>
 
               {/* Genre Field */}
-              <div className="form-control mb-3">
-                <label className="label" htmlFor="genre_name">
-                  {errors.genre_name ? (
-                    <span className="label-text text-error">
-                      {errors.genre_name.message}
-                    </span>
-                  ) : (
-                    <span className="label-text">Book genre</span>
-                  )}
-                </label>
-                <input
-                  id="genre_name"
-                  type="text"
-                  {...register("genre_name")}
-                  className="input input-bordered w-full rounded-md focus:outline-none focus:ring-0 focus:ring-accent"
-                />
-              </div>
+              <form.Field name="genre_name">
+                {(field) => {
+                  const errorMessage = field.state.meta.isTouched
+                    ? field.state.meta.errors[0]?.message
+                    : undefined;
+                  return (
+                    <div className="form-control mb-3">
+                      <label className="label" htmlFor="genre_name">
+                        {errorMessage ? (
+                          <span className="label-text text-error">
+                            {errorMessage}
+                          </span>
+                        ) : (
+                          <span className="label-text">Book genre</span>
+                        )}
+                      </label>
+                      <input
+                        id="genre_name"
+                        type="text"
+                        name={field.name}
+                        value={field.state.value ?? ""}
+                        onChange={(e) => field.handleChange(e.target.value)}
+                        onBlur={field.handleBlur}
+                        className="input input-bordered w-full rounded-md focus:outline-none focus:ring-0 focus:ring-accent"
+                      />
+                    </div>
+                  );
+                }}
+              </form.Field>
 
               {/* Language Field */}
-              <div className="form-control mb-3">
-                <label className="label rounded-full" htmlFor="book_language">
-                  {errors.book_language ? (
-                    <span className="label-text text-error">
-                      {errors.book_language.message}
-                    </span>
-                  ) : (
-                    <span className="label-text">Book language</span>
-                  )}
-                </label>
-                <input
-                  id="book_language"
-                  type="text"
-                  {...register("book_language")}
-                  className="input input-bordered w-full rounded-md focus:outline-none focus:ring-0 focus:ring-accent"
-                />
-              </div>
+              <form.Field name="book_language">
+                {(field) => {
+                  const errorMessage = field.state.meta.isTouched
+                    ? field.state.meta.errors[0]?.message
+                    : undefined;
+                  return (
+                    <div className="form-control mb-3">
+                      <label
+                        className="label rounded-full"
+                        htmlFor="book_language"
+                      >
+                        {errorMessage ? (
+                          <span className="label-text text-error">
+                            {errorMessage}
+                          </span>
+                        ) : (
+                          <span className="label-text">Book language</span>
+                        )}
+                      </label>
+                      <input
+                        id="book_language"
+                        type="text"
+                        name={field.name}
+                        value={field.state.value ?? ""}
+                        onChange={(e) => field.handleChange(e.target.value)}
+                        onBlur={field.handleBlur}
+                        className="input input-bordered w-full rounded-md focus:outline-none focus:ring-0 focus:ring-accent"
+                      />
+                    </div>
+                  );
+                }}
+              </form.Field>
 
               {/* Author field */}
-              <div className="form-control">
-                <label className="label rounded-full" htmlFor="author_name">
-                  {errors.author_name ? (
-                    <span className="label-text text-error">
-                      {errors.author_name.message}
-                    </span>
-                  ) : (
-                    <span className="label-text">Author name</span>
-                  )}
-                </label>
-                <input
-                  id="author_name"
-                  type="text"
-                  {...register("author_name")}
-                  className="input input-bordered w-full rounded-md focus:outline-none focus:ring-0 focus:ring-accent"
-                />
-              </div>
+              <form.Field name="author_name">
+                {(field) => {
+                  const errorMessage = field.state.meta.isTouched
+                    ? field.state.meta.errors[0]?.message
+                    : undefined;
+                  return (
+                    <div className="form-control">
+                      <label
+                        className="label rounded-full"
+                        htmlFor="author_name"
+                      >
+                        {errorMessage ? (
+                          <span className="label-text text-error">
+                            {errorMessage}
+                          </span>
+                        ) : (
+                          <span className="label-text">Author name</span>
+                        )}
+                      </label>
+                      <input
+                        id="author_name"
+                        type="text"
+                        name={field.name}
+                        value={field.state.value ?? ""}
+                        onChange={(e) => field.handleChange(e.target.value)}
+                        onBlur={field.handleBlur}
+                        className="input input-bordered w-full rounded-md focus:outline-none focus:ring-0 focus:ring-accent"
+                      />
+                    </div>
+                  );
+                }}
+              </form.Field>
+
               {/* Submit */}
               <div className="form-control mt-2 flex justify-center">
                 <RippleButton
@@ -185,7 +246,6 @@ function RouteComponent() {
               </div>
             </form>
           </div>
-          {/* <div className="modal-action place-items-center"></div> */}
         </div>
       </Modal>
     </>

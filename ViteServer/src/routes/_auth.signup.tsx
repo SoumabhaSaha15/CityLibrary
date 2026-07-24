@@ -1,10 +1,9 @@
 import { cn } from "@/util/cn";
+import { useState } from "react";
 import { authActions } from "@/store/auth";
-import { useEffect, useState } from "react";
+import { useForm } from "@tanstack/react-form";
 import RippleButton from "@/components/RippleButton";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useToast } from "@/contexts/Toast/ToastContext";
-import { useForm, type SubmitHandler, useWatch } from "react-hook-form";
 import { signupSchema, type SignupSchema } from "@/validators/user-auth";
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 
@@ -20,36 +19,28 @@ function RouteComponent() {
   const toast = useToast();
   const navigate = useNavigate();
   const [displayImage, setDisplayImage] = useState<string>(defaultImage);
-  const {
-    handleSubmit,
-    register,
-    reset,
-    control,
-    formState: { errors, isSubmitting },
-  } = useForm<SignupSchema>({ resolver: zodResolver(signupSchema) });
-  const watchedImage = useWatch({ name: "profile", control });
 
-  useEffect(() => {
-    if (watchedImage?.[0]) {
-      const objectUrl = URL.createObjectURL(watchedImage[0]);
-      setDisplayImage(objectUrl);
-      return () => {
-        URL.revokeObjectURL(objectUrl);
-        setDisplayImage(defaultImage);
-      };
-    }
-  }, [watchedImage]);
-
-  const signup: SubmitHandler<SignupSchema> = async (data) => {
-    try {
-      await authActions.signup(data);
-      reset();
-      toast.open("signup successfull", "alert-success");
-      navigate({ to: "/user" });
-    } catch (error) {
-      toast.open((error as Error).message, "alert-error");
-    }
-  };
+  const form = useForm({
+    validators: {
+      onChange: signupSchema,
+    },
+    defaultValues: {
+      profile: undefined as unknown as FileList,
+      username: "",
+      email: "",
+      password: "",
+    } satisfies SignupSchema,
+    onSubmit: async ({ value }) => {
+      try {
+        await authActions.signup(value);
+        form.reset();
+        toast.open("signup successfull", "alert-success");
+        navigate({ to: "/user" });
+      } catch (error) {
+        toast.open((error as Error).message, "alert-error");
+      }
+    },
+  });
 
   return (
     <>
@@ -71,8 +62,11 @@ function RouteComponent() {
               <div className="card-body p-4 sm:p-8">
                 <form
                   className="fieldset space-y-4"
-                  onSubmit={handleSubmit(signup)}
-                  aria-label=""
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    form.handleSubmit();
+                  }}
                 >
                   <label htmlFor="profile" aria-label="Upload profile picture">
                     <div className="avatar grid place-items-center">
@@ -86,94 +80,157 @@ function RouteComponent() {
                     </div>
                   </label>
 
-                  <input
-                    type="file"
-                    id="profile"
-                    className={cn(
-                      "validator file-input file-input-bordered w-full focus:outline-none focus:ring-0 focus:ring-accent",
-                      errors.profile && "focus:ring-error",
-                    )}
-                    {...register("profile")}
-                    disabled={isSubmitting}
-                    required
-                  />
+                  <form.Field name="profile">
+                    {(field) => {
+                      const isInvalid =
+                        field.state.meta.isTouched &&
+                        field.state.meta.errors.length > 0;
 
-                  <div>
-                    <label className="floating-label" htmlFor="NameInput">
-                      <span
-                        className={cn(
-                          "transition-colors duration-300",
-                          errors.username && "text-error text-sm ml-2",
-                        )}
-                      >
-                        {errors.username ? errors.username.message : "Username"}
-                      </span>
-                      <input
-                        type="text"
-                        className={cn(
-                          "validator input input-bordered w-full focus:outline-none focus:ring-0 focus:ring-accent",
-                          errors.username && "focus:ring-error",
-                        )}
-                        id="NameInput"
-                        {...register("username")}
-                        placeholder="Your name"
-                        autoComplete="name"
-                        disabled={isSubmitting}
-                        required
-                      />
-                    </label>
-                  </div>
+                      return (
+                        <input
+                          type="file"
+                          id="profile"
+                          className={cn(
+                            "validator file-input file-input-bordered w-full focus:outline-none focus:ring-0 focus:ring-accent",
+                            isInvalid && "focus:ring-error",
+                          )}
+                          onChange={(e) => {
+                            const files = e.target.files;
+                            field.handleChange(files as FileList);
+                            if (files?.[0]) {
+                              setDisplayImage(URL.createObjectURL(files[0]));
+                            } else {
+                              setDisplayImage(defaultImage);
+                            }
+                          }}
+                          onBlur={field.handleBlur}
+                          required
+                        />
+                      );
+                    }}
+                  </form.Field>
 
-                  <div>
-                    <label className="floating-label" htmlFor="EmailInput">
-                      <span
-                        className={cn(
-                          "transition-colors duration-300",
-                          errors.email && "text-error text-sm ml-2",
-                        )}
-                      >
-                        {errors.email ? errors.email.message : "Email"}
-                      </span>
-                      <input
-                        type="email"
-                        className={cn(
-                          "validator input input-bordered w-full focus:outline-none focus:ring-0 focus:ring-accent",
-                          errors.email && "focus:ring-error",
-                        )}
-                        id="EmailInput"
-                        {...register("email")}
-                        placeholder="your.email@example.com"
-                        disabled={isSubmitting}
-                        required
-                      />
-                    </label>
-                  </div>
+                  <form.Field name="username">
+                    {(field) => {
+                      const errorMessage = field.state.meta.isTouched
+                        ? field.state.meta.errors[0]?.message
+                        : undefined;
+                      return (
+                        <div>
+                          <label className="floating-label" htmlFor="NameInput">
+                            <span
+                              className={cn(
+                                "transition-colors duration-300",
+                                errorMessage && "text-error text-sm ml-2",
+                              )}
+                            >
+                              {errorMessage ?? "Username"}
+                            </span>
+                            <input
+                              type="text"
+                              className={cn(
+                                "validator input input-bordered w-full focus:outline-none focus:ring-0 focus:ring-accent",
+                                errorMessage && "focus:ring-error",
+                              )}
+                              id="NameInput"
+                              name={field.name}
+                              value={field.state.value ?? ""}
+                              onChange={(e) =>
+                                field.handleChange(e.target.value)
+                              }
+                              onBlur={field.handleBlur}
+                              placeholder="Your name"
+                              autoComplete="name"
+                              required
+                            />
+                          </label>
+                        </div>
+                      );
+                    }}
+                  </form.Field>
 
-                  <div>
-                    <label className="floating-label" htmlFor="PasswordInput">
-                      <span
-                        className={cn(
-                          "transition-colors duration-300",
-                          errors.password && "text-error text-sm ml-2",
-                        )}
-                      >
-                        {errors.password ? errors.password.message : "Password"}
-                      </span>
-                      <input
-                        type={passwordType}
-                        className={cn(
-                          "validator input input-bordered w-full focus:outline-none focus:ring-0 focus:ring-accent",
-                          errors.password && "focus:ring-error",
-                        )}
-                        id="PasswordInput"
-                        {...register("password")}
-                        placeholder="****"
-                        autoComplete="new-password"
-                        disabled={isSubmitting}
-                        required
-                      />
-                    </label>
-                  </div>
+                  <form.Field name="email">
+                    {(field) => {
+                      const errorMessage = field.state.meta.isTouched
+                        ? field.state.meta.errors[0]?.message
+                        : undefined;
+                      return (
+                        <div>
+                          <label
+                            className="floating-label"
+                            htmlFor="EmailInput"
+                          >
+                            <span
+                              className={cn(
+                                "transition-colors duration-300",
+                                errorMessage && "text-error text-sm ml-2",
+                              )}
+                            >
+                              {errorMessage ?? "Email"}
+                            </span>
+                            <input
+                              type="email"
+                              className={cn(
+                                "validator input input-bordered w-full focus:outline-none focus:ring-0 focus:ring-accent",
+                                errorMessage && "focus:ring-error",
+                              )}
+                              id="EmailInput"
+                              name={field.name}
+                              value={field.state.value ?? ""}
+                              onChange={(e) =>
+                                field.handleChange(e.target.value)
+                              }
+                              onBlur={field.handleBlur}
+                              placeholder="your.email@example.com"
+                              required
+                            />
+                          </label>
+                        </div>
+                      );
+                    }}
+                  </form.Field>
+
+                  <form.Field name="password">
+                    {(field) => {
+                      const errorMessage = field.state.meta.isTouched
+                        ? field.state.meta.errors[0]?.message
+                        : undefined;
+                      return (
+                        <div>
+                          <label
+                            className="floating-label"
+                            htmlFor="PasswordInput"
+                          >
+                            <span
+                              className={cn(
+                                "transition-colors duration-300",
+                                errorMessage && "text-error text-sm ml-2",
+                              )}
+                            >
+                              {errorMessage ?? "Password"}
+                            </span>
+                            <input
+                              type={passwordType}
+                              className={cn(
+                                "validator input input-bordered w-full focus:outline-none focus:ring-0 focus:ring-accent",
+                                errorMessage && "focus:ring-error",
+                              )}
+                              id="PasswordInput"
+                              name={field.name}
+                              value={field.state.value ?? ""}
+                              onChange={(e) =>
+                                field.handleChange(e.target.value)
+                              }
+                              onBlur={field.handleBlur}
+                              placeholder="****"
+                              autoComplete="new-password"
+                              required
+                            />
+                          </label>
+                        </div>
+                      );
+                    }}
+                  </form.Field>
 
                   <label className="label justify-between">
                     Show password
@@ -182,26 +239,30 @@ function RouteComponent() {
                       className="checkbox"
                       onChange={() =>
                         setPasswordType((prev) =>
-                          prev == "password" ? "text" : "password",
+                          prev === "password" ? "text" : "password",
                         )
                       }
                     />
                   </label>
 
-                  <RippleButton
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="btn btn-primary w-full hover:btn-secondary"
-                  >
-                    {isSubmitting ? (
-                      <>
-                        <span className="loading loading-dots loading-md text-accent" />
-                        Submitting...
-                      </>
-                    ) : (
-                      <>Submit</>
+                  <form.Subscribe selector={(state) => [state.isSubmitting]}>
+                    {([isSubmitting]) => (
+                      <RippleButton
+                        type="submit"
+                        disabled={isSubmitting}
+                        className="btn btn-primary w-full hover:btn-secondary"
+                      >
+                        {isSubmitting ? (
+                          <>
+                            <span className="loading loading-dots loading-md text-accent" />
+                            Submitting...
+                          </>
+                        ) : (
+                          <>Submit</>
+                        )}
+                      </RippleButton>
                     )}
-                  </RippleButton>
+                  </form.Subscribe>
                 </form>
               </div>
             </div>
