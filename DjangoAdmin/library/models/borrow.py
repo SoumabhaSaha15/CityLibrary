@@ -1,8 +1,9 @@
 import uuid
-from django.db import models
-from django.contrib.auth.models import User
 from .book import Book
+from django.db import models
 from .book_copy import BookCopy
+from django.utils import timezone
+from django.contrib.auth.models import User
 
 
 class Borrow(models.Model):
@@ -51,6 +52,12 @@ class Borrow(models.Model):
 
     class Meta:
         db_table = "library_borrow"
+
+    def save(self, *args, **kwargs):
+        # Automatically set approved_at to today when a copy is assigned
+        if self.book_copy and not self.approved_at:
+            self.approved_at = timezone.now().date()
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.user.username} - {self.requested_book.book_name} ({self.borrow_id})"

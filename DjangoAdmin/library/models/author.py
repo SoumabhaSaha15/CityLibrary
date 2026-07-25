@@ -41,6 +41,9 @@ class Author(models.Model):
     # Model-level validation. This is the correct place to check dynamic values like the current date.
     def clean(self):
         super().clean()
+        if not self.pk and not self.author_image:
+            raise ValidationError(
+                {"author_image": "An author image is required on creation."})
         if self.born_on and self.born_on >= timezone.now().date():
             raise ValidationError(
                 {"born_on": "Birth date must be in the past."})

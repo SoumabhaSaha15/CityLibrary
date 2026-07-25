@@ -15,6 +15,8 @@ class Book(models.Model):
     book_cover = CloudinaryField(
         "book_cover",
         folder="city-library/books",
+        blank=True,
+        null=True,
         validators=[FileExtensionValidator(['jpg', 'jpeg', 'png'])]
     )
     book_genre = models.ManyToManyField(Genre, related_name='books')
@@ -40,6 +42,9 @@ class Book(models.Model):
 
     def clean(self):
         super().clean()
+        if not self.pk and not self.book_cover:
+            raise ValidationError(
+                {"book_cover": "A book cover image is required on creation."})
         if self.book_isbn:
             # Remove hyphens and convert 'x' to 'X' for ISBN-10
             cleaned_isbn = self.book_isbn.replace("-", "").upper()
