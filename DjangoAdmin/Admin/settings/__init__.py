@@ -9,3 +9,4 @@ from .cloudinary import *
 from .rest_framework import *
 from .cors import *
 from .unfold import *
+from .crispy import *

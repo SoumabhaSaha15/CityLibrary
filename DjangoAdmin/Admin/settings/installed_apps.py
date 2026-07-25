@@ -9,6 +9,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "crispy_forms",
+    "crispy_tailwind",
     "django_extensions",
     "drf_redesign",
     "rest_framework",
