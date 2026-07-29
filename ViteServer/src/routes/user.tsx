@@ -90,9 +90,7 @@ function User() {
               <RippleButton
                 className="bg-base-300 hover:bg-primary p-2 is-drawer-close:tooltip is-drawer-close:tooltip-right is-drawer-open:h-10 max-h-10 rounded-b-sm rounded-t-lg is-drawer-close:justify-center is-drawer-close:aspect-square"
                 data-tip="Homepage"
-                onClick={() => {
-                  navigate({ to: "/user" });
-                }}
+                onClick={() => navigate({ to: "/user" })}
               >
                 {/* Home icon */}
                 <GoHomeFill className="size-6 text-accent" />
@@ -135,11 +133,12 @@ function User() {
             <li>
               <RippleButton
                 className="bg-base-300 hover:bg-primary p-2 is-drawer-close:tooltip is-drawer-close:tooltip-right is-drawer-open:h-10 max-h-10 rounded-t-sm rounded-b-lg is-drawer-close:justify-center is-drawer-close:aspect-square"
-                data-tip="History"
+                data-tip="Borrow History"
+                onClick={() => navigate({ to: "/user/borrow" })}
               >
                 <MdHistory className="size-6 text-accent" />
                 <span className="is-drawer-close:hidden text-accent font-bold">
-                  History
+                  Borrow History
                 </span>
               </RippleButton>
             </li>

@@ -7,6 +7,7 @@ urlpatterns = [
     path('authors/<int:pk>', AuthorDetailView.as_view()),
     path('books', BookPaginator.as_view()),
     path('books/<int:pk>', BookDetailView.as_view()),
+    path("books/<int:pk>/cover", BookCoverDetailView.as_view(), name="book-cover"),
     path('borrows', BorrowListCreateView.as_view()),
     path('borrows/<uuid:pk>', BorrowDetailView.as_view()),
     path('user/signup', UserSignupView.as_view()),

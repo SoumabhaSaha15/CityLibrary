@@ -15,8 +15,6 @@ class Book(models.Model):
     book_cover = CloudinaryField(
         "book_cover",
         folder="city-library/books",
-        blank=True,
-        null=True,
         validators=[FileExtensionValidator(['jpg', 'jpeg', 'png'])]
     )
     book_genre = models.ManyToManyField(Genre, related_name='books')

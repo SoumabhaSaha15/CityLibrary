@@ -7,3 +7,4 @@ from .user_signup import UserSignupView
 from .borrow import BorrowListCreateView
 from .borrow_by_id import BorrowDetailView
 from .author_by_id import AuthorDetailView
+from .book_cover import BookCoverDetailView

@@ -18,6 +18,8 @@ import { Route as UserIndexRouteImport } from './routes/user/index'
 import { Route as UserAuthorsIndexRouteImport } from './routes/user/authors/index'
 import { Route as UserAuthorsIdRouteImport } from './routes/user/authors/$id'
 import { Route as UserBooksIndexRouteImport } from './routes/user/books/index'
+import { Route as UserBorrowIndexRouteImport } from './routes/user/borrow/index'
+import { Route as UserBorrowIdRouteImport } from './routes/user/borrow/$id'
 import { Route as UserBooksIdIndexRouteImport } from './routes/user/books/$id/index'
 import { Route as UserBooksIdBorrowRouteImport } from './routes/user/books/$id/borrow'
 
@@ -65,6 +67,16 @@ const UserBooksIndexRoute = UserBooksIndexRouteImport.update({
   path: '/books/',
   getParentRoute: () => UserRoute,
 } as any)
+const UserBorrowIndexRoute = UserBorrowIndexRouteImport.update({
+  id: '/borrow/',
+  path: '/borrow/',
+  getParentRoute: () => UserRoute,
+} as any)
+const UserBorrowIdRoute = UserBorrowIdRouteImport.update({
+  id: '/borrow/$id',
+  path: '/borrow/$id',
+  getParentRoute: () => UserRoute,
+} as any)
 const UserBooksIdIndexRoute = UserBooksIdIndexRouteImport.update({
   id: '/books/$id/',
   path: '/books/$id/',
@@ -83,8 +95,10 @@ export interface FileRoutesByFullPath {
   '/signup': typeof AuthSignupRoute
   '/user/': typeof UserIndexRoute
   '/user/authors/$id': typeof UserAuthorsIdRoute
+  '/user/borrow/$id': typeof UserBorrowIdRoute
   '/user/authors/': typeof UserAuthorsIndexRoute
   '/user/books/': typeof UserBooksIndexRoute
+  '/user/borrow/': typeof UserBorrowIndexRoute
   '/user/books/$id/borrow': typeof UserBooksIdBorrowRoute
   '/user/books/$id/': typeof UserBooksIdIndexRoute
 }
@@ -94,8 +108,10 @@ export interface FileRoutesByTo {
   '/signup': typeof AuthSignupRoute
   '/user': typeof UserIndexRoute
   '/user/authors/$id': typeof UserAuthorsIdRoute
+  '/user/borrow/$id': typeof UserBorrowIdRoute
   '/user/authors': typeof UserAuthorsIndexRoute
   '/user/books': typeof UserBooksIndexRoute
+  '/user/borrow': typeof UserBorrowIndexRoute
   '/user/books/$id/borrow': typeof UserBooksIdBorrowRoute
   '/user/books/$id': typeof UserBooksIdIndexRoute
 }
@@ -108,8 +124,10 @@ export interface FileRoutesById {
   '/_auth/signup': typeof AuthSignupRoute
   '/user/': typeof UserIndexRoute
   '/user/authors/$id': typeof UserAuthorsIdRoute
+  '/user/borrow/$id': typeof UserBorrowIdRoute
   '/user/authors/': typeof UserAuthorsIndexRoute
   '/user/books/': typeof UserBooksIndexRoute
+  '/user/borrow/': typeof UserBorrowIndexRoute
   '/user/books/$id/borrow': typeof UserBooksIdBorrowRoute
   '/user/books/$id/': typeof UserBooksIdIndexRoute
 }
@@ -122,8 +140,10 @@ export interface FileRouteTypes {
     | '/signup'
     | '/user/'
     | '/user/authors/$id'
+    | '/user/borrow/$id'
     | '/user/authors/'
     | '/user/books/'
+    | '/user/borrow/'
     | '/user/books/$id/borrow'
     | '/user/books/$id/'
   fileRoutesByTo: FileRoutesByTo
@@ -133,8 +153,10 @@ export interface FileRouteTypes {
     | '/signup'
     | '/user'
     | '/user/authors/$id'
+    | '/user/borrow/$id'
     | '/user/authors'
     | '/user/books'
+    | '/user/borrow'
     | '/user/books/$id/borrow'
     | '/user/books/$id'
   id:
@@ -146,8 +168,10 @@ export interface FileRouteTypes {
     | '/_auth/signup'
     | '/user/'
     | '/user/authors/$id'
+    | '/user/borrow/$id'
     | '/user/authors/'
     | '/user/books/'
+    | '/user/borrow/'
     | '/user/books/$id/borrow'
     | '/user/books/$id/'
   fileRoutesById: FileRoutesById
@@ -223,6 +247,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UserBooksIndexRouteImport
       parentRoute: typeof UserRoute
     }
+    '/user/borrow/': {
+      id: '/user/borrow/'
+      path: '/borrow'
+      fullPath: '/user/borrow/'
+      preLoaderRoute: typeof UserBorrowIndexRouteImport
+      parentRoute: typeof UserRoute
+    }
+    '/user/borrow/$id': {
+      id: '/user/borrow/$id'
+      path: '/borrow/$id'
+      fullPath: '/user/borrow/$id'
+      preLoaderRoute: typeof UserBorrowIdRouteImport
+      parentRoute: typeof UserRoute
+    }
     '/user/books/$id/': {
       id: '/user/books/$id/'
       path: '/books/$id'
@@ -255,8 +293,10 @@ const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 interface UserRouteChildren {
   UserIndexRoute: typeof UserIndexRoute
   UserAuthorsIdRoute: typeof UserAuthorsIdRoute
+  UserBorrowIdRoute: typeof UserBorrowIdRoute
   UserAuthorsIndexRoute: typeof UserAuthorsIndexRoute
   UserBooksIndexRoute: typeof UserBooksIndexRoute
+  UserBorrowIndexRoute: typeof UserBorrowIndexRoute
   UserBooksIdBorrowRoute: typeof UserBooksIdBorrowRoute
   UserBooksIdIndexRoute: typeof UserBooksIdIndexRoute
 }
@@ -264,8 +304,10 @@ interface UserRouteChildren {
 const UserRouteChildren: UserRouteChildren = {
   UserIndexRoute: UserIndexRoute,
   UserAuthorsIdRoute: UserAuthorsIdRoute,
+  UserBorrowIdRoute: UserBorrowIdRoute,
   UserAuthorsIndexRoute: UserAuthorsIndexRoute,
   UserBooksIndexRoute: UserBooksIndexRoute,
+  UserBorrowIndexRoute: UserBorrowIndexRoute,
   UserBooksIdBorrowRoute: UserBooksIdBorrowRoute,
   UserBooksIdIndexRoute: UserBooksIdIndexRoute,
 }

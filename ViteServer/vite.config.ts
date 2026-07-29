@@ -10,9 +10,6 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "VITE_");
   const targetUrl = env.VITE_CORS_URL;
   return {
-    devtools: {
-      enabled: true,
-    },
     resolve: {
       alias: {
         "@": path.resolve("./src"),

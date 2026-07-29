@@ -55,8 +55,25 @@ class Borrow(models.Model):
 
     def save(self, *args, **kwargs):
         # Automatically set approved_at to today when a copy is assigned
-        if self.book_copy and not self.approved_at:
-            self.approved_at = timezone.now().date()
+        if self.book_copy:
+            if self.returned_at:
+                # Book has been returned: update copy status based on return condition
+                if self.return_condition == self.ReturnConditionChoices.LOST:
+                    self.book_copy.book_copy_status = BookCopy.StatusChoices.LOST
+                elif self.return_condition == self.ReturnConditionChoices.DAMAGED:
+                    self.book_copy.book_copy_status = BookCopy.StatusChoices.MAINTENANCE
+                    self.book_copy.book_copy_condition = BookCopy.ConditionChoices.DAMAGED
+                else:
+                    self.book_copy.book_copy_status = BookCopy.StatusChoices.AVAILABLE
+            else:
+                # Book is currently approved/borrowed
+                if not self.approved_at:
+                    self.approved_at = timezone.now().date()
+                self.book_copy.book_copy_status = BookCopy.StatusChoices.BORROWED
+
+            # Persist updated status to the BookCopy table
+            self.book_copy.save()
+
         super().save(*args, **kwargs)
 
     def __str__(self):
