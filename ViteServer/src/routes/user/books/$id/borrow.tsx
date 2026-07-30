@@ -7,6 +7,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { bookCoverOptionsById } from "@/hooks/fetchBookById";
 import borrowRequestOption from "@/hooks/requestBorrowById";
 import { useMutation } from "@tanstack/react-query";
+import { useToast } from "@/contexts/Toast/ToastContext";
 export const Route = createFileRoute("/user/books/$id/borrow")({
   component: RouteComponent,
   loader: ({ context: { queryClient }, params: { id } }) =>
@@ -16,7 +17,9 @@ export const Route = createFileRoute("/user/books/$id/borrow")({
 function RouteComponent() {
   const params = Route.useParams();
   const data = Route.useLoaderData();
+  const toast = useToast();
   const { mutate } = useMutation(borrowRequestOption);
+
   const form = useForm({
     validators: {
       onChange: RequestBorrowSchema,
@@ -26,7 +29,19 @@ function RouteComponent() {
       return_date: "",
     },
     onSubmit: ({ value }) => {
-      mutate(value, { onSuccess: () => {} });
+      mutate(value, {
+        onSuccess: (response) => {
+          toast.open(
+            `created ${response.borrow_id}`,
+            "alert-success",
+            true,
+            5000,
+          );
+        },
+        onError: (error) => {
+          toast.open(error.message, "alert-error", true, 5000);
+        },
+      });
     },
   });
 
@@ -123,7 +138,7 @@ function RouteComponent() {
                         <input
                           type="date"
                           className={cn(
-                            "validator input input-bordered w-full focus:outline-none focus:ring-0 focus:ring-accent",
+                            "validator input input-bordered w-full outline-0 focus:outline-0 focus:ring-0 focus:ring-accent",
                             errorMessage && "focus:ring-error",
                           )}
                           id="return_date"

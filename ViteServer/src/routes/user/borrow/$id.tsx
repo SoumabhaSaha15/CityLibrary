@@ -39,7 +39,7 @@ function RouteComponent() {
           <li>{data.borrow_id}</li>
         </ul>
       </div>
-      <div className="page-height min-h-[calc(100dvh-6.25rem)] grid place-items-center custom-grad p-4 md:p-8 text-base-content">
+      <div className="max-h-[calc(100dvh-6.25rem)] h-dvh grid place-items-center custom-grad p-4 md:p-8 text-base-content overflow-y-scroll">
         <div className="max-w-4xl mx-auto space-y-6">
           {/* Header Breadcrumb / Title */}
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-base-100 p-6 rounded-box shadow-md border border-base-300">

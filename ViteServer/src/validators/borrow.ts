@@ -18,6 +18,10 @@ export const PartialBorrowSchema = BorrowSchema.pick({
   returned_at: true,
 });
 
+export const BorrowResponseSchema = BorrowSchema.pick({
+  borrow_id: true,
+});
+
 export const RequestBorrowSchema = BorrowSchema.pick({
   requested_book: true,
   return_date: true,
@@ -33,3 +37,5 @@ export type RequestBorrow = z.infer<typeof RequestBorrowSchema>;
 export type BorrowPaginated = z.infer<typeof BorrowPaginatedSchema>;
 
 export type Borrow = z.infer<typeof BorrowSchema>;
+
+export type BorrowResponse = z.infer<typeof BorrowResponseSchema>;

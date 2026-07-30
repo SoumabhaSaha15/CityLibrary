@@ -26,7 +26,7 @@ function RouteComponent() {
   const navigate = Route.useNavigate();
   return (
     <>
-      <div className="page-height w-full h-full overflow-auto border border-base-content/5 custom-grad p-2">
+      <div className="page-height w-full h-dvh overflow-auto border border-base-content/5 custom-grad p-2">
         <table className="table bg-base-200">
           {/* head */}
           <thead>
@@ -40,7 +40,11 @@ function RouteComponent() {
             {data.results.map((item) => (
               <tr key={item.borrow_id}>
                 <td>
-                  <Link to="/user/borrow/$id" params={{ id: item.borrow_id }}>
+                  <Link
+                    to="/user/borrow/$id"
+                    className="link"
+                    params={{ id: item.borrow_id }}
+                  >
                     {item.borrow_id}
                   </Link>
                 </td>

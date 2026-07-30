@@ -294,7 +294,7 @@ const Home: FC = () => {
           ref={contactsRef}
           id="Contacts"
           className={cn(
-            "footer footer-center p-6 sm:p-10 bg-base-200 text-base-content transition-all duration-1000 ease-in-out delay-300",
+            "footer footer-center p-6 sm:p-10 bg-base-200/70 text-base-content transition-all duration-1000 ease-in-out delay-300",
             contactsInView ? "opacity-100 scale-100" : "opacity-0 scale-95",
           )}
         >
