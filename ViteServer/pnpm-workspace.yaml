@@ -2,10 +2,10 @@ allowBuilds:
   esbuild: true
   scrollreveal: true
 minimumReleaseAgeExclude:
-  - axios@1.18.0
+  - axios@1.18.0 || 1.19.0
   - '@types/node@26.0.1 || 26.1.1'
   - qs@6.15.3
-  - daisyui@5.6.2 || 5.6.14 || 5.6.15 || 5.6.16 || 5.6.17 || 5.6.18 || 5.6.22 || 5.7.0 || 5.7.3 || 5.7.4
+  - daisyui@5.6.2 || 5.6.14 || 5.6.15 || 5.6.16 || 5.6.17 || 5.6.18 || 5.6.22 || 5.7.0 || 5.7.3 || 5.7.4 || 5.7.8
   - react-hook-form@7.81.0
   - '@typescript-eslint/eslint-plugin@8.63.0 || 8.64.0 || 8.65.0'
   - '@typescript-eslint/parser@8.63.0 || 8.64.0 || 8.65.0'
@@ -76,6 +76,17 @@ minimumReleaseAgeExclude:
   - '@devframes/plugin-messages@0.7.11 || 0.7.12'
   - '@devframes/plugin-terminals@0.7.11 || 0.7.12'
   - devframe@0.7.11 || 0.7.12
+  - '@vitejs/plugin-react@6.0.5'
+  - '@zag-js/anatomy@1.43.0'
+  - '@zag-js/core@1.43.0'
+  - '@zag-js/dom-query@1.43.0'
+  - '@zag-js/pagination@1.43.0'
+  - '@zag-js/qr-code@1.43.0'
+  - '@zag-js/react@1.43.0'
+  - '@zag-js/store@1.43.0'
+  - '@zag-js/tabs@1.43.0'
+  - '@zag-js/types@1.43.0'
+  - '@zag-js/utils@1.43.0'
 onlyBuiltDependencies:
   - esbuild
   - scrollreveal

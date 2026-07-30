@@ -1,8 +1,11 @@
 import { Link } from "@tanstack/react-router";
 import Pagination from "@/components/Pagination";
+import RippleButton from "@/components/RippleButton";
 import { BorrowQuerySchema } from "@/validators/borrow";
 import borrowQueryOptions from "@/hooks/fetchBorrowRequests";
+import { MdRefresh, MdFilterList, MdMenu } from "react-icons/md";
 import { createFileRoute, redirect } from "@tanstack/react-router";
+import { useToast } from "@/contexts/Toast/ToastContext";
 
 export const Route = createFileRoute("/user/borrow/")({
   component: RouteComponent,
@@ -24,6 +27,8 @@ export const Route = createFileRoute("/user/borrow/")({
 function RouteComponent() {
   const data = Route.useLoaderData();
   const navigate = Route.useNavigate();
+  const toast = useToast();
+  const { queryClient } = Route.useRouteContext();
   return (
     <>
       <div className="page-height w-full h-dvh overflow-auto border border-base-content/5 custom-grad p-2">
@@ -44,6 +49,7 @@ function RouteComponent() {
                     to="/user/borrow/$id"
                     className="link"
                     params={{ id: item.borrow_id }}
+                    preload={false}
                   >
                     {item.borrow_id}
                   </Link>
@@ -60,6 +66,31 @@ function RouteComponent() {
             </tr>
           </tfoot>
         </table>
+      </div>
+      <div className="fab">
+        {/* a focusable div with tabIndex is necessary to work on all browsers. role="button" is necessary for accessibility */}
+        <RippleButton
+          tabIndex={0}
+          role="button"
+          className="btn btn-lg btn-circle btn-primary"
+        >
+          <MdMenu />
+        </RippleButton>
+
+        {/* buttons that show up when FAB is open */}
+        <RippleButton
+          className="btn btn-lg btn-circle"
+          onClick={() => {
+            queryClient.refetchQueries({ queryKey: ["borrows"] });
+            toast.open("Redirecting to home", "alert-info");
+            navigate({ to: "/user" });
+          }}
+        >
+          <MdRefresh />
+        </RippleButton>
+        <RippleButton className="btn btn-lg btn-circle">
+          <MdFilterList />
+        </RippleButton>
       </div>
       <div className="fixed bottom-0 min-w-full bg-linear-to-br from-base-100/20 via-base-200/20 to-base-300/20 backdrop-blur-xs grid place-items-center">
         <Pagination

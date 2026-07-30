@@ -1,13 +1,10 @@
-```bash
-  uv init DjangoAdmin
-  uv add django django-extensions django-unfold uvicorn[standard] whitenoise --link-mode=copy
-  cd DjangoAdmin
-  uv run django-admin startproject Admin .
-  uv run manage.py startapp library
-  uv run manage.py createsuperuser
-  uv run manage.py makemigrations
-  uv run manage.py migrate
-  uv run manage.py collectstatic --noinput
-  uv run manage.py runserver
-  uv run uvicorn Admin.asgi:application --host 127.0.0.1 --port 8000
-```
+### ⚙️ Backend Ecosystem (Django)
+
+|                                                                   Icon                                                                   | Link                                                           | Description                                                                     |
+| :--------------------------------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------- | :------------------------------------------------------------------------------ |
+|            <img src="https://static.djangoproject.com/img/icon-touch.e4872c4da341.png" width="32" height="32" alt="Django" />            | [Django](https://www.djangoproject.com)                        | High-level Python web framework encouraging rapid development and clean design. |
+|       <img src="https://www.django-rest-framework.org/theme/img/favicon.ico" width="32" height="32" alt="Django REST Framework" />       | [Django REST Framework](https://www.django-rest-framework.org) | Powerful toolkit for building web APIs on top of Django.                        |
+|                       <img src="https://unfoldadmin.com/favicon.ico" width="32" height="32" alt="Unfold Admin" />                        | [Django Unfold](https://unfoldadmin.com)                       | Modern, clean theme for the Django Admin interface built with Tailwind CSS.     |
+|                     <img src="https://sqlite.org/images/sqlite370_banner.svg" width="40" height="16" alt="SQLite" />                     | [SQLite](https://sqlite.org)                                   | Lightweight, serverless, self-contained SQL database engine.                    |
+| <img src="https://cloudinary.com/wp-content/uploads/sites/6/2020/09/favicon-32x32-1.png?w=32" width="32" height="32" alt="Cloudinary" /> | [Cloudinary](https://cloudinary.com)                           | Cloud-based service for managing, optimizing, and delivering images and videos. |
+|                      <img src="https://docs.astral.sh/uv/assets/logo-letter.svg" width="32" height="32" alt="uv" />                      | [uv](https://docs.astral.sh/uv)                                | Extremely fast Python package and project manager written in Rust.              |
