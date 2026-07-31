@@ -32,6 +32,8 @@ export const BorrowPaginatedSchema = pageSchema.extend({
 });
 export const BorrowQuerySchema = pageQuerySchema.extend({});
 
+export type BorrowQuery = z.infer<typeof BorrowQuerySchema>;
+
 export type RequestBorrow = z.infer<typeof RequestBorrowSchema>;
 
 export type BorrowPaginated = z.infer<typeof BorrowPaginatedSchema>;

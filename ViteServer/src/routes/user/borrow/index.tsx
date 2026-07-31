@@ -1,13 +1,14 @@
-import { Link } from "@tanstack/react-router";
 import Pagination from "@/components/Pagination";
 import RippleButton from "@/components/RippleButton";
 import { BorrowQuerySchema } from "@/validators/borrow";
+import { useToast } from "@/contexts/Toast/ToastContext";
+import { Link, useRouter } from "@tanstack/react-router";
 import borrowQueryOptions from "@/hooks/fetchBorrowRequests";
 import { MdRefresh, MdFilterList, MdMenu } from "react-icons/md";
 import { createFileRoute, redirect } from "@tanstack/react-router";
-import { useToast } from "@/contexts/Toast/ToastContext";
 
 export const Route = createFileRoute("/user/borrow/")({
+  loaderDeps: ({ search }) => ({ ...search }),
   component: RouteComponent,
   beforeLoad: ({ search, params }) => {
     if (!search.page) {
@@ -19,16 +20,17 @@ export const Route = createFileRoute("/user/borrow/")({
       });
     }
   },
-  loader: ({ context: { queryClient } }) =>
-    queryClient.ensureQueryData(borrowQueryOptions()),
+  loader: ({ context: { queryClient }, deps }) =>
+    queryClient.ensureQueryData(borrowQueryOptions(deps)),
   validateSearch: BorrowQuerySchema,
 });
 
 function RouteComponent() {
+  const router = useRouter();
   const data = Route.useLoaderData();
   const navigate = Route.useNavigate();
-  const toast = useToast();
   const { queryClient } = Route.useRouteContext();
+  const toast = useToast({ horizontal: "toast-end", vertical: "toast-middle" });
   return (
     <>
       <div className="page-height w-full h-dvh overflow-auto border border-base-content/5 custom-grad p-2">
@@ -81,9 +83,9 @@ function RouteComponent() {
         <RippleButton
           className="btn btn-lg btn-circle"
           onClick={() => {
-            queryClient.refetchQueries({ queryKey: ["borrows"] });
-            toast.open("Redirecting to home", "alert-info");
-            navigate({ to: "/user" });
+            queryClient.resetQueries({ queryKey: ["borrows"] });
+            toast.open("refreshing page", "alert-info");
+            router.invalidate();
           }}
         >
           <MdRefresh />

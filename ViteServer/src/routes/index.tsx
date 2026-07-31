@@ -143,7 +143,7 @@ const Home: FC = () => {
             <div className="flex-1 relative">
               <div className="relative z-10">
                 <img
-                  src="image.svg"
+                  src={`${import.meta.env.BASE_URL}image.svg`}
                   alt="Library"
                   className="rounded-lg shadow-2xl w-full max-w-lg mx-auto transform hover:scale-105 transition-transform duration-300"
                 />

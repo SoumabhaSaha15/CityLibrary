@@ -5,7 +5,7 @@ minimumReleaseAgeExclude:
   - axios@1.18.0 || 1.19.0
   - '@types/node@26.0.1 || 26.1.1'
   - qs@6.15.3
-  - daisyui@5.6.2 || 5.6.14 || 5.6.15 || 5.6.16 || 5.6.17 || 5.6.18 || 5.6.22 || 5.7.0 || 5.7.3 || 5.7.4 || 5.7.8
+  - daisyui@5.6.2 || 5.6.14 || 5.6.15 || 5.6.16 || 5.6.17 || 5.6.18 || 5.6.22 || 5.7.0 || 5.7.3 || 5.7.4 || 5.7.8 || 5.7.9
   - react-hook-form@7.81.0
   - '@typescript-eslint/eslint-plugin@8.63.0 || 8.64.0 || 8.65.0'
   - '@typescript-eslint/parser@8.63.0 || 8.64.0 || 8.65.0'
@@ -39,7 +39,7 @@ minimumReleaseAgeExclude:
   - '@typescript/typescript-win32-arm64@7.0.2'
   - '@typescript/typescript-win32-x64@7.0.2'
   - typescript@7.0.2
-  - vite@8.1.4 || 8.1.5
+  - vite@8.1.4 || 8.1.5 || 8.2.0
   - eslint@10.7.0 || 10.8.0
   - '@tanstack/react-router@1.170.18'
   - '@tanstack/router-core@1.171.15'
@@ -87,6 +87,9 @@ minimumReleaseAgeExclude:
   - '@zag-js/tabs@1.43.0'
   - '@zag-js/types@1.43.0'
   - '@zag-js/utils@1.43.0'
+  - '@types/react-dom@19.2.4'
+  - '@types/react@19.2.18'
+  - react-intersection-observer@11.0.0
 onlyBuiltDependencies:
   - esbuild
   - scrollreveal

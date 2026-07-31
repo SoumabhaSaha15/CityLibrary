@@ -26,6 +26,7 @@ export const Route = createFileRoute("/user")({
 function User() {
   const auth = useAuth();
   const navigate = useNavigate();
+  const { queryClient } = Route.useRouteContext();
   const { theme, applyTheme } = useTheme();
   const [openRipple, openEvent] = useRipple<HTMLLabelElement>({
     color: "currentColor",
@@ -155,6 +156,7 @@ function User() {
                     auth
                       .logout()
                       .then(() => {
+                        queryClient.clear();
                         navigate({ to: "/login" });
                       })
                       .catch(console.error);

@@ -1,10 +1,14 @@
 import path from "path";
+import { fileURLToPath } from "url"; // 1. Import URL path utilities
 import babel from "@rolldown/plugin-babel";
 import tailwindcss from "@tailwindcss/vite";
 import { defineConfig, loadEnv } from "vite";
 import { devtools } from "@tanstack/devtools-vite";
 import { tanstackRouter } from "@tanstack/router-plugin/vite";
 import react, { reactCompilerPreset } from "@vitejs/plugin-react";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "VITE_");
@@ -24,6 +28,14 @@ export default defineConfig(({ mode }) => {
       }),
       tailwindcss(),
     ],
+    base: mode === "production" ? "/static/dist/" : "/",
+    build: {
+      outDir: path.resolve(__dirname, "../DjangoAdmin/static/dist"),
+      emptyOutDir: true,
+      rolldownOptions: {
+        input: path.resolve(__dirname, "index.html"),
+      },
+    },
     server: {
       port: 7000,
       proxy: {

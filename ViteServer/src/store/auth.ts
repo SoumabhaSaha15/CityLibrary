@@ -103,7 +103,6 @@ export const authActions: AuthActions = {
   logout: async () => {
     const res = await base.get("/user/logout");
     if (res.status === 204) {
-      window.localStorage.removeItem("REACT_QUERY_OFFLINE_CACHE");
       authStore.setState((state) => ({
         ...state,
         isAuthenticated: false,

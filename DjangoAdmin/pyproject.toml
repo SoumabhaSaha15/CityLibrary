@@ -12,13 +12,13 @@ dependencies = [
     "django-extensions>=4.1",
     "django-filter>=26.1.0",
     "django-import-export>=4.4.1",
-    "django-unfold>=0.101.0",
+    "django-unfold>=0.102.0",
     "djangorestframework>=3.17.1",
     "drf-redesign>=0.6.0",
     "drf-spectacular>=0.30.0",
-    "markdown>=3.10.2",
+    "markdown>=3.10.3",
     "pillow>=12.3.0",
-    "uvicorn>=0.51.0",
+    "uvicorn>=0.52.0",
     "whitenoise>=6.12.0",
 ]
 [tool.autopep8]
