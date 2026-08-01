@@ -20,7 +20,6 @@
     "@zag-js/pagination": "^1.43.0",
     "@zag-js/qr-code": "^1.43.0",
     "@zag-js/react": "^1.43.0",
-    "@zag-js/tabs": "^1.43.0",
     "axios": "^1.19.0",
     "clsx": "^2.1.1",
     "js-cookie": "^3.0.8",

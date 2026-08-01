@@ -15,20 +15,18 @@ export const Route = createFileRoute("/user/")({
 function RouteComponent() {
   const toast = useToast();
   const { user } = useAuth();
+  const navigate = Route.useNavigate();
+  if (user === null) return navigate({ to: "/login" });
+
   const [activeTab, setActiveTab] = useState<"user-id" | "qr-code">("user-id");
-  const TEXT_DATA = {
-    name: user?.username || "name",
-    email: user?.email || "email",
-  };
+
   const service = useMachine(qrCode.machine, {
     id: useId(),
-    value: JSON.stringify(TEXT_DATA),
+    value: JSON.stringify(user, ["username", "email"]),
   });
   const api = qrCode.connect(service, normalizeProps);
 
-  return user === null ? (
-    <></>
-  ) : (
+  return (
     <>
       <div className="page-height min-h-[calc(100dvh-8rem)] grid place-items-center custom-grad p-4">
         {/* user id */}
@@ -151,10 +149,7 @@ function RouteComponent() {
         </div>
       </div>
       {/* dock */}
-      <div
-        className="dock dock-md bg-base-300 is-drawer-close:left-14 is-drawer-close:w-[calc(100%-7rem)] is-drawer-open:left-64 is-drawer-open:w-[calc(100%-32rem)]"
-        style={{ position: "unset" }}
-      >
+      <div className="custom-position-unset dock dock-md bg-base-300 is-drawer-close:left-14 is-drawer-close:w-[calc(100%-7rem)] is-drawer-open:left-64 is-drawer-open:w-[calc(100%-32rem)]">
         <RippleButton
           className={cn(
             "rounded-full bg-base-100 text-base-content hover:bg-primary",

@@ -30,6 +30,10 @@ html[data-theme] {
   background-repeat: no-repeat, no-repeat;
 }
 
+.custom-position-unset {
+  position: unset;
+}
+
 .page-height {
   @apply max-h-[calc(100dvh-4rem)];
 }
