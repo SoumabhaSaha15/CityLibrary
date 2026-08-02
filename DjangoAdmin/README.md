@@ -69,3 +69,11 @@
   uv run manage.py runserver
   uv run uvicorn Admin.asgi:application --host 127.0.0.1 --port 8000
 ```
+
+### 📊 Useful graph_viz commands
+
+```bash
+  ./manage.py graph_models library --app-style graph_viz.json -o er-diagram.svg
+  # for all apps
+  ./manage.py graph_models -a --app-style graph_viz.json -o er-diagram.svg
+```

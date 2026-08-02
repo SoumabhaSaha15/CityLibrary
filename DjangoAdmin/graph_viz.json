@@ -1,0 +1,5 @@
+{
+  "library": { "bg": "#8FF8FF" },
+  "django.*": { "bg": "#561b4c" },
+  "django.contrib.auth": { "bg": "#c41e3a" }
+}

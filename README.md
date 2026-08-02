@@ -15,9 +15,17 @@
 
 ---
 
+> ## Landing page
+
 <img src="images/city-library-landing-page.png" alt="City Library Landing Page" />
 
+> ## Ardent online certification
+
 <img src="images/certificate.png" alt="ardent certificate" />
+
+> ## Database diagram
+
+> <img src="images/er-diagram.svg" alt="database diagram" width="100%" />
 
 ### 🌟 Overview
 
