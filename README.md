@@ -9,7 +9,8 @@
     <a href="#-overview">Overview</a> •
     <a href="#-core-features">Features</a> •
     <a href="./ViteServer">Frontend</a> •
-    <a href="./DjangoAdmin/">Backend</a>
+    <a href="./DjangoAdmin/">Backend</a> •
+    <a href="https://ember-donkey-794.notion.site/CityLibrary-a-full-stack-React-js-Django-framework-project-8e0a9dad410982d0bfc38146ea35420d">Notion Site</a>
   </p>
 </div>
 
