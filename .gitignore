@@ -1,7 +1,7 @@
 DjangoAdmin/.venv
 DjangoAdmin/db.sqlite3
 DjangoAdmin/staticfiles
-DjangoAdmin/static/dist
+DjangoAdmin/static
 __pycache__/
 pip-log.txt
 pip-delete-this-directory.txt

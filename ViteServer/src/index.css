@@ -39,5 +39,5 @@ html[data-theme] {
 }
 
 .custom-grad {
-  @apply bg-linear-to-br from-base-100/70 to-base-300/70 via-base-200/70 backdrop-blur-md;
+  @apply bg-linear-to-br from-base-100/70 to-base-300/70 via-base-200/70 backdrop-blur-sm;
 }

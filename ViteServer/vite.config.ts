@@ -32,9 +32,9 @@ export default defineConfig(({ mode }) => {
       }),
       tailwindcss(),
     ],
-    base: mode === "production" ? "/static/dist/" : "/",
+    base: mode === "production" ? "/static/" : "/",
     build: {
-      outDir: path.resolve(__dirname, "../DjangoAdmin/static/dist"),
+      outDir: path.resolve(__dirname, "../DjangoAdmin/static"),
       emptyOutDir: true,
       rolldownOptions: {
         input: path.resolve(__dirname, "index.html"),
