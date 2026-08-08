@@ -84,6 +84,11 @@
     <img src="./../images/city-library-user-details-qr-page.png" alt="City Library User Details QR Page" />
     <p>Digital member badge displaying a generated QR code for fast library check-ins and identification scanning.</p>
   </details>
+  <details>
+    <summary>User Details mobile-view</summary>
+    <img src="./../images/city-library-user-details-qr-page-mobile-view.png" alt="City Library User Details QR Page" />
+    <p>Digital member badge displaying a generated QR code for fast library check-ins and identification scanning.</p>
+  </details>
 </details>
 
 ### 🎨 Frontend Ecosystem (React)

@@ -1,8 +1,9 @@
 import { cn } from "@/util/cn";
 import { useAuth } from "@/store/auth";
-import { useState, useId } from "react";
 import * as qrCode from "@zag-js/qr-code";
+import { useState, useId, useEffect } from "react";
 import RippleButton from "@/components/RippleButton";
+import { useThrottledCallback } from "@tanstack/react-pacer";
 import { useToast } from "@/contexts/Toast/ToastContext";
 import { createFileRoute } from "@tanstack/react-router";
 import { FaCircleUser, FaQrcode } from "react-icons/fa6";
@@ -19,16 +20,62 @@ function RouteComponent() {
   if (user === null) return navigate({ to: "/login" });
 
   const [activeTab, setActiveTab] = useState<"user-id" | "qr-code">("user-id");
+  const [isMobileView, setIsMobileView] = useState<boolean>(
+    window.innerWidth <= 640,
+  );
+  const handleResize = useThrottledCallback(
+    () => setIsMobileView(window.innerWidth <= 640),
+    { wait: 250, key: "window-resize-handler" },
+  );
+
+  useEffect(() => {
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [handleResize]);
 
   const service = useMachine(qrCode.machine, {
     id: useId(),
     value: JSON.stringify(user, ["username", "email"]),
   });
+
   const api = qrCode.connect(service, normalizeProps);
 
   return (
     <>
-      <div className="page-height min-h-[calc(100dvh-8rem)] grid place-items-center custom-grad p-4">
+      {/* tabs */}
+      {!isMobileView && (
+        <div role="tablist" className="tabs tabs-border custom-grad">
+          <label className="tab">
+            <input
+              type="radio"
+              onChange={() => setActiveTab("user-id")}
+              name="current-page"
+              defaultChecked={activeTab === "user-id"}
+            />
+            <FaCircleUser size={12} />
+            &nbsp; user-id
+          </label>
+          <label className="tab">
+            <input
+              type="radio"
+              onChange={() => setActiveTab("qr-code")}
+              name="current-page"
+              defaultChecked={activeTab === "qr-code"}
+            />
+            <FaQrcode size={12} />
+            &nbsp; qr-code
+          </label>
+        </div>
+      )}
+      {/* content */}
+      <div
+        className={cn(
+          "page-height grid place-items-center custom-grad p-4",
+          isMobileView
+            ? "min-h-[calc(100dvh-8rem)]"
+            : "min-h-[calc(100dvh-5rem)]",
+        )}
+      >
         {/* user id */}
         <div
           className={cn(
@@ -149,29 +196,31 @@ function RouteComponent() {
         </div>
       </div>
       {/* dock */}
-      <div className="custom-position-unset dock dock-md bg-base-300 is-drawer-close:left-14 is-drawer-close:w-[calc(100%-7rem)] is-drawer-open:left-64 is-drawer-open:w-[calc(100%-32rem)]">
-        <RippleButton
-          className={cn(
-            "rounded-full bg-base-100 text-base-content hover:bg-primary",
-            activeTab == "user-id" && "bg-accent text-accent-content",
-          )}
-          onClick={() => setActiveTab("user-id")}
-        >
-          <FaCircleUser />
-          <span className="dock-label">user-id</span>
-        </RippleButton>
+      {isMobileView && (
+        <div className="custom-position-unset dock dock-md bg-base-300 is-drawer-close:left-14 is-drawer-close:w-[calc(100%-7rem)] is-drawer-open:left-64 is-drawer-open:w-[calc(100%-32rem)]">
+          <RippleButton
+            className={cn(
+              "rounded-full bg-base-100 text-base-content hover:bg-primary",
+              activeTab == "user-id" && "bg-accent text-accent-content",
+            )}
+            onClick={() => setActiveTab("user-id")}
+          >
+            <FaCircleUser />
+            <span className="dock-label">user-id</span>
+          </RippleButton>
 
-        <RippleButton
-          className={cn(
-            "rounded-full bg-base-100 text-base-content hover:bg-primary",
-            activeTab == "qr-code" && "bg-accent text-accent-content",
-          )}
-          onClick={() => setActiveTab("qr-code")}
-        >
-          <FaQrcode />
-          <span className="dock-label">qr-code</span>
-        </RippleButton>
-      </div>
+          <RippleButton
+            className={cn(
+              "rounded-full bg-base-100 text-base-content hover:bg-primary",
+              activeTab == "qr-code" && "bg-accent text-accent-content",
+            )}
+            onClick={() => setActiveTab("qr-code")}
+          >
+            <FaQrcode />
+            <span className="dock-label">qr-code</span>
+          </RippleButton>
+        </div>
+      )}
     </>
   );
 }

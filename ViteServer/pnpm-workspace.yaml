@@ -3,9 +3,9 @@ allowBuilds:
   scrollreveal: true
 minimumReleaseAgeExclude:
   - axios@1.18.0 || 1.19.0
-  - '@types/node@26.0.1 || 26.1.1'
+  - '@types/node@26.0.1 || 26.1.1 || 26.2.0'
   - qs@6.15.3
-  - daisyui@5.6.2 || 5.6.14 || 5.6.15 || 5.6.16 || 5.6.17 || 5.6.18 || 5.6.22 || 5.7.0 || 5.7.3 || 5.7.4 || 5.7.8 || 5.7.9 || 5.7.14 || 5.7.15
+  - daisyui@5.6.2 || 5.6.14 || 5.6.15 || 5.6.16 || 5.6.17 || 5.6.18 || 5.6.22 || 5.7.0 || 5.7.3 || 5.7.4 || 5.7.8 || 5.7.9 || 5.7.14 || 5.7.15 || 5.7.16
   - react-hook-form@7.81.0
   - '@typescript-eslint/eslint-plugin@8.63.0 || 8.64.0 || 8.65.0 || 8.66.0'
   - '@typescript-eslint/parser@8.63.0 || 8.64.0 || 8.65.0 || 8.66.0'
@@ -40,11 +40,11 @@ minimumReleaseAgeExclude:
   - '@typescript/typescript-win32-x64@7.0.2'
   - typescript@7.0.2
   - vite@8.1.4 || 8.1.5 || 8.2.0
-  - eslint@10.7.0 || 10.8.0
-  - '@tanstack/react-router@1.170.18'
-  - '@tanstack/router-core@1.171.15'
-  - '@tanstack/router-generator@1.167.19 || 1.167.21'
-  - '@tanstack/router-plugin@1.168.20 || 1.168.22 || 1.168.23'
+  - eslint@10.7.0 || 10.8.0 || 10.8.1
+  - '@tanstack/react-router@1.170.18 || 1.170.19 || 1.170.23'
+  - '@tanstack/router-core@1.171.15 || 1.171.16 || 1.171.19'
+  - '@tanstack/router-generator@1.167.19 || 1.167.21 || 1.167.22 || 1.167.25'
+  - '@tanstack/router-plugin@1.168.20 || 1.168.22 || 1.168.23 || 1.168.24 || 1.168.27'
   - '@tailwindcss/node@4.3.3'
   - '@tailwindcss/oxide-android-arm64@4.3.3'
   - '@tailwindcss/oxide-darwin-arm64@4.3.3'
@@ -91,6 +91,8 @@ minimumReleaseAgeExclude:
   - '@types/react@19.2.18'
   - react-intersection-observer@11.0.0
   - globals@17.9.0
+  - '@tanstack/react-router-devtools@1.167.1'
+  - '@tanstack/router-devtools-core@1.168.1'
 onlyBuiltDependencies:
   - esbuild
   - scrollreveal

@@ -26,7 +26,7 @@
 
 > ## Database diagram
 
-> <img src="images/er-diagram.svg" alt="database diagram" width="100%" />
+<img src="images/er-diagram.svg" alt="database diagram" width="100%" />
 
 ### 🌟 Overview
 
