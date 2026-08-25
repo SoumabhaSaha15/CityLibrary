@@ -43,16 +43,16 @@ wheels = [
 
 [[package]]
 name = "cloudinary"
-version = "1.45.0"
+version = "1.46.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "certifi" },
     { name = "six" },
     { name = "urllib3" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/e2/5b/d17312bcebe524fc28a4b9032fc158737e991cde49cef7f86d18593c50c9/cloudinary-1.45.0.tar.gz", hash = "sha256:711404bfbdf87965afbefdb747ae78a03188b513846cccb0c1f8a8c612e375ba", size = 192094, upload-time = "2026-07-01T10:10:29.688Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/97/0e/a1beef32bf4abb896aa4b8d229535fb68acc53354be8624b9a78678331ec/cloudinary-1.46.0.tar.gz", hash = "sha256:f33ad786277748649d235b3d00f3afe058931f7bd1f516ccc89756f48802135a", size = 202175, upload-time = "2026-08-18T16:02:17.038Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/c0/6d/5419a09c4ec2b7baf2723fbfc823bfbfea9ceeac177b30e01250ed23da2c/cloudinary-1.45.0-py3-none-any.whl", hash = "sha256:46c333101811841cf446c46054f4d9b507c2fa34c25152d1e922586c3b746196", size = 149030, upload-time = "2026-07-01T10:10:28.561Z" },
+    { url = "https://files.pythonhosted.org/packages/b4/d0/c758c521a457d61b961d42a192c024e1ad74e4809149d302b5a01d2e8da6/cloudinary-1.46.0-py3-none-any.whl", hash = "sha256:a8ac2d39b35c20e526c7a1e4eb63e13bcdf5b224736ae56a9bcc236faadb95e8", size = 153066, upload-time = "2026-08-18T16:02:15.917Z" },
 ]
 
 [[package]]
@@ -149,14 +149,14 @@ wheels = [
 
 [[package]]
 name = "django-unfold"
-version = "0.103.0"
+version = "0.104.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "django" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/93/9e/4f6721d2354dfe937192582eba74020ebe25a6e0242381afa2389dde6c55/django_unfold-0.103.0.tar.gz", hash = "sha256:8ab0f1204148f28fca961d159823afc91e7ecbd7df5f4c32f8442a4e453b2273", size = 1125894, upload-time = "2026-08-06T07:27:48.366Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/12/41/0685cfdad4cf77a571e48227c78a9b8ae6d15679c2e9c9e724142a26cc3a/django_unfold-0.104.1.tar.gz", hash = "sha256:13b52e8100f2d844568cf08a2057cacd3686bc1083e0e491d05fc688025c966f", size = 1126154, upload-time = "2026-08-12T07:43:46.027Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/d4/93/b1657a7da69d7dc20b4bf6776eee5ffaaffe22415ad39a1276e0d3ba7e98/django_unfold-0.103.0-py3-none-any.whl", hash = "sha256:161cd07cf644a0c64ba6bbd7ff2202a9c2b5a20734df6dd749d667f50bd8a8ba", size = 1253971, upload-time = "2026-08-06T07:27:46.774Z" },
+    { url = "https://files.pythonhosted.org/packages/37/25/d9165c8b4e1deb37d0ac68bfe837c59a4ddb895f5df8b9c97b4bd433ab23/django_unfold-0.104.1-py3-none-any.whl", hash = "sha256:4eece526e1e80f5133632acae260cc53ab2f52020ff9f64bb98d9c9c738d9888", size = 1254159, upload-time = "2026-08-12T07:43:44.565Z" },
 ]
 
 [[package]]
@@ -186,14 +186,14 @@ dependencies = [
 
 [package.metadata]
 requires-dist = [
-    { name = "cloudinary", specifier = ">=1.45.0" },
+    { name = "cloudinary", specifier = ">=1.46.0" },
     { name = "django", specifier = ">=6.1.0" },
     { name = "django-cors-headers", specifier = ">=4.9.0" },
     { name = "django-environ", specifier = ">=0.14.0" },
     { name = "django-extensions", specifier = ">=4.1" },
     { name = "django-filter", specifier = ">=26.1.0" },
     { name = "django-import-export", specifier = ">=4.4.1" },
-    { name = "django-unfold", specifier = ">=0.103.0" },
+    { name = "django-unfold", specifier = ">=0.104.1" },
     { name = "djangorestframework", specifier = ">=3.18.0" },
     { name = "drf-redesign", specifier = ">=0.6.0" },
     { name = "drf-spectacular", specifier = ">=0.30.0" },
@@ -202,7 +202,7 @@ requires-dist = [
     { name = "pydot", specifier = ">=4.0.1" },
     { name = "pygraphviz", specifier = ">=2.0.1" },
     { name = "pyparsing", specifier = ">=3.3.2" },
-    { name = "uvicorn", specifier = ">=0.52.1" },
+    { name = "uvicorn", specifier = ">=0.52.4" },
     { name = "whitenoise", specifier = ">=6.12.0" },
 ]
 
@@ -547,15 +547,15 @@ wheels = [
 
 [[package]]
 name = "uvicorn"
-version = "0.52.1"
+version = "0.52.4"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "click" },
     { name = "h11" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/03/18/ccce41535dee1be77735592bd19965f3972c82e07ee703d324709496b716/uvicorn-0.52.1.tar.gz", hash = "sha256:112ec661814189acbccd3f7b86460147cc065fc92c0821afa78918780e4354dd", size = 100571, upload-time = "2026-08-01T18:19:30.732Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/f2/0f/3f86e61397dd33bf2ccf28188c40db6a740658aeebbbf6e7dbc101a1f487/uvicorn-0.52.4.tar.gz", hash = "sha256:73acfee47a0b133c5de13d219492d62d8a31e935f4fe6e41a232451a15379f86", size = 100627, upload-time = "2026-08-19T06:27:41.821Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/c7/d5/68e6e9bca63c0badf67002890a46d3784c958de45b65e1275ec583ca1f06/uvicorn-0.52.1-py3-none-any.whl", hash = "sha256:e4403f9d93188cf9d1088e9f40e3acd12630e2df8675316704379a7fc20fff6a", size = 79859, upload-time = "2026-08-01T18:19:29.294Z" },
+    { url = "https://files.pythonhosted.org/packages/f1/79/4a20b54ab0491485ccd8c077db2d39187c7f12b3e15485d38a7be37c81b4/uvicorn-0.52.4-py3-none-any.whl", hash = "sha256:f86e41a149d7d05a9969337e3946a9c171c06a5d42680896daaba624aeac8da1", size = 79871, upload-time = "2026-08-19T06:27:40.36Z" },
 ]
 
 [[package]]
