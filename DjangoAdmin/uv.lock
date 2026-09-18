@@ -149,14 +149,14 @@ wheels = [
 
 [[package]]
 name = "django-unfold"
-version = "0.105.0"
+version = "0.107.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "django" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/1b/b6/72c412b2a296a3d7a283d5cff80a2b2b539dd621434da0d0e67f9df4add3/django_unfold-0.105.0.tar.gz", hash = "sha256:0051c43185bc54807d522fad50663a5b1332ae0e54ebe490b1f6c879cc6962db", size = 1112124, upload-time = "2026-09-04T08:51:42.019Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/89/d1/163f8cfc4b3f4d839e043cfaddff5313f5acbcdc6960cdb75089aab61be2/django_unfold-0.107.0.tar.gz", hash = "sha256:c7c3f83e2dec55dd920b6770dce43d2b517671a5824f3a2352996c62baa9400f", size = 1113222, upload-time = "2026-09-17T08:42:58.595Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/08/c2/72eccd0adacdca28a6dbd54b7092c8cd29b71ef881fc293e49ee57276fd9/django_unfold-0.105.0-py3-none-any.whl", hash = "sha256:b72880caa376bdc893c2e256dd990812c0301f269e0b977a6b9b4342c6606477", size = 1237302, upload-time = "2026-09-04T08:51:40.558Z" },
+    { url = "https://files.pythonhosted.org/packages/c9/89/450b154e92df9437a42f1a485fe15b983326b4db91cc6e1ea16a77c67bc9/django_unfold-0.107.0-py3-none-any.whl", hash = "sha256:22b9d86a8336d507eac83c5fafd9e1cb94c5374da9877ca8620513e17d6da5b5", size = 1239122, upload-time = "2026-09-17T08:42:56.936Z" },
 ]
 
 [[package]]
@@ -193,16 +193,16 @@ requires-dist = [
     { name = "django-extensions", specifier = ">=4.1" },
     { name = "django-filter", specifier = ">=26.1.0" },
     { name = "django-import-export", specifier = ">=4.4.1" },
-    { name = "django-unfold", specifier = ">=0.105.0" },
+    { name = "django-unfold", specifier = ">=0.107.0" },
     { name = "djangorestframework", specifier = ">=3.18.1" },
     { name = "drf-redesign", specifier = ">=0.6.0" },
     { name = "drf-spectacular", specifier = ">=0.30.0" },
     { name = "markdown", specifier = ">=3.10.3" },
     { name = "pillow", specifier = ">=12.3.0" },
     { name = "pydot", specifier = ">=4.0.1" },
-    { name = "pygraphviz", specifier = ">=2.0.1" },
+    { name = "pygraphviz", specifier = ">=2.0.2" },
     { name = "pyparsing", specifier = ">=3.3.2" },
-    { name = "uvicorn", specifier = ">=0.52.4" },
+    { name = "uvicorn", specifier = ">=0.53.0" },
     { name = "whitenoise", specifier = ">=6.12.0" },
 ]
 
@@ -366,15 +366,20 @@ wheels = [
 
 [[package]]
 name = "pygraphviz"
-version = "2.0.1"
+version = "2.0.2"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/08/44/efd880d59b94ef3b8c881a4c8ddcaa6f30036997b0ae94710c6f32aaa24c/pygraphviz-2.0.1.tar.gz", hash = "sha256:6f9850617f9444517641d2e14dfdb99ae8294cf7657be86c031fee8f7c54f863", size = 81998, upload-time = "2026-07-20T09:59:35.444Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/b9/bf/66361b6c75e97d80e294d8642a258167315a2128d06bdc947cebddf5edf7/pygraphviz-2.0.2.tar.gz", hash = "sha256:e3a0a0da443af50277f98de0a73932a8f3fc3dc39685911e94b58111e153a8cc", size = 82229, upload-time = "2026-09-16T16:32:06.508Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/2f/ae/24d1c0984fbb1c2f6231db7e031f7ed22420235575a93f489fc19b143797/pygraphviz-2.0.1-cp314-cp314-macosx_11_0_arm64.whl", hash = "sha256:2969794de5128a5d5d2f9213d92ebdc724c60ffccae683c0b4141d1e4b160d78", size = 1412189, upload-time = "2026-07-20T09:59:27.702Z" },
-    { url = "https://files.pythonhosted.org/packages/5f/85/d1e3c3817e22ae6caaf119b8cecd579b3bcd7718a9fef4176779a1648dd6/pygraphviz-2.0.1-cp314-cp314-macosx_11_0_x86_64.whl", hash = "sha256:fad64151a38dfd3eaf3ab01e3e9d193ab4e7c60cc8e7bc00f6a338e00f69a5d9", size = 1584772, upload-time = "2026-07-20T09:59:29.189Z" },
-    { url = "https://files.pythonhosted.org/packages/bc/cf/b22dac556161adf1b90d87c2474eb4259df0f52a7d74f5b6c50b0faf4275/pygraphviz-2.0.1-cp314-cp314-manylinux_2_28_aarch64.whl", hash = "sha256:19092a42b570e579231d6c897476aed8d24b6c0b5a966d4d50ccb470c9778fe8", size = 5133963, upload-time = "2026-07-20T09:59:30.568Z" },
-    { url = "https://files.pythonhosted.org/packages/78/d3/9a728b882805db71eb687fe8440df7b2912800856d4619ffe79b1824fe10/pygraphviz-2.0.1-cp314-cp314-manylinux_2_28_x86_64.whl", hash = "sha256:71b13cfacb5ed6e4f5a966bf679e1d383ac70e0274cc74b29ce4b8e7e2709b46", size = 5359616, upload-time = "2026-07-20T09:59:32.24Z" },
-    { url = "https://files.pythonhosted.org/packages/f3/7e/e2e90c36770fc7830c1eae81c91c653bbb41cc69c5e9b0af7ae0590f9cc2/pygraphviz-2.0.1-cp314-cp314-win_amd64.whl", hash = "sha256:8f3a37f5abf0873396243634f30f46dcae118a585cbef13554dd3eed0f9c67e0", size = 7063195, upload-time = "2026-07-20T09:59:33.825Z" },
+    { url = "https://files.pythonhosted.org/packages/c7/96/fb741f91da63c082949734a80f80c85c2ce342cd9b4971fa120fdb47400a/pygraphviz-2.0.2-cp314-cp314-macosx_11_0_arm64.whl", hash = "sha256:b4c6461dbe8041644e0f032b7af24c5151183191d793da03c013375556dcabc0", size = 1411928, upload-time = "2026-09-16T16:31:48.98Z" },
+    { url = "https://files.pythonhosted.org/packages/14/7a/0a1ffc863d78a80b44d2ab6b52e3a33b7143736c85bf7a8b8628b4cd3f01/pygraphviz-2.0.2-cp314-cp314-macosx_11_0_x86_64.whl", hash = "sha256:9f3513a77fc5c0e0be88f5cce3bc8074a584efe046c3da1b6bedca1d4587c5a2", size = 1584760, upload-time = "2026-09-16T16:31:50.493Z" },
+    { url = "https://files.pythonhosted.org/packages/32/48/9be0d92558b19aca88eb6024f3ebbf6c6a75d15cd7786fa3f79bcc12b893/pygraphviz-2.0.2-cp314-cp314-manylinux_2_28_aarch64.whl", hash = "sha256:0cef9b3befd086a4378fe8f3c9ed987b4dc0518acc818bef9c180bba4105074f", size = 5153952, upload-time = "2026-09-16T16:31:52.156Z" },
+    { url = "https://files.pythonhosted.org/packages/c9/ad/d1be0b978c832ebab46978cc3a5d328c57bdc610e9348dd73196b02e2430/pygraphviz-2.0.2-cp314-cp314-manylinux_2_28_x86_64.whl", hash = "sha256:ecab21e980d7061e23ee6855e8a4569d4b750b9ff8ca9ae31d18f3a4165f458f", size = 5500876, upload-time = "2026-09-16T16:31:54.379Z" },
+    { url = "https://files.pythonhosted.org/packages/98/4a/32442dfd1980c90753854ecc599eaa07d38246991853c5cc05aebfd6d77a/pygraphviz-2.0.2-cp314-cp314-win_amd64.whl", hash = "sha256:c2b0d1eb759982c4fd09e5a26a4a489dfb7feb2131dffef6292a2d41442059cb", size = 7063248, upload-time = "2026-09-16T16:31:56.082Z" },
+    { url = "https://files.pythonhosted.org/packages/2c/c2/2581ca36b3c36d296d4f0d2012ceb898e14da44661425ac8735cabb395a2/pygraphviz-2.0.2-cp315-cp315-macosx_11_0_arm64.whl", hash = "sha256:ca23d1d10692aeba54ed4a9cf1df752e0e83d69869284b1b3989a4c711dd59cf", size = 1411902, upload-time = "2026-09-16T16:31:57.783Z" },
+    { url = "https://files.pythonhosted.org/packages/89/2a/0eb43747b67afbe7fa226679131831c4a0d087ee3e9e943c027b09c4a254/pygraphviz-2.0.2-cp315-cp315-macosx_11_0_x86_64.whl", hash = "sha256:16bad0337dd73b7043d88f1c4bc7122cb8ea1b499bcc6cefe4e77ff72473beaa", size = 1584763, upload-time = "2026-09-16T16:31:59.719Z" },
+    { url = "https://files.pythonhosted.org/packages/5a/90/ffb441efdbcc37238d0f397ee61096807a38ce8c13d003f414558253d117/pygraphviz-2.0.2-cp315-cp315-manylinux_2_28_aarch64.whl", hash = "sha256:dec13c60b59986d41343b1e0d4d805c1fe1351b8932512a34192e329770ee409", size = 5154480, upload-time = "2026-09-16T16:32:01.193Z" },
+    { url = "https://files.pythonhosted.org/packages/1f/34/c5713fff9aa3c3c2ee543de526f922487665124b65c0640b470c47d3fc9e/pygraphviz-2.0.2-cp315-cp315-manylinux_2_28_x86_64.whl", hash = "sha256:6febc65dd672afd31d0f21c294eba43e3e248334e48a4997cfdcbd11ef2d3c0f", size = 5500601, upload-time = "2026-09-16T16:32:02.889Z" },
+    { url = "https://files.pythonhosted.org/packages/a8/50/cfd789eb3f96d9f64310821c79dd3fe3a73702b74dd289d7537b9d671049/pygraphviz-2.0.2-cp315-cp315-win_amd64.whl", hash = "sha256:27c281a37911185515e09306c9688da34f3a130aa0a60de425d744faa348439b", size = 7063246, upload-time = "2026-09-16T16:32:04.545Z" },
 ]
 
 [[package]]
@@ -547,15 +552,15 @@ wheels = [
 
 [[package]]
 name = "uvicorn"
-version = "0.52.4"
+version = "0.53.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "click" },
     { name = "h11" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/f2/0f/3f86e61397dd33bf2ccf28188c40db6a740658aeebbbf6e7dbc101a1f487/uvicorn-0.52.4.tar.gz", hash = "sha256:73acfee47a0b133c5de13d219492d62d8a31e935f4fe6e41a232451a15379f86", size = 100627, upload-time = "2026-08-19T06:27:41.821Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/5d/ad/04bbb797c84fc1f26cb171f7394716f4865ffb8d8c5e1eef42565c2dfa6b/uvicorn-0.53.0.tar.gz", hash = "sha256:a9356f0cb89b3b8621529c5d5eebd69bfe154f4c3f68b4cf2de47e45fa855c2e", size = 110881, upload-time = "2026-09-14T07:44:23.815Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/f1/79/4a20b54ab0491485ccd8c077db2d39187c7f12b3e15485d38a7be37c81b4/uvicorn-0.52.4-py3-none-any.whl", hash = "sha256:f86e41a149d7d05a9969337e3946a9c171c06a5d42680896daaba624aeac8da1", size = 79871, upload-time = "2026-08-19T06:27:40.36Z" },
+    { url = "https://files.pythonhosted.org/packages/76/18/0eea75741ee812e9f598b687619ce2454f6c3a1c5cd21ea990ec6bd26f45/uvicorn-0.53.0-py3-none-any.whl", hash = "sha256:e8dca71ec86dce5f04e333f0d56cdedf942446e6643b9cea1af0d6d3a02cb03e", size = 87081, upload-time = "2026-09-14T07:44:22.179Z" },
 ]
 
 [[package]]

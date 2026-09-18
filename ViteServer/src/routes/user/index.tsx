@@ -73,7 +73,7 @@ function RouteComponent() {
           "page-height grid place-items-center custom-grad p-4",
           isMobileView
             ? "min-h-[calc(100dvh-8rem)]"
-            : "min-h-[calc(100dvh-5rem)]",
+            : "min-h-[calc(100dvh-6.5rem)]",
         )}
       >
         {/* user id */}
