@@ -16,9 +16,6 @@ export const Route = createFileRoute("/user/")({
 function RouteComponent() {
   const toast = useToast();
   const { user } = useAuth();
-  const navigate = Route.useNavigate();
-  if (user === null) return navigate({ to: "/login" });
-
   const [activeTab, setActiveTab] = useState<"user-id" | "qr-code">("user-id");
   const [isMobileView, setIsMobileView] = useState<boolean>(
     window.innerWidth <= 640,
@@ -95,7 +92,7 @@ function RouteComponent() {
                   <div className="avatar grid place-items-center">
                     <div className="w-36">
                       <img
-                        src={user.profile}
+                        src={user?.profile}
                         alt="profile-pic"
                         className="rounded-lg"
                       />
@@ -111,7 +108,7 @@ function RouteComponent() {
                       <input
                         type="text"
                         className="validator input input-bordered w-full focus:outline-none focus:ring-0 focus:ring-accent"
-                        value={user.username}
+                        value={user?.username}
                         readOnly={true}
                       />
                     </label>
@@ -123,7 +120,7 @@ function RouteComponent() {
                       <input
                         type="email"
                         className="validator input input-bordered w-full focus:outline-none focus:ring-0 focus:ring-accent"
-                        value={user.email}
+                        value={user?.email || ""}
                         readOnly={true}
                       />
                     </label>
@@ -133,7 +130,7 @@ function RouteComponent() {
                     className="btn btn-primary w-full hover:btn-secondary"
                     type="button"
                     onClick={() => {
-                      window.navigator.clipboard.writeText(user.email);
+                      window.navigator.clipboard.writeText(user?.email || "");
                       toast.open("email copied");
                     }}
                   >
@@ -170,9 +167,9 @@ function RouteComponent() {
                       </svg>
                       <div {...api.getOverlayProps()}>
                         <img
-                          src={user.profile}
+                          src={user?.profile}
                           className="aspect-square w-8 sm:w-14 rounded-lg"
-                          alt={user.username}
+                          alt={user?.username}
                         />
                       </div>
                     </div>

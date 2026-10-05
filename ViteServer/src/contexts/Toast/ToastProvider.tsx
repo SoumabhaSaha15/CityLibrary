@@ -70,7 +70,7 @@ function ToastProvider({ children }: { children: ReactNode }) {
   );
 
   return (
-    <ToastContext.Provider value={{ openGlobal, close }}>
+    <ToastContext value={{ openGlobal, close }}>
       {children}
       {Object.entries(groupedToasts).map(([positionClasses, toastList]) => (
         <div key={positionClasses} className={cn("toast", positionClasses)}>
@@ -81,7 +81,7 @@ function ToastProvider({ children }: { children: ReactNode }) {
           ))}
         </div>
       ))}
-    </ToastContext.Provider>
+    </ToastContext>
   );
 }
 

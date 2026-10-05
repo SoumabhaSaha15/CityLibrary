@@ -4,7 +4,7 @@ import axios, { type AxiosResponse } from "axios";
 
 declare module "axios" {
   export interface AxiosRequestConfig {
-    schema?: ZodType<any>;
+    schema?: ZodType<unknown>;
   }
 }
 

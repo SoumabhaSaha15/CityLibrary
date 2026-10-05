@@ -24,7 +24,8 @@ const Modal = forwardRef<ModalHandle, ModalProps>(
 
         if (!dialog) return;
 
-        dialog.open ? dialog.close() : dialog.showModal();
+        if (dialog.open) dialog.close();
+        else dialog.showModal();
       },
     }));
 

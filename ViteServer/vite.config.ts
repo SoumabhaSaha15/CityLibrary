@@ -1,14 +1,11 @@
 import path from "path";
-import { fileURLToPath } from "url"; // 1. Import URL path utilities
+import pwaConfigs from "./vite.pwa";
 import babel from "@rolldown/plugin-babel";
 import tailwindcss from "@tailwindcss/vite";
 import { defineConfig, loadEnv } from "vite";
 import { devtools } from "@tanstack/devtools-vite";
 import { tanstackRouter } from "@tanstack/router-plugin/vite";
 import react, { reactCompilerPreset } from "@vitejs/plugin-react";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "VITE_");
@@ -31,13 +28,14 @@ export default defineConfig(({ mode }) => {
         presets: [reactCompilerPreset()],
       }),
       tailwindcss(),
+      pwaConfigs(),
     ],
     base: mode === "production" ? "/static/" : "/",
     build: {
-      outDir: path.resolve(__dirname, "../DjangoAdmin/static"),
+      outDir: path.resolve("../DjangoAdmin/static"),
       emptyOutDir: true,
       rolldownOptions: {
-        input: path.resolve(__dirname, "index.html"),
+        input: path.resolve("index.html"),
       },
     },
     server: {

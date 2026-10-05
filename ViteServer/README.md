@@ -90,17 +90,3 @@
     <p>Digital member badge displaying a generated QR code for fast library check-ins and identification scanning.</p>
   </details>
 </details>
-
-### 🎨 Frontend Ecosystem (React)
-
-|                                                         Icon                                                          | Link                                                      | Description                                                                                      |
-| :-------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------- | :----------------------------------------------------------------------------------------------- |
-|                 <img src="https://react.dev/favicon-32x32.png" width="32" height="32" alt="React" />                  | [React](https://react.dev)                                | A JavaScript library for building user interfaces using component-based architecture.            |
-|    <img src="https://tailwindcss.com/favicons/favicon-32x32.png?v=4" width="32" height="32" alt="Tailwind CSS" />     | [Tailwind CSS](https://tailwindcss.com)                   | A utility-first CSS framework for rapidly building custom user interfaces.                       |
-| <img src="https://react-icons.github.io/react-icons/icons/icon-72x72.png" width="32" height="32" alt="React Icons" /> | [React Icons](https://react-icons.github.io/react-icons/) | Popular icon sets bundled into a single package using ES6 imports for React apps.                |
-|          <img src="https://img.daisyui.com/images/daisyui/mark.svg" width="32" height="32" alt="daisyUI" />           | [daisyUI](https://daisyui.com)                            | A configurable, class-based component library built on top of Tailwind CSS.                      |
-|             <img src="https://zagjs.com/favicon/favicon-32x32.png" width="32" height="32" alt="Zag.js" />             | [Zag.js](https://zagjs.com)                               | Framework-agnostic UI component logic powered by finite state machines.                          |
-|              <img src="https://tanstack.com/favicon-32x32.png" width="32" height="32" alt="TanStack" />               | [TanStack](https://tanstack.com)                          | High-quality open-source web development libraries (Query, Router, Form, Store, devtools, etc.). |
-|               <img src="https://axios.rest/apple-touch-icon.png" width="32" height="32" alt="Axios" />                | [Axios](https://axios-http.com)                           | Promise-based HTTP client for the browser and Node.js.                                           |
-|               <img src="https://zod.dev/icon.png?39fe259ddd7f4224" width="32" height="32" alt="Zod" />                | [Zod](https://zod.dev)                                    | TypeScript-first schema validation library with static type inference.                           |
-|               <img src="https://vite.dev/logo-without-border.svg" width="32" height="32" alt="Vite" />                | [Vite](https://vite.dev)                                  | Next-generation frontend tooling providing fast dev server and optimized builds.                 |

@@ -54,7 +54,7 @@ export const authActions: AuthActions = {
           error: res.statusText,
         }));
       }
-    } catch (err) {
+    } catch {
       authStore.setState((state) => ({
         ...state,
         isAuthenticated: false,

@@ -1,4 +1,4 @@
-import { createContext, useContext, type Context } from "react";
+import { createContext, use, type Context } from "react";
 import { z } from "zod";
 
 export const ToastOptionsValidator = z.strictObject({
@@ -58,7 +58,7 @@ export const useToast = (
     horizontal: "toast-end",
   },
 ) => {
-  const context = useContext(ToastContext);
+  const context = use(ToastContext);
 
   const vertical = (config.vertical ?? "toast-bottom") as ToastPositionTuple[1];
   const horizontal = (config.horizontal ??

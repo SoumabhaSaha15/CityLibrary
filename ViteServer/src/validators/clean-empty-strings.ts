@@ -1,6 +1,8 @@
 import z from "zod";
 
-export const cleanEmptyString = <T extends z.ZodObject<any>>(schema: T) => {
+export const cleanEmptyString = <T extends z.ZodObject<z.ZodRawShape>>(
+  schema: T,
+) => {
   return schema.transform((v) => {
     return Object.fromEntries(
       Object.entries(v).filter(([_, value]) => value !== ""),
