@@ -1,5 +1,5 @@
 import path from "path";
-import pwaConfigs from "./vite.pwa";
+import pwaConfigs from "./vite.pwa.ts";
 import babel from "@rolldown/plugin-babel";
 import tailwindcss from "@tailwindcss/vite";
 import { defineConfig, loadEnv } from "vite";

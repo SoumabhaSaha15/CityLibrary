@@ -22,22 +22,16 @@ html[data-theme] {
   --radius-field: 0.5rem;
   --radius-box: 0.5rem;
   --depth: 0;
-  min-height: 100dvh;
-  background-image: url("/image.svg");
-  background-size: cover, cover;
-  background-position: center, center;
-  background-attachment: fixed, fixed;
-  background-repeat: no-repeat, no-repeat;
+  @apply min-h-dvh bg-[url('/image.svg')] bg-size-[cover,cover] bg-position-[center,center] bg-no-repeat bg-fixed;
 }
-
-.custom-position-unset {
-  position: unset;
-}
-
 .page-height {
   @apply max-h-[calc(100dvh-4rem)];
 }
 
 .custom-grad {
   @apply bg-linear-to-br from-base-100/70 to-base-300/70 via-base-200/70 backdrop-blur-sm;
+}
+
+.custom-position-unset {
+  position: unset;
 }
