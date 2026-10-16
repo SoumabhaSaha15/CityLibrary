@@ -16,19 +16,13 @@ const base = axios.create({
 
 const customFormSerializer = (data: object): FormData => {
   const formData = new FormData();
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // oxlint-disable-next-line @typescript-eslint/no-explicit-any
   const appendRecursive = (key: string, value: any) => {
-    if (value instanceof FileList)
-      [...value].forEach((file) => formData.append(key, file)); // 1. Handle FileList (Preserved from your fix)
-    else if (value instanceof File || value instanceof Blob)
-      formData.append(key, value); // 2. Handle Files/Blobs (Base case)
+    if (value instanceof FileList) [...value].forEach((file) => formData.append(key, file)); // 1. Handle FileList (Preserved from your fix)
+    else if (value instanceof File || value instanceof Blob) formData.append(key, value); // 2. Handle Files/Blobs (Base case)
     else if (Array.isArray(value))
       value.forEach((item, index) => appendRecursive(`${key}[${index}]`, item)); // 3. Handle Arrays (RECURSIVE)
-    else if (
-      value !== null &&
-      typeof value === "object" &&
-      !(value instanceof Date)
-    )
+    else if (value !== null && typeof value === "object" && !(value instanceof Date))
       Object.entries(value).forEach(([subKey, subValue]) =>
         appendRecursive(`${key}[${subKey}]`, subValue),
       );
