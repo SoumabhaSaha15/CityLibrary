@@ -7,7 +7,7 @@ import borrowQueryByIdOptions from "@/hooks/fetchBorrowRequestById";
 
 export const Route = createFileRoute("/user/borrow/$id")({
   loader: ({ context: { queryClient }, params: { id } }) =>
-    queryClient.ensureQueryData(borrowQueryByIdOptions(id)),
+    queryClient.query(borrowQueryByIdOptions(id)),
   component: RouteComponent,
 });
 

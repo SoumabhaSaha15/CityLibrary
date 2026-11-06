@@ -11,7 +11,7 @@ import { useToast } from "@/contexts/Toast/ToastContext";
 export const Route = createFileRoute("/user/books/$id/borrow")({
   component: RouteComponent,
   loader: ({ context: { queryClient }, params: { id } }) =>
-    queryClient.ensureQueryData(bookCoverOptionsById(Number(id))),
+    queryClient.query(bookCoverOptionsById(Number(id))),
 });
 
 function RouteComponent() {

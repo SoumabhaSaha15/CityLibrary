@@ -21,7 +21,7 @@ export const Route = createFileRoute("/user/borrow/")({
     }
   },
   loader: ({ context: { queryClient }, deps }) =>
-    queryClient.ensureQueryData(borrowQueryOptions(deps)),
+    queryClient.query(borrowQueryOptions(deps)),
   validateSearch: BorrowQuerySchema,
 });
 

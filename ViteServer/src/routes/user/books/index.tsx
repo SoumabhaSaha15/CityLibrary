@@ -29,9 +29,7 @@ export const Route = createFileRoute("/user/books/")({
     }
   },
   loader: ({ deps, context: { queryClient } }) =>
-    queryClient.ensureQueryData(
-      booksQueryOptions({ ...deps, page: deps.page || 1 }),
-    ),
+    queryClient.query(booksQueryOptions({ ...deps, page: deps.page || 1 })),
   validateSearch: BookQuerySchema,
 });
 

@@ -26,6 +26,7 @@ export const router = createRouter({
   defaultErrorComponent: ErrorPage,
   defaultPreload: "intent",
   defaultPreloadStaleTime: 0,
+  defaultPendingMs: 0,
   scrollRestoration: true,
 });
 

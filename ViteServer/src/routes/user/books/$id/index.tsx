@@ -4,7 +4,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 export const Route = createFileRoute("/user/books/$id/")({
   component: RouteComponent,
   loader: async ({ context: { queryClient }, params }) =>
-    await queryClient.ensureQueryData(bookQueryOptionsById(Number(params.id))),
+    await queryClient.query(bookQueryOptionsById(Number(params.id))),
 });
 
 function RouteComponent() {
